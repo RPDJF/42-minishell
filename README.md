@@ -10,7 +10,7 @@ Ahoy, fellow code sailors! Welcome to my GitHub harbor, where the epic tales of 
 ## What's Minishell, Anyway?
 Minishell is a project that invites you to a symphony of shell scripting. It's like conducting an orchestra of commands—a true coding performance! 🎻🔍
 
-## Execute-it! 💻
+## Execute-it! 💻 
 
 Just a few magic spells to summon your Minishell masterpiece:
 
