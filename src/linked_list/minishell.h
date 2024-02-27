@@ -6,17 +6,18 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:34:15 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/02/21 18:03:03 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/02/27 15:49:37 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libs/betterft/betterft.h"
+# include "../../libs/betterft/betterft.h"
 # include <stdio.h>
 # include <string.h>
 # include <errno.h>
+# include <stdbool.h>
 
 typedef int	t_type;
 

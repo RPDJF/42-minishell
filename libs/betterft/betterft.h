@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   betterft.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:19:26 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/01/23 02:31:39 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/02/27 17:02:38 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdarg.h>
+# include <stdbool.h>
 
 typedef struct s_list
 {
@@ -153,6 +154,9 @@ char		ft_striteri(char *s, void (*f)(unsigned int, char *));
 //	ft_strjoin: Concatenates two strings 's1' and 's2' into a new dynamically
 //	allocated string.
 char		*ft_strjoin(const char *s1, const char *s2);
+//	ft_strsjoin: Concatenates multiple strings into a new dynamically allocated
+//	string.
+char		*ft_strsjoin(size_t size, ...);
 //	ft_strlcat: Appends the string 'src' to the end of 'dst', ensuring that the
 //	total length does not exceed 'dstsize'.
 //	Returns the total length of the string that would have been created if there

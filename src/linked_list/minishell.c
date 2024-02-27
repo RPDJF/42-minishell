@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:01:34 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/02/21 18:40:43 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:46:33 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ t_token	*generate_fake_token(char **args, char **args2)
 	t_redir	*redir;
 	t_token *token[3];
 
-	cmd[0] = new_cmd(0, "echo", args);
-	cmd[1] = new_cmd(1, "wc", args2);
+	cmd[0] = new_cmd(0, ft_strrchr(args[0], '/'), args);
+	cmd[1] = new_cmd(1, ft_strrchr(args2[0], '/'), args2);
 	redir = new_redir("|");
 	cmd[0]->fd_in = STDIN_FILENO;
 	cmd[0]->fd_out = redir->fd[1];

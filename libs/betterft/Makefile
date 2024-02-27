@@ -29,6 +29,7 @@ FILES = ft_atoi \
 		ft_strdup \
 		ft_striteri \
 		ft_strjoin \
+		ft_strsjoin \
 		ft_strlcat \
 		ft_strlcpy \
 		ft_strlen \
