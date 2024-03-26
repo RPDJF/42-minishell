@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_next_line.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 05:26:21 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/01/23 02:31:39 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:24:34 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef FT_GET_NEXT_LINE_H
+# define FT_GET_NEXT_LINE_H
 
 # include "../betterft.h"
 
