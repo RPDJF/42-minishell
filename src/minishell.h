@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:02:09 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/26 17:12:46 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:44:13 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,17 @@
 # include <stdbool.h>
 # include <fcntl.h>
 
+typedef struct s_minishell
+{
+	char		*hostname;
+}				t_minishell;
+
+# define VERSION "0.1"
+
+//		init_minishell: init a new minishell instance
+t_minishell	*init_minishell(void);
+//		crash_exit: exit the program when unexpected error
+void		crash_exit(void);
+
+char		*prompt(t_minishell *minishell);
 #endif
