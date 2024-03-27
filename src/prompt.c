@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompter.c                                         :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 19:46:49 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/27 14:33:04 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:41:38 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*get_prompt(t_minishell *minishell)
 		output = ft_strsjoin(4, getenv("USER"),
 				":", getcwd(0, 0), "❥ ");
 	else
-		output = ft_strsjoin(3, "minishell-0.1:", getcwd(0, 0), "❥ ");
+		output = ft_strsjoin(5, "minishell-", VERSION, ":", getcwd(0, 0), "❥ ");
 	return (output);
 }
 
