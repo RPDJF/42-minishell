@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 19:56:01 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/26 19:58:08 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:55:27 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_minishell	*init_minishell(void)
 
 	minishell = galloc(sizeof(t_minishell));
 	if (!minishell)
-		return (0);
+		crash_exit();
 	minishell->hostname = mini_gethostname();
 	return (minishell);
 }
