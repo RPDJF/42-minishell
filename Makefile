@@ -72,7 +72,11 @@ CFLAGS = -lreadline -Wall -Wextra -Werror
 BETTERFT_PATH = libs/betterft/
 BETTERFT_LIB = $(BETTERFT_PATH:%=%betterft.a)
 
-SRC = 	minishell
+SRC = 	minishell \
+		prompt
+
+SRC +=	utils/exit_handler \
+		utils/init_minishell
 
 CFILES = $(SRC:%=src/%.c)
 
