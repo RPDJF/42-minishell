@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - flow-scheme
+    paths:
+      - "**.drawio"
+      - .github/workflows/drawio2pdf.yml
 
 jobs:
   drawio2pdf:
@@ -15,10 +18,8 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
     - name: Export drawio file as pdf file
-      uses: rlespinasse/drawio-export-action@v2.15.0
+      uses: rlespinasse/drawio-export-action@v2
       with:
-        path: docs/flow_scheme.drawio
-        output: docs/flow_scheme.pdf
         format: pdf
         remove-page-suffix: true
 
