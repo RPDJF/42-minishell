@@ -18,6 +18,7 @@ jobs:
       uses: rlespinasse/drawio-export-action@v2.15.0
       with:
         path: docs/flow_scheme.drawio
+        output: docs/flow_scheme.pdf
         format: pdf
         remove-page-suffix: true
 
