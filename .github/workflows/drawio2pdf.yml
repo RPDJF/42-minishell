@@ -12,21 +12,21 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
-        fetch-depth: 0   # Ensures a full clone
+        fetch-depth: 0
 
     - name: Export drawio file as pdf file
       uses: rlespinasse/drawio-export-action@v2.15.0
       with:
-        entryPoint: docs/flow_scheme.drawio
+        path: docs/flow_scheme.drawio
         format: pdf
-        output: docs/flow_scheme.pdf
+        remove-page-suffix: true
 
     - name: Add and commit PDF file
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add docs/flow_scheme.pdf
-        git commit -m "Add PDF file"
+        git add -A
+        git commit -m "Sync PDF files"
 
     - name: Force push changes
       run: |
