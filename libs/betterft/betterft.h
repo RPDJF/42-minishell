@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   betterft.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:19:26 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/26 16:31:01 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/03/28 14:20:10 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,10 @@ size_t		ft_countwords(char const *s, char c);
 //	ft_strchr: Searches for the first occurrence of character 'c' in the string
 //	's' and returns its address.
 char		*ft_strchr(const char *s, int c);
+//	ft_strcmp: Compare first characters of strings 's1' and 's2'.
+//	Returns 0 if the strings are identical, a positive value if s1 > s2, and
+//	a negative value if s1 < s2.
+int			ft_strcmp(const char *s1, const char *s2);
 //	ft_strdup: Returns a dynamically allocated copy of the string 'src'.
 char		*ft_strdup(const char *src);
 //	ft_striteri: Applies the function 'f' to each character of the string 's'
