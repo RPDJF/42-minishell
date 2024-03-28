@@ -26,12 +26,17 @@ jobs:
       run: |
         git status
 
-    - name: Add and commit PDF file
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add -A
-        git commit -m "Sync PDF files"
+    - name: Get author and committer info from HEAD commit
+      uses: rlespinasse/git-commit-data-action@v1
+      if: github.ref == 'refs/heads/flow-scheme'
+
+    - name: Commit changed files
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: "docs: sync draw.io exported files"
+        commit_user_name: "GitHub Action"
+        commit_user_email: "action@github.com"
+      if: github.ref == 'refs/heads/flow-scheme'
 
     - name: Force push changes
       run: |
