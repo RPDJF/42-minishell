@@ -9,19 +9,25 @@ jobs:
   drawio2pdf:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0   # Ensures a full clone
+
     - name: Export drawio file as pdf file
       uses: rlespinasse/drawio-export-action@v2.15.0
       with:
-        input: docs/flow_scheme.drawio
+        entryPoint: docs/flow_scheme.drawio
         format: pdf
         output: docs/flow_scheme.pdf
+
     - name: Add and commit PDF file
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add docs/flow_scheme.pdf
         git commit -m "Add PDF file"
+
     - name: Force push changes
       run: |
         git push origin HEAD:refs/heads/flow-scheme --force-with-lease
