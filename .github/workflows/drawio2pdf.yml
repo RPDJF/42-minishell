@@ -9,11 +9,6 @@ jobs:
   drawio2pdf:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-
     - name: Export drawio file as pdf file
       uses: rlespinasse/drawio-export-action@v2.15.0
       with:
