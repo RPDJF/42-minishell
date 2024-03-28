@@ -1,0 +1,17 @@
+name: drawio2pdf
+
+on:
+  push:
+    branches:
+      - flow-scheme
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Export drawio file as pdf file
+      uses: ./
+      with:
+        src: docs/flow_scheme.drawio
+        dest: docs/flow_scheme.pdf
