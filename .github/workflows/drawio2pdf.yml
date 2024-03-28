@@ -6,7 +6,6 @@ on:
       - flow-scheme
     paths:
       - "**.drawio"
-      - "docs/*.drawio"
       - .github/workflows/drawio2pdf.yml
 
 jobs:
@@ -18,14 +17,13 @@ jobs:
       with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Export drawio file as pdf file
       uses: rlespinasse/drawio-export-action@v2
       with:
         format: pdf
-
-    - name: Print git status
-      run: |
-        git status
+        action-mode: all
+        output: ./
 
     - name: Get author and committer info from HEAD commit
       uses: rlespinasse/git-commit-data-action@v1
