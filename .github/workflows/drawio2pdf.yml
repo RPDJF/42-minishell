@@ -6,6 +6,7 @@ on:
       - flow-scheme
     paths:
       - "**.drawio"
+      - "docs/*.drawio"
       - .github/workflows/drawio2pdf.yml
 
 jobs:
@@ -21,7 +22,6 @@ jobs:
       uses: rlespinasse/drawio-export-action@v2
       with:
         format: pdf
-        remove-page-suffix: true
 
     - name: Print git status
       run: |
