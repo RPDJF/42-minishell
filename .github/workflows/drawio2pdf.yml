@@ -15,3 +15,13 @@ jobs:
       with:
         src: docs/flow_scheme.drawio
         dest: docs/flow_scheme.pdf
+    - name: Add and commit PDF file
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add docs/flow_scheme.pdf
+        git commit -m "Add PDF file"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
