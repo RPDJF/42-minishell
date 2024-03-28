@@ -22,6 +22,10 @@ jobs:
         format: pdf
         remove-page-suffix: true
 
+    - name: Print git status
+      run: |
+        git status
+
     - name: Add and commit PDF file
       run: |
         git config --local user.email "action@github.com"
