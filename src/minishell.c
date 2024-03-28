@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:06:10 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/27 14:37:27 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/03/28 19:37:14 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	main(void)
 		input = prompt(minishell);
 		if (!input)
 			crash_exit();
+		free(input);
 	}
 	exit (0);
 }
