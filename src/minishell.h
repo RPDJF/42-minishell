@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:02:09 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/28 13:48:02 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/03/29 09:43:34 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,78 @@
 # include <stdbool.h>
 # include <fcntl.h>
 
+# define APP_NAME "minishell"
+# define VERSION "0.1"
+
 typedef struct s_minishell
 {
 	char		*hostname;
 }				t_minishell;
 
-typedef enum e_builtin_cmd
+//	Type enumerators
+typedef enum e_token_type
 {
-	type_echo,
-	type_cd,
-	type_pwd,
-	type_export,
-	type_unset,
-	type_env,
-	type_exit
-}				t_builtin_cmd;
+	token_cmd,
+	token_builtin,
+	token_pipe,
+	token_stdin,
+	token_stdout,
+	token_and,
+	token_or,
+	token_token_group
+}				t_token_type;
 
-typedef struct s_error_msg
+typedef enum e_builtin_type
 {
-	char	**context;
-	char	*msg;
-	int		exitcode;
-}				t_error_msg;
+	builtin_echo,
+	builtin_cd,
+	builtin_pwd,
+	builtin_export,
+	builtin_unset,
+	builtin_env,
+	builtin_exit
+}				t_builtin_type;
 
-# define APP_NAME "minishell"
-# define VERSION "0.1"
+//	Token structure
+typedef struct s_token
+{
+	void			*data;
+	t_token_type	type;
+	struct s_token	*prev;
+	struct s_token	*next;
+}				t_token;
 
-// FROM utils/exit_handler.c
+//	Typed token structures
+typedef struct s_cmd
+{
+	char	*cmd;
+	char	**argv;
+	int		argc;
+}				t_cmd;
+
+typedef struct s_builtin
+{
+	t_builtin_type	cmd;
+	char			**argv;
+	int				argc;
+}				t_builtin;
+
+typedef struct s_stdout
+{
+	bool	isAppend;
+	char	*filename;
+}				t_stdout;
+
+typedef struct s_stdin
+{
+	bool	isHeredoc;
+	char	*limiter;
+	char	*filename;
+}				t_stdin;
+
+// EXPORTED FUNCTIONS
+
+//	FROM utils/exit_handler.c
 
 //		crash_exit: exit the program when unexpected error
 void		crash_exit(void);
@@ -60,7 +105,7 @@ void		error_exit(char **context, char *msg, int exitcode);
 //		init_minishell: init a new minishell instance
 t_minishell	*init_minishell(void);
 
-// FROM prompt.c
+//	FROM prompt.c
 
 //		prompt: sends a prompt to the user and returns their input as char*
 char		*prompt(t_minishell *minishell);
