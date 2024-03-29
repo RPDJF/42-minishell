@@ -72,6 +72,8 @@ CFLAGS = -lreadline -Wall -Wextra -Werror
 BETTERFT_PATH = libs/betterft/
 BETTERFT_LIB = $(BETTERFT_PATH:%=%betterft.a)
 
+CFLAGS += $(BETTERFT_LIB)
+
 SRC = 	minishell \
 		prompt
 
@@ -84,7 +86,7 @@ NAME = minishell
 
 all: $(NAME)
 
-debug: fclean $(CFILES)
+debug: fclean $(CFILES) $(BETTERFT_LIB)
 	@echo "$$APP_HEADER"
 	@printf "\t🤖 Compiling $(NAME)...\r"
 	@$(CC) -g3 -pthread -fsanitize=thread $(CFILES) $(CFLAGS) -o $(NAME)
@@ -122,7 +124,7 @@ $(CFILES): header
 $(NAME): $(CFILES) $(BETTERFT_LIB)
 	@echo "$$APP_HEADER"
 	@printf "\t🤖 Compiling $(NAME)...\r"
-	@$(CC) $(CFILES) $(CFLAGS) -o $(NAME) $(BETTERFT_LIB)
+	@$(CC) $(CFILES) $(CFLAGS) -o $(NAME)
 	@printf "\33[2K"
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is compiled ✅\n"
 

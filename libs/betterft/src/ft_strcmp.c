@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/26 17:06:10 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/28 19:37:14 by rude-jes         ###   ########.fr       */
+/*   Created: 2023/07/14 07:02:51 by marvin            #+#    #+#             */
+/*   Updated: 2024/03/28 14:27:01 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../betterft.h"
 
-int	main(void)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	t_minishell	*minishell;
-	char		*input;
+	size_t	i;
 
-	minishell = init_minishell();
-	while (true)
+	i = 0;
+	while (s1[i] && s2[i])
 	{
-		input = prompt(minishell);
-		if (!input)
-			crash_exit();
-		free(input);
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
 	}
-	exit (0);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

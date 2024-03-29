@@ -26,6 +26,7 @@ FILES = ft_atoi \
 		ft_putstr_fd \
 		ft_split \
 		ft_strchr \
+		ft_strcmp \
 		ft_strdup \
 		ft_striteri \
 		ft_strjoin \

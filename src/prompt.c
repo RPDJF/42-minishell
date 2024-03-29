@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 19:46:49 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/29 19:10:25 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/03/29 19:11:23 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 static char	*get_prompt(t_minishell *minishell)
 {
 	char	*output;
+	char	*cwd;
+	char	*home;
+	char	*tmp;
 
+	cwd = getcwd(0, 0);
+	home = 0;
 	if (minishell->hostname && getenv("USER"))
 		output = ft_strsjoin(8, C_CYAN, getenv("USER"), "@", \
 						minishell->hostname, ":", getcwd(0, 0), C_RESET, "❥ ");
@@ -23,7 +28,17 @@ static char	*get_prompt(t_minishell *minishell)
 		output = ft_strsjoin(6, C_CYAN, getenv("USER"),
 				":", getcwd(0, 0), C_RESET, "❥ ");
 	else
-		output = ft_strsjoin(5, "minishell-", VERSION, ":", getcwd(0, 0), "❥ ");
+		output = ft_strsjoin(5, "minishell-", VERSION, ":", cwd, "❥ ");
+	if (!output)
+		crash_exit();
+	home = getenv("HOME");
+	if (home)
+	{
+		tmp = output;
+		output = ft_strreplace(output, home, "~");
+		free(tmp);
+	}
+	free(cwd);
 	return (output);
 }
 
