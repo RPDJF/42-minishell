@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:19:26 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/28 14:20:10 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/03/30 01:15:28 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include <unistd.h>
 # include <stdarg.h>
 # include <stdbool.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <string.h>
 
 typedef struct s_list
 {

@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 18:42:44 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/29 22:42:38 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/03/30 01:07:08 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define PROMPT_H
 
 # include "minishell.h"
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # ifdef __APPLE__
 #  define ENDLINE "$ "
@@ -51,5 +53,9 @@
 # define C_BBLUE "\001\033\[44m\002"
 # define C_BMAGENTA "\001\033\[45m\002"
 # define C_BCYAN "\001\033\[46m\002"
+
+// Functions
+//	prompt: sends a prompt to the user and returns their input as char*
+char	*prompt(t_minishell *minishell);
 
 #endif
