@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   lexeur.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 12:54:10 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/03/29 12:58:40 by ilyanar          ###   ########.fr       */
+/*   Created: 2024/03/29 12:41:58 by ilyanar           #+#    #+#             */
+/*   Updated: 2024/03/29 12:49:42 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
-#include "minishell.h"
+#ifndef LEXEUR_H
+# define LEXEUR_H
 
-void	parsing(t_minishell *minishell, char **lex)
-{
-}
+# include "minishell.h"
+
+char	**lexeur(t_minishell *minishell, char *input);
+
+#endif
