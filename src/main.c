@@ -1,20 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_handler.c                                     :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/26 19:58:27 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/30 01:10:35 by rude-jes         ###   ########.fr       */
+/*   Created: 2024/03/26 17:06:10 by rude-jes          #+#    #+#             */
+/*   Updated: 2024/03/30 01:17:57 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exit_handler.h"
+#include "minishell.h"
+#include "prompt.h"
+#include "utils/exit_handler.h"
 
-void	crash_exit(void)
+int	main(int argc, char **argv, char **envp)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putendl_fd(strerror(errno), STDERR_FILENO);
-	exit(1);
+	t_minishell	*minishell;
+	char		*input;
+
+	minishell = init_minishell(argc, argv, envp);
+	while (true)
+	{
+		input = prompt(minishell);
+		if (!input)
+			crash_exit();
+		free(input);
+	}
+	exit (0);
 }

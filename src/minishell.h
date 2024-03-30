@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:02:09 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/28 19:09:53 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/03/30 01:16:33 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,16 @@
 # define MINISHELL_H
 
 # include "../libs/betterft/betterft.h"
-# include <stdio.h>
-# include <string.h>
-# include <errno.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdbool.h>
-# include <fcntl.h>
+# include "utils/exit_handler.h"
 
 # define APP_NAME "minishell"
 # define VERSION "0.1"
 
 typedef struct s_minishell
 {
+	int			argc;
+	char		**argv;
+	char		**envp;
 	char		*hostname;
 }				t_minishell;
 
@@ -69,6 +66,7 @@ typedef struct s_cmd
 	char	*cmd;
 	char	**argv;
 	int		argc;
+	pid_t	pid;
 }				t_cmd;
 
 typedef struct s_builtin
@@ -76,36 +74,23 @@ typedef struct s_builtin
 	t_builtin_type	cmd;
 	char			**argv;
 	int				argc;
+	pid_t			pid;
 }				t_builtin;
 
 typedef struct s_stdout
 {
-	bool	isAppend;
+	bool	is_append;
 	char	*filename;
 }				t_stdout;
 
 typedef struct s_stdin
 {
-	bool	isHeredoc;
+	bool	is_heredoc;
 	char	*limiter;
 	char	*filename;
 }				t_stdin;
 
-// EXPORTED FUNCTIONS
-
-//	FROM utils/exit_handler.c
-
-//		crash_exit: exit the program when unexpected error
-void		crash_exit(void);
-
-//	FROM utils/init_minishell.c
-
-//		init_minishell: init a new minishell instance
-t_minishell	*init_minishell(void);
-
-//	FROM prompt.c
-
-//		prompt: sends a prompt to the user and returns their input as char*
-char		*prompt(t_minishell *minishell);
+//	init_minishell: init a new minishell instance
+t_minishell	*init_minishell(int argc, char **argv, char **envp);
 
 #endif

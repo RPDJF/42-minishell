@@ -74,11 +74,11 @@ BETTERFT_LIB = $(BETTERFT_PATH:%=%betterft.a)
 
 CFLAGS += $(BETTERFT_LIB)
 
-SRC = 	minishell \
+SRC = 	main \
+		minishell \
 		prompt
 
 SRC +=	utils/exit_handler \
-		utils/init_minishell
 
 CFILES = $(SRC:%=src/%.c)
 
