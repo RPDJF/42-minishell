@@ -6,12 +6,12 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 19:58:27 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/30 19:22:26 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/03/30 19:31:30 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exit_handler.h"
-#include "minishell.h"
+#include "../minishell.h"
 
 void	crash_exit(void)
 {
