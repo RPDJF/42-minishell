@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexeur.c                                           :+:      :+:    :+:   */
+/*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/29 12:41:37 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/03/29 12:47:48 by ilyanar          ###   ########.fr       */
+/*   Created: 2024/03/29 12:41:58 by ilyanar           #+#    #+#             */
+/*   Updated: 2024/03/31 20:18:21 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
-#include "minishell.h"
+#ifndef LEXER_H
+# define LEXER_H
 
-char	**lexeur(t_minishell *minishell, char *input)
-{
-}
+# include "minishell.h"
+
+// Return a lexer char **lex of the actuel input
+char	**lexer(t_minishell *minishell, char *input);
+
+#endif
