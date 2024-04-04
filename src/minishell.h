@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:02:09 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/30 01:16:33 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/03 13:43:55 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,18 @@
 # define APP_NAME "minishell"
 # define VERSION "0.1"
 
-typedef struct s_minishell
-{
-	int			argc;
-	char		**argv;
-	char		**envp;
-	char		*hostname;
-}				t_minishell;
-
 //	Type enumerators
 typedef enum e_token_type
 {
 	token_cmd,
 	token_builtin,
+	token_var,
 	token_pipe,
 	token_stdin,
 	token_stdout,
 	token_and,
 	token_or,
-	token_token_group
+	token_grp
 }				t_token_type;
 
 typedef enum e_builtin_type
@@ -50,6 +43,12 @@ typedef enum e_builtin_type
 	builtin_env,
 	builtin_exit
 }				t_builtin_type;
+
+typedef enum e_var_type
+{
+	var_str,
+	var_token
+}				t_var_type;
 
 //	Token structure
 typedef struct s_token
@@ -89,6 +88,26 @@ typedef struct s_stdin
 	char	*limiter;
 	char	*filename;
 }				t_stdin;
+
+typedef struct s_var
+{
+	bool			is_env;
+	char			*name;
+	void			*data;
+	t_var_type		type;
+	struct	s_var	*prev;
+	struct	s_var	*next;
+}				t_var;
+
+//	Minishell structure
+typedef struct s_minishell
+{
+	int			argc;
+	char		**argv;
+	char		**envp;
+	t_var		*mini_envp;
+	char		*hostname;
+}				t_minishell;
 
 //	init_minishell: init a new minishell instance
 t_minishell	*init_minishell(int argc, char **argv, char **envp);
