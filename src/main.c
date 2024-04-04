@@ -6,14 +6,14 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:06:10 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/31 20:12:32 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/04 17:31:59 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "prompt.h"
 #include "parsing.h"
-#include "lexeur.h"
+#include "lexer.h"
 #include "utils/exit_handler.h"
 
 int	main(int argc, char **argv, char **envp)
@@ -28,9 +28,11 @@ int	main(int argc, char **argv, char **envp)
 		input = prompt(minishell);
 		if (!input)
 			crash_exit();
-		lex = lexeur(minishell, input);
-		parsing(minishell, lex);
+		lex = lexer(input);
+		for (int d = 0; lex[d]; d++)
+			ft_printf("lexer[%d]: %s\n", d, lex[d]);
 		ft_free_tab(lex);
+		parsing(lex);
 		free(input);
 	}
 	exit (0);

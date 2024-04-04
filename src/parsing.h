@@ -6,7 +6,7 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:54:38 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/03/29 12:58:51 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/04 16:17:27 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "minishell.h"
 
-void	parsing(t_minishell *minishell, char **lex);
+void	parsing(char **lex);
 
 #endif

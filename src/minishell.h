@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:02:09 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/30 01:16:33 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:05:35 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ typedef struct s_stdin
 
 //	init_minishell: init a new minishell instance
 t_minishell	*init_minishell(int argc, char **argv, char **envp);
+char		**strr_realloc(char **str, char *neww);
 
 #endif

@@ -76,9 +76,12 @@ CFLAGS += $(BETTERFT_LIB)
 
 SRC = 	main \
 		minishell \
-		prompt
+		prompt \
+		lexer \
+		parsing
 
 SRC +=	utils/exit_handler \
+		utils/strr_realloc
 
 CFILES = $(SRC:%=src/%.c)
 
