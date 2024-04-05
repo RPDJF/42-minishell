@@ -6,13 +6,12 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:05:48 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/04/04 17:16:07 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/05 14:28:12 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lexer.h"
 
-// Realloc and return a char ** from str and add the char *neww to the end
 char	**strr_realloc(char **str, char *neww)
 {
 	char	**tab;

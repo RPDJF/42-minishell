@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:02:09 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/04 16:05:35 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/04 22:10:20 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_stdin
 
 //	init_minishell: init a new minishell instance
 t_minishell	*init_minishell(int argc, char **argv, char **envp);
+// Realloc and return a char ** from str and add the char *neww to the end
 char		**strr_realloc(char **str, char *neww);
 
 #endif
