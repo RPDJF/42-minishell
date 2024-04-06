@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:51:42 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/04/04 17:02:21 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/05 14:58:24 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_free_tab(char **tab)
 		i++;
 	while (i >= 0)
 	{
-		free(*(tab + i));
+		gfree(*(tab + i));
 		i--;
 	}
 	free(tab);

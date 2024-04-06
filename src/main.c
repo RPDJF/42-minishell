@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:06:10 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/05 14:19:53 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/05 15:24:17 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ int	main(int argc, char **argv, char **envp)
 		if (!input)
 			crash_exit();
 		lex = lexer(input);
-		ft_printf("lexer: %s\n", lex[0]);
+		for (int d = 0; lex[d]; d++)
+			ft_printf("lexer[%d]: %s\n", d, lex[d]);
 		ft_free_tab(lex);
 		parsing(lex);
-		free(input);
+		gfree(input);
 	}
 	exit (0);
 }
