@@ -79,6 +79,7 @@ SRC = 	main \
 		prompt
 
 SRC +=	utils/exit_handler \
+		utils/binary_finder \
 
 CFILES = $(SRC:%=src/%.c)
 
