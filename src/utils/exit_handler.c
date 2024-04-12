@@ -1,4 +1,26 @@
-void	error_msg(char **context, char *msg);
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit_handler.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/26 19:58:27 by rude-jes          #+#    #+#             */
+/*   Updated: 2024/04/13 01:50:43 by rude-jes         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "exit_handler.h"
+#include "../minishell.h"
+
+void	crash_exit(void)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putendl_fd(strerror(errno), STDERR_FILENO);
+	exit(1);
+}
+
+void	error_msg(char **context, char *msg)
 {
 	ft_putstr_fd(APP_NAME, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);

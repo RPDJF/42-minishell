@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:02:09 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/13 01:44:17 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/13 01:47:32 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,23 @@
 # define MINISHELL_H
 
 # include "../libs/betterft/betterft.h"
-# include <stdio.h>
-# include <string.h>
-# include <errno.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdbool.h>
-# include <fcntl.h>
+# include "utils/exit_handler.h"
 
 # define APP_NAME "minishell"
 # define VERSION "0.1"
-
-typedef struct s_minishell
-{
-	char		*hostname;
-}				t_minishell;
 
 //	Type enumerators
 typedef enum e_token_type
 {
 	token_cmd,
 	token_builtin,
+	token_var,
 	token_pipe,
 	token_stdin,
 	token_stdout,
 	token_and,
 	token_or,
-	token_token_group
+	token_grp
 }				t_token_type;
 
 typedef enum e_builtin_type
@@ -53,6 +43,12 @@ typedef enum e_builtin_type
 	builtin_env,
 	builtin_exit
 }				t_builtin_type;
+
+typedef enum e_var_type
+{
+	var_str,
+	var_token
+}				t_var_type;
 
 //	Token structure
 typedef struct s_token
@@ -69,6 +65,7 @@ typedef struct s_cmd
 	char	*cmd;
 	char	**argv;
 	int		argc;
+	pid_t	pid;
 }				t_cmd;
 
 typedef struct s_builtin
@@ -76,38 +73,43 @@ typedef struct s_builtin
 	t_builtin_type	cmd;
 	char			**argv;
 	int				argc;
+	pid_t			pid;
 }				t_builtin;
 
 typedef struct s_stdout
 {
-	bool	isAppend;
+	bool	is_append;
 	char	*filename;
 }				t_stdout;
 
 typedef struct s_stdin
 {
-	bool	isHeredoc;
+	bool	is_heredoc;
 	char	*limiter;
 	char	*filename;
 }				t_stdin;
 
-// EXPORTED FUNCTIONS
+typedef struct s_var
+{
+	bool			is_env;
+	char			*name;
+	void			*data;
+	t_var_type		type;
+	struct	s_var	*prev;
+	struct	s_var	*next;
+}				t_var;
 
-//	FROM utils/exit_handler.c
+//	Minishell structure
+typedef struct s_minishell
+{
+	int			argc;
+	char		**argv;
+	char		**envp;
+	t_var		*mini_envp;
+	char		*hostname;
+}				t_minishell;
 
-//		crash_exit: exit the program when unexpected error
-void		crash_exit(void);
-//		error_exit: exit the program when expected error with specific message
-void		error_exit(char **context, char *msg, int exitcode);
-
-//	FROM utils/init_minishell.c
-
-//		init_minishell: init a new minishell instance
-t_minishell	*init_minishell(void);
-
-//	FROM prompt.c
-
-//		prompt: sends a prompt to the user and returns their input as char*
-char		*prompt(t_minishell *minishell);
+//	init_minishell: init a new minishell instance
+t_minishell	*init_minishell(int argc, char **argv, char **envp);
 
 #endif
