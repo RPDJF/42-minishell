@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 10:04:52 by rude-jes          #+#    #+#             */
-/*   Updated: 2023/10/29 15:08:14 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/06 16:08:00 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,27 @@ static int	check_format(const char *format)
 	return (1);
 }
 
-static void	printarg(char c, va_list args, int *size)
+static void	printarg(char c, va_list *args, int *size)
 {
 	if (c == 'c')
-		ft_putchar_count(va_arg(args, int), size);
+		ft_putchar_count(va_arg(*args, int), size);
 	else if (c == 'i' || c == 'd')
-		ft_putnbr_count(va_arg(args, int), "0123456789", size);
+		ft_putnbr_count(va_arg(*args, int), "0123456789", size);
 	else if (c == 's')
-		ft_putstr_count(va_arg(args, char *), size);
+		ft_putstr_count(va_arg(*args, char *), size);
 	else if (c == 'p')
-		ft_inttohex((unsigned long int)va_arg(args, void *), size);
+		ft_inttohex((unsigned long int)va_arg(*args, void *), size);
 	else if (c == 'u')
-		ft_putunnbr_count(va_arg(args, unsigned int), "0123456789", size);
+		ft_putunnbr_count(va_arg(*args, unsigned int), "0123456789", size);
 	else if (c == 'x')
-		ft_putunnbr_count(va_arg(args, unsigned int), "0123456789abcdef", size);
+		ft_putunnbr_count(va_arg(*args, unsigned int), \
+			"0123456789abcdef", size);
 	else if (c == 'X')
-		ft_putunnbr_count(va_arg(args, unsigned int), "0123456789ABCDEF", size);
+		ft_putunnbr_count(va_arg(*args, unsigned int), \
+			"0123456789ABCDEF", size);
 }
 
-static void	print(const char **s, va_list args, int *size)
+static void	print(const char **s, va_list *args, int *size)
 {
 	while (*size >= 0 && *(*s) && *((*s)++) != '%')
 		ft_putchar_count(*((*s) - 1), size);
@@ -77,7 +79,7 @@ int	ft_printf(const char *format, ...)
 	size = 0;
 	va_start(args, format);
 	while (*format && size >= 0)
-		print(&format, args, &size);
+		print(&format, &args, &size);
 	va_end(args);
 	return (size);
 }
