@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 19:58:27 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/30 19:31:30 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/13 01:50:43 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	crash_exit(void)
 	exit(1);
 }
 
-void	error_exit(char **context, char *msg, int exitcode)
+void	error_msg(char **context, char *msg)
 {
 	ft_putstr_fd(APP_NAME, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
@@ -31,5 +31,10 @@ void	error_exit(char **context, char *msg, int exitcode)
 		context++;
 	}
 	ft_putendl_fd(msg, STDERR_FILENO);
+}
+
+void	error_exit(char **context, char *msg, int exitcode)
+{
+	error_msg(context, msg);
 	exit(exitcode);
 }

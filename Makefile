@@ -81,6 +81,7 @@ SRC = 	main \
 		parsing
 
 SRC +=	utils/exit_handler \
+		utils/binary_finder \
 		utils/strr_realloc
 
 CFILES = $(SRC:%=src/%.c)

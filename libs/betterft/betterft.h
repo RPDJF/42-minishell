@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:19:26 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/30 01:15:28 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/13 01:57:44 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <string.h>
+# include <sys/wait.h>
+# include <stdio.h>
 
 typedef struct s_list
 {
