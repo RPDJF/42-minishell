@@ -6,11 +6,36 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:22:57 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/13 01:39:39 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/13 02:33:27 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cd.h"
+
+static char	**get_context(char **argv, char *file)
+{
+	static char	**context;
+
+	if (context)
+		return (context);
+	if (!file)
+		context = galloc(sizeof(char *) * 2);
+	else
+		context = galloc(sizeof(char *) * 3);
+	if (!context)
+		crash_exit();
+	context[0] = ft_strdup(ft_strrchr(argv[0], '/') + 1);
+	if (!context[0])
+		crash_exit();
+	if (!file)
+		context[1] = 0;
+	else
+	{
+		context[1] = ft_strdup(file);
+		context[2] = 0;
+	}
+	return (context);
+}
 
 static t_cd	*init_cd(int argc, char **argv)
 {
@@ -21,22 +46,20 @@ static t_cd	*init_cd(int argc, char **argv)
 		crash_exit();
 	cd->argc = argc;
 	cd->argv = argv;
+	cd->context = 0;
+	cd->status = 0;
+	if (argc == 2)
+		cd->path = argv[1];
+	else
+		cd->path = getenv("HOME");
 	cd->exec = &chdir;
+	if (argc > 2)
+	{
+		cd->context = get_context(argv, 0);
+		error_msg(cd->context, "too many arguments");
+		return (0);
+	}
 	return (cd);
-}
-
-static char	**get_context(char **argv)
-{
-	static char	**context;
-
-	if (context)
-		return (context);
-	context = galloc(sizeof(char *) * 2);
-	if (!context)
-		crash_exit();
-	context[0] = argv[0];
-	context[1] = 0;
-	return (context);
 }
 
 int	cd(int argc, char **argv)
@@ -44,16 +67,21 @@ int	cd(int argc, char **argv)
 	t_cd	*cd;
 
 	cd = init_cd(argc, argv);
-	if (argc > 2)
-		error_exit(get_context(argv), "too many arguments", 1);
-	else if (argc < 2)
-		return (cd->exec(getenv("HOME")));
-	else
-		return (cd->exec(argv[1]));
+	if (!cd)
+	{
+		ft_free_tab(cd->context);
+		gfree(cd);
+		return (1);
+	}
+	cd->status = cd->exec(cd->path);
+	if (cd->status)
+	{
+		cd->context = get_context(argv, cd->path);
+		error_msg(cd->context, strerror(errno));
+		ft_free_tab(cd->context);
+		gfree(cd);
+		return (1);
+	}
 	gfree(cd);
-}
-
-int	main(int argc, char **argv)
-{
-	cd(argc, argv);
+	return (0);
 }
