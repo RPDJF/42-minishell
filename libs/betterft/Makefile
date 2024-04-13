@@ -76,6 +76,7 @@ FILES = ft_atoi \
 		ft_free_tab \
 		garbage_collector \
 		garbage_collector_utils \
+		ft_joint_all
 
 CFILES = $(FILES:%=src/%.c)
 OFILES = $(FILES:%=obj/%.o)

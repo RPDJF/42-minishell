@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:19:26 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/13 01:57:44 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/13 23:26:27 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,5 +285,7 @@ char		*ft_memtostr(void *mem, size_t size);
 //	array of strings.
 //	Each string in the array must have been allocated dynamically.
 void		ft_free_tab(char **tab);
+// Split all string of **str and return a char * joind by all the string.
+char		*ft_joint_all(char **str);
 
 #endif

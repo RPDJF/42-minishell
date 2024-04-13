@@ -1,36 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strr_realloc.c                                     :+:      :+:    :+:   */
+/*   ft_joint_all.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/04 16:05:48 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/04/14 01:06:06 by ilyanar          ###   ########.fr       */
+/*   Created: 2024/04/13 23:23:27 by ilyanar           #+#    #+#             */
+/*   Updated: 2024/04/13 23:24:06 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lexer/lexer.h"
+#include "../betterft.h"
 
-char	**strr_realloc(char **str, char *neww)
+char	*ft_joint_all(char **str)
 {
-	char	**tab;
 	int		i;
-	int		j;
+	char	*tmp1;
+	char	*tmp2;
 
-	i = 0;
-	j = 0;
-	if (str)
-		while (str[i] != NULL)
-			i++;
-	tab = ft_calloc(i + 2, sizeof(char *));
-	while (i > 0 && j < i)
+	i = 1;
+	if (!str)
+		return (NULL);
+	if (str && str[0])
+		tmp1 = ft_strdup(str[0]);
+	while (str[i])
 	{
-		tab[j] = ft_strdup(str[j]);
-		j++;
+		tmp2 = ft_strjoin(tmp1, str[i]);
+		gfree(tmp1);
+		i++;
+		if (!str[i])
+			return (tmp2);
+		tmp1 = ft_strjoin(tmp2, str[i]);
+		gfree(tmp2);
+		i++;
+		if (!str[i])
+			return (tmp1);
 	}
-	tab[j] = ft_strdup(neww);
-	if (str && *str)
-		ft_free_tab(str);
-	return (tab);
+	return (tmp1);
 }

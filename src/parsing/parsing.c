@@ -6,10 +6,11 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:54:10 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/04/13 11:43:31 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/14 01:35:08 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../lexer/lexer.h"
 #include "parsing.h"
 
 void	parsing(t_tlex **lex)

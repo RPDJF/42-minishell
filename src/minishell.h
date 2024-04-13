@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:02:09 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/13 23:03:29 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/14 00:23:14 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,14 @@ typedef struct s_minishell
 	t_var		*mini_envp;
 	char		*hostname;
 }				t_minishell;
+
+// Lexer struct
+typedef struct s_word
+{
+	char			*str;
+	bool			is_var;
+	struct s_word	*next;
+}	t_word;
 
 //	init_minishell: init a new minishell instance
 t_minishell	*init_minishell(int argc, char **argv, char **envp);

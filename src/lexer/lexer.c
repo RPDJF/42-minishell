@@ -6,89 +6,11 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:41:37 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/04/13 22:52:11 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/14 01:26:09 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-#include "minishell.h"
-#include "utils/exit_handler.h"
-#include <stdlib.h>
-
-char	*joint_all(char **str)
-{
-	int		i;
-	char	*tmp1;
-	char	*tmp2;
-
-	i = 1;
-	if (!str)
-		return (NULL);
-	if (str && str[0])
-		tmp1 = ft_strdup(str[0]);
-	while (str[i])
-	{
-		tmp2 = ft_strjoin(tmp1, str[i]);
-		gfree(tmp1);
-		i++;
-		if (!str[i])
-			return (tmp2);
-		tmp1 = ft_strjoin(tmp2, str[i]);
-		gfree(tmp2);
-		i++;
-		if (!str[i])
-			return (tmp1);
-	}
-	return (tmp1);
-}
-
-void	tlex_add_back(t_tlex **lst, t_tlex *neww)
-{
-	t_tlex	*tmp;
-
-	if (!lst || !neww)
-		return ;
-	if (!*lst)
-		*lst = neww;
-	else
-	{
-		tmp = *lst;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = neww;
-		neww->prev = tmp;
-	}
-}
-
-void	tword_add_back(t_tlex **lst, t_word *neww)
-{
-	t_word	*tmp;
-
-	if (!lst || !neww)
-		return ;
-	if (!(*lst)->cmd)
-		(*lst)->cmd = neww;
-	else
-	{
-		tmp = (*lst)->cmd;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = neww;
-	}
-}
-
-t_word	*tword_new(char *cmd, bool var)
-{
-	t_word	*p;
-
-	p = calloc(1, sizeof(t_cmd));
-	if (!p)
-		crash_exit();
-	p->str = cmd;
-	p->is_var = var;
-	p->next = NULL;
-	return (p);
-}
 
 int	ft_isdelem(char *str, int i)
 {
@@ -113,88 +35,6 @@ int	impair_pair_char(char *str, char c)
 	if (count % 2 == 0)
 		return (0);
 	return (1);
-}
-
-void	end_single_quote(t_lex *lex, char *input, t_tlex **tlex, char *word)
-{
-	int	k;
-
-	k = 0;
-	while (lex->i < lex->j)
-	{
-		word[k] = input[lex->i];
-		lex->i++;
-		k++;
-	}
-	tword_add_back(tlex, tword_new(word, false));
-	while (input[lex->i] == 39)
-		lex->i++;
-}
-
-void	single_quote(t_lex *lex, char *input, t_tlex **tlex)
-{
-	char	*word;
-	int		k;
-
-	k = 0;
-	if (impair_pair_char(input, 39) == 1)
-		error_exit(NULL, "fdf: bad single_quote format", 127);
-	while (input[lex->i] == 39)
-		lex->i++;
-	lex->j = lex->i;
-	while (input[lex->j])
-	{
-		if (input[lex->j] == 39)
-			break ;
-		else
-			k++;
-		lex->j++;
-	}
-	word = ft_calloc(k + 1, sizeof(char));
-	if (!word)
-		crash_exit();
-	end_single_quote(lex, input, tlex, word);
-}
-
-void	end_double_quote(t_lex *lex, char *input, t_tlex **tlex, char *word)
-{
-	int	k;
-
-	k = 0;
-	while (lex->i < lex->j)
-	{
-		word[k] = input[lex->i];
-		lex->i++;
-		k++;
-	}
-	tword_add_back(tlex, tword_new(word, ft_strchr(word, '$')));
-	while (input[lex->i] == 34)
-		lex->i++;
-}
-
-void	double_quote(t_lex *lex, char *input, t_tlex **tlex)
-{
-	char	*word;
-	int		k;
-
-	k = 0;
-	if (impair_pair_char(input, 34) == 1)
-		error_exit(NULL, "fdf: bad single_quote format", 127);
-	while (input[lex->i] == 34)
-		lex->i++;
-	lex->j = lex->i;
-	while (input[lex->j])
-	{
-		if (input[lex->j] == 34)
-			break ;
-		else
-			k++;
-		lex->j++;
-	}
-	word = ft_calloc(k + 1, sizeof(char));
-	if (!word)
-		crash_exit();
-	end_double_quote(lex, input, tlex, word);
 }
 
 void	delem(t_lex *lex, char *input, t_tlex **tlex)
@@ -273,7 +113,7 @@ void	words_lexing(t_lex *lex, char *input, t_tlex **tlex)
 		crash_exit();
 	while (input[lex->i] && (input[lex->i] == 39 || input[lex->i] == 34 || \
 		ft_isdelem(input, lex->i) == 1 || ft_isdelem(input, lex->i) == 2 \
-			|| ft_isspace(lex->i) == 0))
+			|| ft_isspace(input[lex->i]) == 0))
 	{
 		if (input[lex->i] == 39)
 			single_quote(lex, input, &new_tlex);
