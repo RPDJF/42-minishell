@@ -6,12 +6,12 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:36:24 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/12 15:53:08 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/13 23:11:39 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ECHO_N
-# define ECHO_h
+#ifndef ECHO_H
+# define ECHO_H
 
 # include "../minishell.h"
 
