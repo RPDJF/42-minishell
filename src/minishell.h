@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:02:09 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/13 01:47:32 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/13 23:14:56 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ typedef struct s_var
 	char			*name;
 	void			*data;
 	t_var_type		type;
-	struct	s_var	*prev;
-	struct	s_var	*next;
+	struct s_var	*prev;
+	struct s_var	*next;
 }				t_var;
 
 //	Minishell structure
