@@ -6,14 +6,13 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:54:10 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/04/04 16:17:19 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/13 11:43:31 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-#include "minishell.h"
 
-void	parsing(char **lex)
+void	parsing(t_tlex **lex)
 {
 	(void)lex;
 }

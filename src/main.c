@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:06:10 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/12 14:32:30 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/13 11:48:28 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	*minishell;
 	char		*input;
-	char		**lex;
+	t_tlex		*lex;
 
 	minishell = init_minishell(argc, argv, envp);
 	while (true)
@@ -30,10 +30,9 @@ int	main(int argc, char **argv, char **envp)
 			crash_exit();
 		lex = lexer(input);
 		if (lex)
-			for (int d = 0; lex[d]; d++)
-				ft_printf("lexer[%d]: %s\n", d, lex[d]);
-		ft_free_tab(lex);
-		parsing(lex);
+			for (t_tlex *tmp = lex; tmp; tmp = tmp->next)
+				ft_printf("lexer: %s\n", tmp->cmd);
+		parsing(&lex);
 		gfree(input);
 	}
 	exit (0);
