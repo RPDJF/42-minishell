@@ -6,7 +6,7 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:41:58 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/04/13 12:10:45 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/13 19:37:38 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,16 @@ typedef struct s_lex
 	int		j;
 }	t_lex;
 
+typedef struct s_word
+{
+	char			*str;
+	bool			is_var;
+	struct s_word	*next;
+}	t_word;
+
 typedef struct s_tlex
 {
-	bool			var;
-	char			*cmd;
+	struct s_word	*cmd;
 	struct s_tlex	*next;
 	struct s_tlex	*prev;
 }	t_tlex;

@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:06:10 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/13 11:48:28 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/13 22:33:31 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,21 @@ int	main(int argc, char **argv, char **envp)
 			crash_exit();
 		lex = lexer(input);
 		if (lex)
-			for (t_tlex *tmp = lex; tmp; tmp = tmp->next)
-				ft_printf("lexer: %s\n", tmp->cmd);
+		{
+			int i = 0;
+			for (t_tlex *tmp1 = lex; tmp1; tmp1 = tmp1->next)
+			{
+				ft_printf("noeud[%d]", i);
+				t_word *tmp2 = tmp1->cmd;
+				while (tmp2)
+				{
+					ft_printf("--->[%s:%d]", tmp2->str, tmp2->is_var);
+					tmp2 = tmp2->next;
+				}
+				i++;
+				ft_printf("\n");
+			}
+		}
 		parsing(&lex);
 		gfree(input);
 	}
