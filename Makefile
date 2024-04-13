@@ -79,12 +79,13 @@ SRC = 	main \
 		prompt \
 		lexer/lexer \
 		parsing/parsing
-		
 
 SRC +=	utils/exit_handler \
 		utils/binary_finder \
 		utils/strr_realloc \
 		lexer/lexer_lst_add \
+		utils/lexer_bonus \
+		utils/lexer_utils \
 		lexer/lexer_quote
 
 CFILES = $(SRC:%=src/%.c)

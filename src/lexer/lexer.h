@@ -6,7 +6,7 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 12:41:58 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/04/14 00:45:44 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/14 01:45:43 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,16 @@ typedef struct s_tlex
 t_tlex	*lexer(char *input);
 
 // Fonction for lexing the quotes
-t_word	*tword_new(char *cmd, bool var);
-t_tlex	*lexer(char *input);
-void	tlex_add_back(t_tlex **lst, t_tlex *neww);
-void	tword_add_back(t_tlex **lst, t_word *neww);
 void	end_single_quote(t_lex *lex, char *input, t_tlex **tlex, char *word);
 void	single_quote(t_lex *lex, char *input, t_tlex **tlex);
 void	end_double_quote(t_lex *lex, char *input, t_tlex **tlex, char *word);
 void	double_quote(t_lex *lex, char *input, t_tlex **tlex);
+
+// 
+t_word	*tword_new(char *cmd, bool var);
+t_tlex	*lexer(char *input);
+void	tlex_add_back(t_tlex **lst, t_tlex *neww);
+void	tword_add_back(t_tlex **lst, t_word *neww);
 int		ft_isdelem(char *str, int i);
 int		impair_pair_char(char *str, char c);
 void	delem(t_lex *lex, char *input, t_tlex **tlex);
