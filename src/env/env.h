@@ -8,6 +8,9 @@
 t_var	*new_var(char *name, void *data, t_var_type type, bool is_env);
 //	destroy_var: free a variable
 void	destroy_var(t_var *var);
+//	get_envp_value: get a value from envp
+//	return: char *value or 0 if not found
+char	*get_envp_value(char *name, char **envp);
 //	get_var: get a variable from mini_envp
 //	return: t_var pointer to the variable or 0 if not found
 t_var	*get_var(t_minishell *minishell, char *name);

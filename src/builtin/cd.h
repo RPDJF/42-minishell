@@ -2,6 +2,7 @@
 # define CD_H
 
 # include "../minishell.h"
+# include "../env/env.h"
 
 typedef struct s_cd
 {

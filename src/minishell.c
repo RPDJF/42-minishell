@@ -32,8 +32,12 @@ static char	*mini_gethostname(void)
 
 t_minishell	*init_minishell(int argc, char **argv, char **envp)
 {
-	t_minishell	*minishell;
+	static t_minishell	*minishell;
 
+	if (minishell)
+		return (minishell);
+	else if (!argc || !argv)
+		return (0);
 	minishell = galloc(sizeof(t_minishell));
 	if (!minishell)
 		crash_exit();
@@ -43,5 +47,14 @@ t_minishell	*init_minishell(int argc, char **argv, char **envp)
 	minishell->old_envp = envp;
 	minishell->mini_envp = init_minienvp(minishell);
 	minishell->envp = &var_to_tab;
+	return (minishell);
+}
+
+t_minishell	*get_minishell(void)
+{
+	static t_minishell	*minishell;
+
+	if (!minishell)
+		minishell = init_minishell(0, 0, 0);
 	return (minishell);
 }

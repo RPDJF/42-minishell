@@ -109,6 +109,10 @@ typedef struct s_word
 
 //	init_minishell: init a new minishell instance
 t_minishell	*init_minishell(int argc, char **argv, char **envp);
+//	get_minishell: get the current minishell instance
+//	the instance has to be manually initialized with init_minishell
+//	return: t_minishell pointer
+t_minishell	*get_minishell(void);
 // Realloc and return a char ** from str and add the char *neww to the end
 char		**strr_realloc(char **str, char *neww);
 

@@ -43,7 +43,7 @@ static void	load_opt(t_echo *echo, char *options)
 	}
 }
 
-int	echo(int argc, char **argv)
+int	echo(int argc, char **argv, char **envp)
 {
 	t_echo	*echo;
 	int		i;
