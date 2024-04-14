@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include <unistd.h>
 
 void	add_word_to_lex_str(t_lex *lex, char *input, t_tlex **tlex)
 {
@@ -30,9 +31,10 @@ void	words_lexing(t_lex *lex, char *input, t_tlex **tlex)
 	new_tlex = ft_calloc(1, sizeof(t_tlex));
 	if (!new_tlex)
 		crash_exit();
-	while (input[lex->i] && (input[lex->i] == 39 || input[lex->i] == 34 || \
+	while (input[lex->i] && ft_isprint(input[lex->i]) && \
+		(input[lex->i] == 39 || input[lex->i] == 34 || \
 		ft_isdelem(input, lex->i) == 1 || ft_isdelem(input, lex->i) == 2 \
-			|| ft_isspace(input[lex->i]) == 0))
+		|| ft_isspace(input[lex->i]) == 0))
 	{
 		if (input[lex->i] == 39)
 			single_quote(lex, input, &new_tlex);
@@ -62,10 +64,17 @@ t_tlex	*lexer(char *input)
 	{
 		while (ft_isspace(input[lex.i]) == 1)
 			lex.i++;
-		if (ft_isspace(input[lex.i]) == 0 || input[lex.i] == 39 || \
+		if ((ft_isspace(input[lex.i]) == 0 || input[lex.i] == 39 || \
 			input[lex.i] == 34 || ft_isdelem(input, lex.i) == 1 || \
-			ft_isdelem(input, lex.i) == 2)
+			ft_isdelem(input, lex.i) == 2) && ft_isprint(input[lex.i]) == 1)
 			words_lexing(&lex, input, &tlex);
+		else if (ft_isprint(input[lex.i]) == 0)
+		{
+			ft_putendl_fd(\
+				"minishell: \x1b[31merror\x1b[0m: Non-printable character", \
+				STDOUT_FILENO);
+			return (NULL);
+		}
 	}
 	return (tlex);
 }

@@ -100,7 +100,8 @@ NAME = minishell
 
 all: $(NAME)
 
-debug: fclean $(CFILES) $(BETTERFT_LIB)
+debug: fclean $(CFILES)
+	@$(MAKE) $(BETTERFT_LIB) --no-print-directory
 	@echo "$$APP_HEADER"
 	@printf "\t🤖 Compiling $(NAME)...\r"
 	@$(CC) -g3 -pthread -fsanitize=thread $(CFILES) $(CFLAGS) -o $(NAME)
@@ -118,7 +119,8 @@ fclean: clean
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is fully deleted 🗑️"
 #	@echo "\t[INFO]\t[$(NAME)]\t$(BONUS_NAME) is fully deleted 🗑️"
 
-re: fclean all
+re: fclean
+	@$(MAKE) all --no-print-directory
 
 help:
 	@echo "$$HEADER"
