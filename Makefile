@@ -100,14 +100,15 @@ NAME = minishell
 
 all: $(NAME)
 
-debug: fclean $(CFILES) $(BETTERFT_LIB)
+debug: fclean $(CFILES)
+	@$(MAKE) $(BETTERFT_LIB) --no-print-directory
 	@echo "$$APP_HEADER"
 	@printf "\t🤖 Compiling $(NAME)...\r"
 	@$(CC) -g3 -pthread -fsanitize=thread $(CFILES) $(CFLAGS) -o $(NAME)
 	@printf "\33[2K"
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is compiled ✅"
 	@echo "\nThe programm was compiled with debug sanitizer set to address\nDo not forget to use \"leak -atExit -- $(NAME)\" in order to check for potential leaks.\nNote that it won't work with the debug version.\n\nFor better debug, you can use \"lldb $(name) <args>\" after using debug rule.\n\n"
-	@norminette ./ | grep -E "Error:|Error!"
+	@norminette ./ | grep -E "Error:|Error!" | sed -E 's/(.//)/\x1b[31m\1\x1b[0m/g'
 
 clean: $(BETTERFT_PATH)Makefile
 	@$(MAKE) -C $(BETTERFT_PATH) fclean --no-print-directory
@@ -118,7 +119,8 @@ fclean: clean
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is fully deleted 🗑️"
 #	@echo "\t[INFO]\t[$(NAME)]\t$(BONUS_NAME) is fully deleted 🗑️"
 
-re: fclean all
+re: fclean
+	@$(MAKE) all --no-print-directory
 
 help:
 	@echo "$$HEADER"
