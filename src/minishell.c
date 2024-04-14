@@ -1,16 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/26 19:56:01 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/30 01:12:47 by rude-jes         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
+#include "env/env.h"
 
 static char	*mini_gethostname(void)
 {
@@ -33,8 +22,8 @@ static char	*mini_gethostname(void)
 		if (!output)
 			return (0);
 		if (tmp)
-			free (tmp);
-		free(line);
+			gfree(tmp);
+		gfree(line);
 		line = ft_get_next_line(fd);
 	}
 	output[ft_strlen(output) - 1] = 0;
@@ -52,5 +41,7 @@ t_minishell	*init_minishell(int argc, char **argv, char **envp)
 	minishell->argc = argc;
 	minishell->argv = argv;
 	minishell->envp = envp;
+	minishell->mini_envp = init_minienvp(minishell);
+	print_minienvp(minishell->mini_envp);
 	return (minishell);
 }

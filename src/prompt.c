@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/26 19:46:49 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/03/29 22:41:17 by rude-jes         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "prompt.h"
 
 static char	*parse_prompt(char *prompt)
@@ -22,7 +10,7 @@ static char	*parse_prompt(char *prompt)
 	{
 		tmp = prompt;
 		prompt = ft_strreplace(prompt, home, "~");
-		free(tmp);
+		gfree(tmp);
 	}
 	return (prompt);
 }
@@ -47,7 +35,7 @@ static char	*get_prompt(t_minishell *minishell)
 				C_RESET, ":", cwd, ENDLINE);
 	if (!output)
 		crash_exit();
-	free(cwd);
+	gfree(cwd);
 	output = parse_prompt(output);
 	return (output);
 }

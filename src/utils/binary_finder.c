@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   binary_finder.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/03 14:10:12 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/11 15:29:29 by rude-jes         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "binary_finder.h"
 
 static char	*get_fulpath(char *binary)
@@ -35,7 +23,7 @@ static char	*get_fulpath(char *binary)
 			ft_free_tab(path);
 			return (tmp);
 		}
-		free(tmp);
+		gfree(tmp);
 	}
 	return (0);
 }
@@ -47,7 +35,7 @@ char	*find_binary(char *binary)
 	output = 0;
 	if (ft_strchr(binary, '/'))
 	{
-		if (access(binary, O_RDONLY | O_EXCL) == 0)
+		if (access(binary, R_OK) == 0)
 		{
 			output = ft_strdup(binary);
 			if (!output)

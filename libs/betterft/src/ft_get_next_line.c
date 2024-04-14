@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 13:20:51 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/01/23 02:31:39 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:13:59 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*flush(t_gnl *gnl, char *newline, size_t line_size, size_t new_size)
 	}
 	if (gnl->size < 0)
 	{
-		free(gnl->line);
+		gfree(gnl->line);
 		gnl->line = 0;
 	}
 	else if (newline)

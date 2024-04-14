@@ -74,19 +74,23 @@ BETTERFT_LIB = $(BETTERFT_PATH:%=%betterft.a)
 
 CFLAGS += $(BETTERFT_LIB)
 
-SRC = 	main \
+SRC = 	env/env \
+		lexer/lexer \
+		parsing/parsing \
+		main \
 		minishell \
 		prompt \
-		lexer/lexer \
-		parsing/parsing
 
-SRC +=	utils/exit_handler \
+SRC +=	env/env_add \
+		env/env_conv \
+		env/env_get \
+		lexer/lexer_lst_add \
+		lexer/lexer_quote \
+		utils/exit_handler \
 		utils/binary_finder \
 		utils/strr_realloc \
-		lexer/lexer_lst_add \
 		utils/lexer_bonus \
 		utils/lexer_utils \
-		lexer/lexer_quote
 
 CFILES = $(SRC:%=src/%.c)
 
