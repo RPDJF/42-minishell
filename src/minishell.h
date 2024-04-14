@@ -7,6 +7,14 @@
 # define APP_NAME "minishell"
 # define VERSION "0.1"
 
+// Lexer struct
+typedef struct s_word
+{
+	char			*str;
+	bool			is_var;
+	struct s_word	*next;
+}	t_word;
+
 //	Type enumerators
 typedef enum e_token_type
 {
@@ -98,14 +106,6 @@ typedef struct s_minishell
 	t_var		*mini_envp;
 	char		*hostname;
 }				t_minishell;
-
-// Lexer struct
-typedef struct s_word
-{
-	char			*str;
-	bool			is_var;
-	struct s_word	*next;
-}	t_word;
 
 //	init_minishell: init a new minishell instance
 t_minishell	*init_minishell(int argc, char **argv, char **envp);
