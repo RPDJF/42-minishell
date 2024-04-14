@@ -36,6 +36,26 @@ static int	wait_tokens(t_token *tokens)
 	return (status);
 }
 
+pid_t	fork_child(t_minishell *minishell, t_token *cmd)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		if (cmd->type == token_cmd)
+		{
+			execve(((t_cmd *)cmd->data)->cmd, ((t_cmd *)cmd->data)->argv,
+				minishell->envp(minishell));
+			error_exit(0, "command not found", 127);
+		}
+	}
+	else if (pid < 0)
+		crash_exit();
+	return (pid);
+
+}
+
 void	executor(t_minishell *minishell, t_token *tokens)
 {
 	t_token	*token_head;

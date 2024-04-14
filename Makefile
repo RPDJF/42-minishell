@@ -75,6 +75,7 @@ BETTERFT_LIB = $(BETTERFT_PATH:%=%betterft.a)
 CFLAGS += $(BETTERFT_LIB)
 
 SRC = 	env/env \
+		executor/executor \
 		lexer/lexer \
 		parsing/parsing \
 		main \
