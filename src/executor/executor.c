@@ -1,6 +1,6 @@
 #include "executor.h"
 
-//	execute_cmd: execute a command inside minishell
+/*//	execute_cmd: execute a command inside minishell
 static void	execute_cmd(t_minishell *minishell, t_cmd *cmd)
 {
 	pid_t	*pid;
@@ -39,7 +39,9 @@ static int	wait_tokens(t_token *tokens)
 static int	exec_builtin(t_minishell *minishell, t_builtin *builtin)
 {
 	if (builtin->cmd == builtin_echo)
-		echo(builtin->argc, builtin->argv, minishell->envp(minishell));
+		echo(builtin->argc, builtin->argv);
+	else if (builtin->cmd == builtin_cd)
+		cd(builtin->argc, builtin->argv);
 }
 
 pid_t	fork_child(t_minishell *minishell, t_token *token_cmd)
@@ -88,4 +90,4 @@ void	executor(t_minishell *minishell, t_token *tokens)
 		tokens = tokens->next;
 	}
 	wait_tokens(token_head);
-}
+}*/

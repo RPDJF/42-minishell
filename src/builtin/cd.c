@@ -25,7 +25,7 @@ static char	**get_context(char **argv, char *file)
 	return (context);
 }
 
-static t_cd	*init_cd(int argc, char **argv, char **envp)
+static t_cd	*init_cd(int argc, char **argv)
 {
 	t_cd	*cd;
 
@@ -39,7 +39,7 @@ static t_cd	*init_cd(int argc, char **argv, char **envp)
 	if (argc == 2)
 		cd->path = argv[1];
 	else
-		cd->path = get_envp_value("HOME", envp);
+		cd->path = get_var("HOME");
 	cd->exec = &chdir;
 	if (argc > 2)
 	{
@@ -62,11 +62,11 @@ static bool	check_errors(t_cd *cd)
 	return (false);
 }
 
-int	cd(int argc, char **argv, char **envp)
+int	cd(int argc, char **argv)
 {
 	t_cd	*cd;
 
-	cd = init_cd(argc, argv, envp);
+	cd = init_cd(argc, argv);
 	if (!cd || check_errors(cd))
 	{
 		if (cd)

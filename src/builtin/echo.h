@@ -14,6 +14,6 @@ typedef struct s_echo
 }	t_echo;
 
 //	echo: builtin echo command
-int	echo(int argc, char **argv, char **envp);
+int	echo(int argc, char **argv);
 
 #endif

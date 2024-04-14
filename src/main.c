@@ -3,6 +3,7 @@
 #include "parsing/parsing.h"
 #include "lexer/lexer.h"
 #include "utils/exit_handler.h"
+#include "utils/expand_words.h"
 
 void	print_lex(t_tlex *lex)
 {
@@ -41,6 +42,9 @@ int	main(int argc, char **argv, char **envp)
 			crash_exit();
 		lex = lexer(input);
 		print_lex(lex);
+		if (!lex)
+			continue ;
+		printf("expanded node[0]--->[%s]\n", parse_words(lex->cmd));
 		parsing(&lex);
 		gfree(input);
 	}

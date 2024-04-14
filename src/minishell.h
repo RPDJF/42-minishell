@@ -102,7 +102,7 @@ typedef struct s_minishell
 	int			argc;
 	char		**argv;
 	char		**old_envp;
-	char		**(*envp)(t_minishell *minishell);
+	char		**(*envp)(void);
 	t_var		*mini_envp;
 	char		*hostname;
 }				t_minishell;

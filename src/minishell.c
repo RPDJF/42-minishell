@@ -45,7 +45,7 @@ t_minishell	*init_minishell(int argc, char **argv, char **envp)
 	minishell->argc = argc;
 	minishell->argv = argv;
 	minishell->old_envp = envp;
-	minishell->mini_envp = init_minienvp(minishell);
+	minishell->mini_envp = init_minienvp();
 	minishell->envp = &var_to_tab;
 	return (minishell);
 }

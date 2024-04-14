@@ -1,9 +1,11 @@
 #include "env.h"
 
-t_var	*get_var(t_minishell *minishell, char *name)
+t_var	*get_var(char *name)
 {
-	t_var	*var;
+	t_minishell	*minishell;
+	t_var		*var;
 
+	minishell = get_minishell();
 	var = minishell->mini_envp;
 	while (var)
 	{

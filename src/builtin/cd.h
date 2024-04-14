@@ -15,6 +15,6 @@ typedef struct s_cd
 }	t_cd;
 
 //	cd: change directory
-int	cd(int argc, char **argv, char **envp);
+int	cd(int argc, char **argv);
 
 #endif

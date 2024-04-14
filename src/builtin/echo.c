@@ -43,11 +43,12 @@ static void	load_opt(t_echo *echo, char *options)
 	}
 }
 
-int	echo(int argc, char **argv, char **envp)
+int	echo(int argc, char **argv)
 {
 	t_echo	*echo;
 	int		i;
 
+	(void)minishell;
 	echo = init_echo(argc, argv);
 	i = 0;
 	while (argv[++i])

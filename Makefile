@@ -75,7 +75,6 @@ BETTERFT_LIB = $(BETTERFT_PATH:%=%betterft.a)
 CFLAGS += $(BETTERFT_LIB)
 
 SRC = 	env/env \
-		executor/executor \
 		lexer/lexer \
 		parsing/parsing \
 		main \
@@ -93,6 +92,7 @@ SRC +=	env/env_add \
 		utils/strr_realloc \
 		utils/lexer_bonus \
 		utils/lexer_utils \
+		utils/expand_words \
 
 CFILES = $(SRC:%=src/%.c)
 
@@ -107,7 +107,7 @@ debug: fclean $(CFILES) $(BETTERFT_LIB)
 	@printf "\33[2K"
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is compiled ✅"
 	@echo "\nThe programm was compiled with debug sanitizer set to address\nDo not forget to use \"leak -atExit -- $(NAME)\" in order to check for potential leaks.\nNote that it won't work with the debug version.\n\nFor better debug, you can use \"lldb $(name) <args>\" after using debug rule.\n\n"
-	@echo $(shell norminette)
+	@norminette | grep "Error:"
 
 clean: $(BETTERFT_PATH)Makefile
 	@$(MAKE) -C $(BETTERFT_PATH) fclean --no-print-directory
@@ -118,17 +118,16 @@ fclean: clean
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is fully deleted 🗑️"
 #	@echo "\t[INFO]\t[$(NAME)]\t$(BONUS_NAME) is fully deleted 🗑️"
 
-re: fclean
-	@make -C $(BETTERFT_PATH)
-	@make all
+re: fclean all
 
 help:
 	@echo "$$HEADER"
-	@echo "all		-	Build $(NAME)"
-	@echo "clean		-	Clean temporary files"
-	@echo "fclean		-	Clean the whole build"
-	@echo "debug		-	Runs the program with g3 fsanitize=address"
-	@echo "$(NAME)	-	Build the $(NAME) with necessary libs"
+	@echo "all				-	Build $(NAME)"
+	@echo "clean				-	Clean temporary files"
+	@echo "fclean				-	Clean the whole build"
+	@echo "debug				-	Runs the program with g3 fsanitize=address"
+	@echo "$(NAME)			-	Build the $(NAME) with necessary libs"
+	@echo "$(BETTERFT_PATH:%=%betterft.a)	-	Build btterft.a lib"
 
 $(CFILES): header
 
