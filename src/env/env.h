@@ -14,6 +14,9 @@ char	*get_envp_value(char *name, char **envp);
 //	get_var: get a variable from mini_envp
 //	return: t_var pointer to the variable or 0 if not found
 t_var	*get_var(char *name);
+//	get_var_value: get the string value of a variable from mini_envp
+//	return: allocated char *value or "" if not found
+char	*get_var_value(char *name);
 //	update_var: update a variable in mini_envp
 //	if the variable does not exist, it will be added to the end of the list
 //	return: t_var pointer to the updated variable

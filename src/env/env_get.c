@@ -16,6 +16,25 @@ t_var	*get_var(char *name)
 	return (0);
 }
 
+// TO DO: GET TOKEN VALUE
+
+char	*get_var_value(char *name)
+{
+	char	*value;
+	t_var	*var;
+
+	var = get_var(name);
+	if (!var)
+		value = ft_strdup("");
+	else if (var->type == var_str)
+		value = ft_strdup((char *)var->data);
+	else
+		value = ft_strdup("TOKEN_VAR_NOT_IMPLEMENTED_YET");
+	if (!value)
+		crash_exit();
+	return (value);
+}
+
 char	*get_envp_value(char *name, char **envp)
 {
 	int		i;
