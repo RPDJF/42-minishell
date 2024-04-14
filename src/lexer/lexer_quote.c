@@ -23,7 +23,7 @@ void	single_quote(t_lex *lex, char *input, t_tlex **tlex)
 
 	k = 0;
 	if (impair_pair_char(input, 39) == 1)
-		error_exit(NULL, "fdf: bad single_quote format", 127);
+		error_exit(NULL, "minishell: bad single_quote format", 127);
 	while (input[lex->i] == 39)
 		lex->i++;
 	lex->j = lex->i;
@@ -64,7 +64,7 @@ void	double_quote(t_lex *lex, char *input, t_tlex **tlex)
 
 	k = 0;
 	if (impair_pair_char(input, 34) == 1)
-		error_exit(NULL, "fdf: bad single_quote format", 127);
+		error_exit(NULL, "minishell: bad single_quote format", 127);
 	while (input[lex->i] == 34)
 		lex->i++;
 	lex->j = lex->i;
