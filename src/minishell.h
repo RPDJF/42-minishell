@@ -58,8 +58,8 @@ typedef struct s_token
 //	Typed token structures
 typedef struct s_cmd
 {
-	char	*cmd;
-	char	**argv;
+	t_word	*cmd;
+	t_word	**argv;
 	int		argc;
 	pid_t	pid;
 }				t_cmd;
@@ -67,7 +67,7 @@ typedef struct s_cmd
 typedef struct s_builtin
 {
 	t_builtin_type	cmd;
-	char			**argv;
+	t_word			*argv;
 	int				argc;
 	pid_t			pid;
 }				t_builtin;
