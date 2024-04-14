@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/26 17:02:09 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/14 01:41:20 by ilyanar          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -100,11 +88,13 @@ typedef struct s_var
 }				t_var;
 
 //	Minishell structure
+typedef struct s_minishell	t_minishell;
 typedef struct s_minishell
 {
 	int			argc;
 	char		**argv;
-	char		**envp;
+	char		**old_envp;
+	char		**(*envp)(t_minishell *minishell);
 	t_var		*mini_envp;
 	char		*hostname;
 }				t_minishell;

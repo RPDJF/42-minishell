@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_tab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:51:42 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/04/05 14:58:24 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/14 16:13:33 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ void	ft_free_tab(char **tab)
 		gfree(*(tab + i));
 		i--;
 	}
-	free(tab);
+	gfree(tab);
 }
