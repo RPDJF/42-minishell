@@ -76,10 +76,17 @@ CFLAGS += $(BETTERFT_LIB)
 
 SRC = 	main \
 		minishell \
-		prompt
+		prompt \
+		lexer/lexer \
+		parsing/parsing
 
 SRC +=	utils/exit_handler \
 		utils/binary_finder \
+		utils/strr_realloc \
+		lexer/lexer_lst_add \
+		utils/lexer_bonus \
+		utils/lexer_utils \
+		lexer/lexer_quote
 
 CFILES = $(SRC:%=src/%.c)
 
@@ -105,7 +112,9 @@ fclean: clean
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is fully deleted 🗑️"
 #	@echo "\t[INFO]\t[$(NAME)]\t$(BONUS_NAME) is fully deleted 🗑️"
 
-re: fclean all
+re: fclean
+	@make -C $(BETTERFT_PATH)
+	@make all
 
 help:
 	@echo "$$HEADER"

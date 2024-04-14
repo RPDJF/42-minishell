@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 17:02:09 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/13 23:14:56 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/14 01:41:20 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,17 @@ typedef struct s_minishell
 	char		*hostname;
 }				t_minishell;
 
+// Lexer struct
+typedef struct s_word
+{
+	char			*str;
+	bool			is_var;
+	struct s_word	*next;
+}	t_word;
+
 //	init_minishell: init a new minishell instance
 t_minishell	*init_minishell(int argc, char **argv, char **envp);
+// Realloc and return a char ** from str and add the char *neww to the end
+char		**strr_realloc(char **str, char *neww);
 
 #endif
