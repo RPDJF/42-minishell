@@ -8,7 +8,7 @@ static void	execute_cmd(t_minishell *minishell, t_cmd *cmd)
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
-		execve(cmd->cmd, cmd->argv, minishell->envp);
+		execve(cmd->cmd, cmd->argv, minishell->envp(minishell));
 		error_exit(0, "command not found", 127);
 	}
 	else if (cmd->pid < 0)

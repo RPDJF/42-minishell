@@ -88,11 +88,13 @@ typedef struct s_var
 }				t_var;
 
 //	Minishell structure
+typedef struct s_minishell	t_minishell;
 typedef struct s_minishell
 {
 	int			argc;
 	char		**argv;
-	char		**envp;
+	char		**old_envp;
+	char		**(*envp)(t_minishell *minishell);
 	t_var		*mini_envp;
 	char		*hostname;
 }				t_minishell;

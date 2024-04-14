@@ -83,6 +83,7 @@ SRC = 	env/env \
 
 SRC +=	env/env_add \
 		env/env_conv \
+		env/env_destroy \
 		env/env_get \
 		lexer/lexer_lst_add \
 		lexer/lexer_quote \

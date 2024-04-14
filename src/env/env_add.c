@@ -1,41 +1,51 @@
 #include "env.h"
 
-t_var	*update_var(t_minishell *ms, char *name, void *data, t_var_type type)
+t_var	*new_var(char *name, void *data, t_var_type type, bool is_env)
 {
 	t_var	*var;
-	t_var	*duplicate;
 
-	duplicate = get_var(ms, name);
-	if (duplicate)
-	{
-		gfree(var->data);
-		var->data = data;
-		var->type = type;
-		return (var);
-	}
 	var = galloc(sizeof(t_var));
 	if (!var)
 		crash_exit();
 	var->name = name;
-	var->type = type;
 	var->data = data;
-	push_var(&ms->mini_envp, var);
+	var->type = type;
+	var->is_env = is_env;
+	var->prev = 0;
+	var->next = 0;
 	return (var);
 }
 
-t_var	*add_var(t_var **head, t_var *var)
+t_var	*update_var(t_minishell *minishell, t_var *var)
 {
-	t_var	*tmp;
+	t_var	*duplicate;
 
-	if (!head)
-		return (0);
-	if (!*head)
+	duplicate = get_var(minishell, var->name);
+	if (duplicate)
 	{
-		*head = var;
+		duplicate->data = var->data;
+		duplicate->type = var->type;
+		duplicate->is_env = var->is_env;
+		destroy_var(var);
+		return (duplicate);
+	}
+	var = galloc(sizeof(t_var));
+	if (!var)
+		crash_exit();
+	add_var(minishell, var);
+	return (var);
+}
+
+t_var	*add_var(t_minishell *minishell, t_var *var)
+{
+	var->prev = 0;
+	var->next = minishell->mini_envp;
+	if (!minishell->mini_envp)
+	{
+		minishell->mini_envp = var;
 		return (var);
 	}
-	var->prev = 0;
-	var->next = *head;
-	(*head)->prev = var;
+	minishell->mini_envp->prev = var;
+	minishell->mini_envp = var;
 	return (var);
 }

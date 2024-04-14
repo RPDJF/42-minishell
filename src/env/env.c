@@ -17,7 +17,7 @@ static void	*parse_var(char *var_name)
 	else if (!ft_strcmp(var_name, "PWD"))
 		output = addgarbage(getcwd(0, 0));
 	else if (!ft_strcmp(var_name, "SHELL"))
-		ft_strdup("/bin/minishell");
+		output = ft_strdup("/bin/minishell");
 	else
 		output = ft_strdup(getenv(var_name));
 	if (!output)
@@ -30,28 +30,25 @@ static void	*parse_var(char *var_name)
 t_var	*init_minienvp(t_minishell *minishell)
 {
 	t_var	*var;
-	t_var	*head;
 	int		i;
 
+	minishell->mini_envp = 0;
 	i = 0;
-	head = 0;
-	while (minishell->envp[i])
+	while (minishell->old_envp[i])
 		i++;
 	while (--i >= 0)
 	{
-		var = galloc(sizeof(t_var));
-		if (!var)
-			crash_exit();
-		var->prev = 0;
-		var->next = 0;
-		var->name = ft_substr(minishell->envp[i], 0,
-				ft_strchr(minishell->envp[i], '=') - minishell->envp[i]);
+		var = new_var(0, 0, 0, true);
+		var->name = ft_substr(minishell->old_envp[i], 0,
+				ft_strchr(minishell->old_envp[i],
+					'=') - minishell->old_envp[i]);
 		var->type = var_str;
-		var->data = parse_var(var->name);
-		if (!var->name || !var->data)
+		if (!var->name)
 			crash_exit();
-		add_var(&head, var);
-		i++;
+		var->data = parse_var(var->name);
+		if (!var->data)
+			crash_exit();
+		add_var(minishell, var);
 	}
-	return (head);
+	return (minishell->mini_envp);
 }

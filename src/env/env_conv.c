@@ -1,11 +1,13 @@
 #include "env.h"
 // TO DO: DETECT IF ENVP VALUE IS TOKEN OR STRING
 
-char	**var_to_tab(t_var *var)
+char	**var_to_tab(t_minishell *minishell)
 {
+	t_var	*var;
 	char	**tab;
 	int		i;
 
+	var = minishell->mini_envp;
 	tab = 0;
 	i = 0;
 	while (var)
@@ -27,8 +29,11 @@ char	**var_to_tab(t_var *var)
 
 // TO DO: DETECT IF ENVP VALUE IS TOKEN OR STRING
 
-void	print_minienvp(t_var *var)
+void	print_minienvp(t_minishell *minishell)
 {
+	t_var	*var;
+
+	var = minishell->mini_envp;
 	while (var)
 	{
 		ft_putstr_fd(var->name, 1);
