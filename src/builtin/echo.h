@@ -13,4 +13,7 @@ typedef struct s_echo
 	void	(*exec)(char *str, int fd);
 }	t_echo;
 
+//	echo: builtin echo command
+int	echo(int argc, char **argv);
+
 #endif

@@ -1,14 +1,25 @@
 #include "binary_finder.h"
 
+static char	**get_patharr(void)
+{
+	char	*str_path;
+	char	**path;
+
+	str_path = get_var_value("PATH");
+	path = ft_split(str_path, ':');
+	if (!path)
+		crash_exit();
+	gfree(str_path);
+	return (path);
+}
+
 static char	*get_fulpath(char *binary)
 {
 	char	*tmp;
 	char	**path;
 	int		i;
 
-	path = ft_split(getenv("PATH"), ':');
-	if (!path)
-		crash_exit();
+	path = get_patharr();
 	i = -1;
 	while (path[++i])
 	{

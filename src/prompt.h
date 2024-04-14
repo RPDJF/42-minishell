@@ -4,6 +4,7 @@
 # include "minishell.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "env/env.h"
 
 # ifdef __APPLE__
 #  define ENDLINE "$ "

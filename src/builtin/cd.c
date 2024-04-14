@@ -39,7 +39,7 @@ static t_cd	*init_cd(int argc, char **argv)
 	if (argc == 2)
 		cd->path = argv[1];
 	else
-		cd->path = getenv("HOME");
+		cd->path = get_var("HOME");
 	cd->exec = &chdir;
 	if (argc > 2)
 	{
@@ -50,15 +50,27 @@ static t_cd	*init_cd(int argc, char **argv)
 	return (cd);
 }
 
+static bool	check_errors(t_cd *cd)
+{
+	if (!cd->path)
+	{
+		cd->context = get_context(cd->argv, 0);
+		error_msg(cd->context, "HOME not set");
+		ft_free_tab(cd->context);
+		return (true);
+	}
+	return (false);
+}
+
 int	cd(int argc, char **argv)
 {
 	t_cd	*cd;
 
 	cd = init_cd(argc, argv);
-	if (!cd)
+	if (!cd || check_errors(cd))
 	{
-		ft_free_tab(cd->context);
-		gfree(cd);
+		if (cd)
+			gfree(cd);
 		return (1);
 	}
 	cd->status = cd->exec(cd->path);

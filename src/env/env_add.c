@@ -16,11 +16,11 @@ t_var	*new_var(char *name, void *data, t_var_type type, bool is_env)
 	return (var);
 }
 
-t_var	*update_var(t_minishell *minishell, t_var *var)
+t_var	*update_var(t_var *var)
 {
-	t_var	*duplicate;
+	t_var		*duplicate;
 
-	duplicate = get_var(minishell, var->name);
+	duplicate = get_var(var->name);
 	if (duplicate)
 	{
 		duplicate->data = var->data;
@@ -32,12 +32,15 @@ t_var	*update_var(t_minishell *minishell, t_var *var)
 	var = galloc(sizeof(t_var));
 	if (!var)
 		crash_exit();
-	add_var(minishell, var);
+	add_var(var);
 	return (var);
 }
 
-t_var	*add_var(t_minishell *minishell, t_var *var)
+t_var	*add_var(t_var *var)
 {
+	t_minishell	*minishell;
+
+	minishell = get_minishell();
 	var->prev = 0;
 	var->next = minishell->mini_envp;
 	if (!minishell->mini_envp)

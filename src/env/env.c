@@ -25,13 +25,27 @@ static void	*parse_var(char *var_name)
 	return (output);
 }
 
-// TO DO: DETECT IF ENVP VALUE IS TOKEN OR STRING
-
-t_var	*init_minienvp(t_minishell *minishell)
+static void	add_default_vars(void)
 {
 	t_var	*var;
-	int		i;
+	char	*tmp;
 
+	tmp = ft_itoa(0);
+	if (!tmp)
+		crash_exit();
+	var = new_var("?", ft_itoa(0), var_str, false);
+	add_var(var);
+}
+
+// TO DO: DETECT IF ENVP VALUE IS TOKEN OR STRING
+
+t_var	*init_minienvp(void)
+{
+	t_minishell	*minishell;
+	t_var		*var;
+	int			i;
+
+	minishell = get_minishell();
 	minishell->mini_envp = 0;
 	i = 0;
 	while (minishell->old_envp[i])
@@ -48,7 +62,8 @@ t_var	*init_minienvp(t_minishell *minishell)
 		var->data = parse_var(var->name);
 		if (!var->data)
 			crash_exit();
-		add_var(minishell, var);
+		add_var(var);
 	}
+	add_default_vars();
 	return (minishell->mini_envp);
 }
