@@ -85,8 +85,3 @@ int	cd(int argc, char **argv, char **envp)
 	gfree(cd);
 	return (0);
 }
-
-int	main(int argc, char **argv, char **envp)
-{
-	exit(cd(argc, argv, envp));
-}

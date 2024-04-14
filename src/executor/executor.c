@@ -36,24 +36,44 @@ static int	wait_tokens(t_token *tokens)
 	return (status);
 }
 
-pid_t	fork_child(t_minishell *minishell, t_token *cmd)
+static int	exec_builtin(t_minishell *minishell, t_builtin *builtin)
 {
-	pid_t	pid;
+	if (builtin->cmd == builtin_echo)
+		echo(builtin->argc, builtin->argv, minishell->envp(minishell));
+}
 
-	pid = fork();
-	if (pid == 0)
+pid_t	fork_child(t_minishell *minishell, t_token *token_cmd)
+{
+	pid_t		*pid;
+	t_cmd		*cmd;
+	t_builtin	*builtin;
+
+	cmd = 0;
+	builtin = 0;
+	if (token_cmd->type == token_cmd)
 	{
-		if (cmd->type == token_cmd)
-		{
-			execve(((t_cmd *)cmd->data)->cmd, ((t_cmd *)cmd->data)->argv,
-				minishell->envp(minishell));
-			error_exit(0, "command not found", 127);
-		}
+		cmd = (t_cmd *)token_cmd->data;
+		pid = &cmd->pid;
+	}
+	else if (token_cmd->type == token_builtin)
+	{
+		builtin = (t_builtin *)token_cmd->data;
+		pid = &builtin->pid;
+	}
+	else
+		error_exit(0, "invalid token type", 1);
+	*pid = fork();
+	if (*pid == 0)
+	{
+		if (cmd)
+			execve(cmd->cmd, cmd->argv, minishell->envp(minishell));
+		else if (builtin)
+			builtin->fn(minishell, builtin->argc, builtin->argv);
+		error_exit(0, "command not found", 127);
 	}
 	else if (pid < 0)
 		crash_exit();
 	return (pid);
-
 }
 
 void	executor(t_minishell *minishell, t_token *tokens)
