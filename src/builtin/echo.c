@@ -48,7 +48,6 @@ int	echo(int argc, char **argv)
 	t_echo	*echo;
 	int		i;
 
-	(void)minishell;
 	echo = init_echo(argc, argv);
 	i = 0;
 	while (argv[++i])
