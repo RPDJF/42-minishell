@@ -5,8 +5,9 @@ static size_t	varlen(char *str)
 	size_t	len;
 
 	len = 1;
-	while (str[len] && (ft_isalnum(str[len]) || str[len] == '_'
-			|| str[len] == '?'))
+	if (str[1] == '?')
+		return (len + 1);
+	while (str[len] && (ft_isalnum(str[len]) || str[len] == '_'))
 		len++;
 	return (len);
 }
