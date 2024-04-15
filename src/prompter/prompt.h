@@ -1,10 +1,11 @@
 #ifndef PROMPT_H
 # define PROMPT_H
 
-# include "minishell.h"
+# include "../minishell.h"
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "env/env.h"
+# include "../env/env.h"
+# include "history.h"
 
 # ifdef __APPLE__
 #  define ENDLINE "$ "

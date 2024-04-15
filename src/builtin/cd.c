@@ -78,7 +78,6 @@ static void	update_pwd(t_cd *cd)
 		crash_exit();
 	update_var(new_var(ft_strdup("PWD"), pwd, var_str, true));
 	update_var(new_var(ft_strdup("OLDPWD"), oldpwd, var_str, true));
-
 }
 
 int	cd(int argc, char **argv)

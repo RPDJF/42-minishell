@@ -77,9 +77,9 @@ CFLAGS += $(BETTERFT_LIB)
 SRC = 	env/env \
 		lexer/lexer \
 		parsing/parsing \
+		prompter/prompt \
 		main \
 		minishell \
-		prompt \
 
 SRC +=	env/env_add \
 		env/env_conv \
@@ -87,6 +87,7 @@ SRC +=	env/env_add \
 		env/env_get \
 		lexer/lexer_lst_add \
 		lexer/lexer_quote \
+		prompter/history \
 		utils/exit_handler \
 		utils/binary_finder \
 		utils/strr_realloc \
