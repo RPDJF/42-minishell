@@ -108,7 +108,7 @@ debug: fclean $(CFILES)
 	@printf "\33[2K"
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is compiled ✅"
 	@echo "\nThe programm was compiled with debug sanitizer set to address\nDo not forget to use \"leak -atExit -- $(NAME)\" in order to check for potential leaks.\nNote that it won't work with the debug version.\n\nFor better debug, you can use \"lldb $(name) <args>\" after using debug rule.\n\n"
-	@norminette ./ | grep -E "Error:|Error!" | sed -E 's/(.//)/\x1b[31m\1\x1b[0m/g'
+	@norminette ./ | grep -E "Error:|Error!" | sed -E 's/(Error!)/\x1b[31m\1\x1b[0m/g'
 
 clean: $(BETTERFT_PATH)Makefile
 	@$(MAKE) -C $(BETTERFT_PATH) fclean --no-print-directory
