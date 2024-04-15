@@ -33,7 +33,7 @@ void	replace_word(t_word *word, char *var_name)
 	gfree(tmp);
 }
 
-static t_word	*expand_words(t_word *words)
+static t_word	*expand_vars(t_word *words)
 {
 	t_word	*head;
 	char	*var_name;
@@ -59,6 +59,27 @@ static t_word	*expand_words(t_word *words)
 		words = words->next;
 	}
 	return (head);
+}
+
+static t_word	*expand_words(t_word *words)
+{
+	char	*str;
+	char	*home;
+
+	words = expand_vars(words);
+	if (*words->str == '~' && (
+			(words->str[1] == '/')
+			|| (!words->str[1] && (
+					!words->next
+					|| *words->next->str == '/'))))
+	{
+		home = get_var_value("HOME");
+		str = words->str;
+		words->str = ft_strreplace_first(words->str, "~", home);
+		gfree(home);
+		gfree(str);
+	}
+	return (words);
 }
 
 char	*parse_words(t_word *words)
