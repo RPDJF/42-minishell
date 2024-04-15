@@ -44,6 +44,7 @@ void	executor(t_token *tokens)
 			tokens = tokens->next;
 			exec_pipe(executor, tokens);
 			exec_redir(executor, tokens);
+			continue ;
 		}
 		tokens = tokens->next;
 	}
