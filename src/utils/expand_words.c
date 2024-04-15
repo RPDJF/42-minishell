@@ -12,7 +12,7 @@ static size_t	varlen(char *str)
 	return (len);
 }
 
-void	replace_word(t_word *word, char *var_name)
+static void	replace_word(t_word *word, char *var_name)
 {
 	t_var	*var;
 	char	*expand;
@@ -104,6 +104,8 @@ char	*parse_words(t_word *words)
 	{
 		tmp = output;
 		output = ft_strjoin(output, head->str);
+		if (!output)
+			crash_exit();
 		if (*tmp)
 			gfree(tmp);
 		head = head->next;
