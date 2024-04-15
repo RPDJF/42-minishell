@@ -1,5 +1,6 @@
 #include "minishell.h"
 #include "env/env.h"
+#include "prompter/prompt.h"
 
 static char	*mini_gethostname(void)
 {
@@ -47,6 +48,7 @@ t_minishell	*init_minishell(int argc, char **argv, char **envp)
 	minishell->old_envp = envp;
 	minishell->mini_envp = init_minienvp();
 	minishell->envp = &var_to_tab;
+	ms_load_history();
 	return (minishell);
 }
 

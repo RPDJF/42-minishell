@@ -46,10 +46,9 @@ static char	*get_prompt(t_minishell *minishell)
 
 char	*prompt(t_minishell *minishell)
 {
-	char	*input;
-	char	*strprompt;
+	char		*input;
+	char		*strprompt;
 
-	ms_load_history();
 	while (true)
 	{
 		strprompt = get_prompt(minishell);
