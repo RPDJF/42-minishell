@@ -94,6 +94,7 @@ SRC +=	env/env_add \
 		utils/lexer_bonus \
 		utils/lexer_utils \
 		utils/expand_words \
+		utils/expand_utils \
 
 CFILES = $(SRC:%=src/%.c)
 

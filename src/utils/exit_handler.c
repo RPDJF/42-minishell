@@ -3,7 +3,7 @@
 
 void	crash_exit(void)
 {
-	int errno_tmp;
+	int	errno_tmp;
 
 	errno_tmp = errno;
 	ft_putstr_fd("minishell: ", STDERR_FILENO);

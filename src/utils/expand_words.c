@@ -91,12 +91,7 @@ char	*parse_words(t_word *words)
 
 	words = expand_words(words);
 	head = words;
-	len = 1;
-	while (words)
-	{
-		len += ft_strlen(words->str);
-		words = words->next;
-	}
+	len = words_strlen(words);
 	output = ft_calloc(len, sizeof(char));
 	if (!output)
 		crash_exit();

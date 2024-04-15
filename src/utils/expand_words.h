@@ -8,5 +8,9 @@
 char	*parse_words(t_word *words);
 //	parse_words_arr: parse words ** into a char ** array
 char	**parse_words_arr(t_word **words);
+//	words_arr_len:	get the length of a t_word ** array
+size_t	words_arr_len(t_word **words);
+//	words_strlen:	get the length of a string of t_word * list
+size_t	words_strlen(t_word *words);
 
 #endif
