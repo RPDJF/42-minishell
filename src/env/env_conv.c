@@ -40,10 +40,13 @@ void	print_minienvp(void)
 	var = minishell->mini_envp;
 	while (var)
 	{
-		ft_putstr_fd(var->name, 1);
-		ft_putstr_fd("=", 1);
-		if (var->type == var_str)
-			ft_putendl_fd((char *)var->data, 1);
+		if (var->is_env)
+		{
+			ft_putstr_fd(var->name, STDOUT_FILENO);
+			ft_putstr_fd("=", STDOUT_FILENO);
+			if (var->type == var_str)
+				ft_putendl_fd((char *)var->data, STDOUT_FILENO);
+		}
 		var = var->next;
 	}
 }

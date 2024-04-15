@@ -23,15 +23,15 @@ t_var	*update_var(t_var *var)
 	duplicate = get_var(var->name);
 	if (duplicate)
 	{
-		duplicate->data = var->data;
-		duplicate->type = var->type;
-		duplicate->is_env = var->is_env;
-		destroy_var(var);
-		return (duplicate);
+		duplicate->prev->next = var;
+		duplicate->next->prev = var;
+		var->prev = duplicate->prev;
+		var->next = duplicate->next;
+		if (duplicate->is_env)
+			var->is_env = true;
+		destroy_var(duplicate);
+		return (var);
 	}
-	var = galloc(sizeof(t_var));
-	if (!var)
-		crash_exit();
 	add_var(var);
 	return (var);
 }

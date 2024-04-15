@@ -1,5 +1,5 @@
 #include "minishell.h"
-#include "prompt.h"
+#include "prompter/prompt.h"
 #include "parsing/parsing.h"
 #include "lexer/lexer.h"
 #include "utils/exit_handler.h"

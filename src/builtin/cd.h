@@ -8,7 +8,8 @@ typedef struct s_cd
 {
 	int		argc;
 	char	**argv;
-	char	*path;
+	char	*pwd;
+	char	*oldpwd;
 	char	**context;
 	int		status;
 	int		(*exec)(const char *__path);

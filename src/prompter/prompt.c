@@ -46,8 +46,8 @@ static char	*get_prompt(t_minishell *minishell)
 
 char	*prompt(t_minishell *minishell)
 {
-	char	*input;
-	char	*strprompt;
+	char		*input;
+	char		*strprompt;
 
 	while (true)
 	{
@@ -61,6 +61,8 @@ char	*prompt(t_minishell *minishell)
 		if (*input && !ft_isspace(*input))
 			add_history(input);
 		gfree(strprompt);
+		if (ms_write_history(input))
+			ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (input);
 	}
 }

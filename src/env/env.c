@@ -28,12 +28,16 @@ static void	*parse_var(char *var_name)
 static void	add_default_vars(void)
 {
 	t_var	*var;
-	char	*tmp;
+	char	*tmp_name;
+	char	*tmp_value;
 
-	tmp = ft_itoa(0);
-	if (!tmp)
+	tmp_name = ft_strdup("?");
+	if (!tmp_name)
 		crash_exit();
-	var = new_var("?", ft_itoa(0), var_str, false);
+	tmp_value = ft_itoa(0);
+	if (!tmp_value)
+		crash_exit();
+	var = new_var(tmp_name, tmp_value, var_str, false);
 	add_var(var);
 }
 

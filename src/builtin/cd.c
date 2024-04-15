@@ -37,9 +37,12 @@ static t_cd	*init_cd(int argc, char **argv)
 	cd->context = 0;
 	cd->status = 0;
 	if (argc == 2)
-		cd->path = argv[1];
+		cd->pwd = ft_strdup(argv[1]);
 	else
-		cd->path = get_var("HOME");
+		cd->pwd = get_var_value("HOME");
+	if (!cd->pwd)
+		crash_exit();
+	cd->oldpwd = getcwd(0, 0);
 	cd->exec = &chdir;
 	if (argc > 2)
 	{
@@ -52,7 +55,7 @@ static t_cd	*init_cd(int argc, char **argv)
 
 static bool	check_errors(t_cd *cd)
 {
-	if (!cd->path)
+	if (!cd->pwd)
 	{
 		cd->context = get_context(cd->argv, 0);
 		error_msg(cd->context, "HOME not set");
@@ -60,6 +63,21 @@ static bool	check_errors(t_cd *cd)
 		return (true);
 	}
 	return (false);
+}
+
+static void	update_pwd(t_cd *cd)
+{
+	char	*pwd;
+	char	*oldpwd;
+
+	pwd = getcwd(0, 0);
+	if (!pwd)
+		crash_exit();
+	oldpwd = ft_strdup(cd->oldpwd);
+	if (!oldpwd)
+		crash_exit();
+	update_var(new_var(ft_strdup("PWD"), pwd, var_str, true));
+	update_var(new_var(ft_strdup("OLDPWD"), oldpwd, var_str, true));
 }
 
 int	cd(int argc, char **argv)
@@ -73,15 +91,20 @@ int	cd(int argc, char **argv)
 			gfree(cd);
 		return (1);
 	}
-	cd->status = cd->exec(cd->path);
+	cd->status = cd->exec(cd->pwd);
 	if (cd->status)
 	{
-		cd->context = get_context(argv, cd->path);
+		cd->context = get_context(argv, cd->pwd);
 		error_msg(cd->context, strerror(errno));
 		ft_free_tab(cd->context);
+		gfree(cd->pwd);
+		gfree(cd->oldpwd);
 		gfree(cd);
 		return (1);
 	}
+	update_pwd(cd);
+	gfree(cd->pwd);
+	gfree(cd->oldpwd);
 	gfree(cd);
 	return (0);
 }
