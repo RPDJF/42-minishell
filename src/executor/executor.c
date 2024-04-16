@@ -1,93 +1,51 @@
 #include "executor.h"
 
-/*//	execute_cmd: execute a command inside minishell
-static void	execute_cmd(t_minishell *minishell, t_cmd *cmd)
-{
-	pid_t	*pid;
+// Test needed for this function
 
-	cmd->pid = fork();
-	if (cmd->pid == 0)
+static void	switch_fd(t_executor *executor, t_pipe *pipe)
+{
+	if (executor->fd_in_pipe)
 	{
-		execve(cmd->cmd, cmd->argv, minishell->envp(minishell));
-		error_exit(0, "command not found", 127);
+		if (executor->fd_in != STDIN_FILENO)
+			close(executor->fd_in);
+		executor->fd_in = executor->fd_in_pipe;
+		executor->fd_in_pipe = 0;
+		close(pipe->pipe[1]);
 	}
-	else if (cmd->pid < 0)
-		crash_exit();
 }
 
-//	wait_tokens: wait for all tokens pid to finish executing
-//	returns: the exit status of the last token
-static int	wait_tokens(t_token *tokens)
+static t_executor	*init_executor(t_token *tokens)
 {
-	int	status;
+	t_executor	*executor;
 
+	executor = galloc(sizeof(t_executor));
+	if (!executor)
+		crash_exit();
+	executor->has_pipe = has_pipe(tokens);
+	executor->fd_in = STDIN_FILENO;
+	executor->fd_out = STDOUT_FILENO;
+	executor->fd_in_pipe = 0;
+	return (executor);
+}
+
+void	executor(t_token *tokens)
+{
+	t_executor	*executor;
+
+	executor = init_executor(tokens);
+	if (executor->has_pipe)
+		exec_pipe(executor, tokens);
+	exec_redir(executor, tokens);
 	while (tokens)
 	{
-		if (tokens->type == token_cmd)
-			waitpid(((t_cmd *)tokens->data)->pid, &status, 0);
-		else if (tokens->type == token_builtin)
-			waitpid(((t_builtin *)tokens->data)->pid, &status, 0);
+		if (tokens == token_pipe)
+		{
+			switch_fd(executor, (t_pipe *)tokens->data);
+			tokens = tokens->next;
+			exec_pipe(executor, tokens);
+			exec_redir(executor, tokens);
+			continue ;
+		}
 		tokens = tokens->next;
 	}
-	if (WIFEXITED(status))
-		status = WEXITSTATUS(status);
-	else
-		status = 0;
-	return (status);
 }
-
-static int	exec_builtin(t_minishell *minishell, t_builtin *builtin)
-{
-	if (builtin->cmd == builtin_echo)
-		echo(builtin->argc, builtin->argv);
-	else if (builtin->cmd == builtin_cd)
-		cd(builtin->argc, builtin->argv);
-}
-
-pid_t	fork_child(t_minishell *minishell, t_token *token_cmd)
-{
-	pid_t		*pid;
-	t_cmd		*cmd;
-	t_builtin	*builtin;
-
-	cmd = 0;
-	builtin = 0;
-	if (token_cmd->type == token_cmd)
-	{
-		cmd = (t_cmd *)token_cmd->data;
-		pid = &cmd->pid;
-	}
-	else if (token_cmd->type == token_builtin)
-	{
-		builtin = (t_builtin *)token_cmd->data;
-		pid = &builtin->pid;
-	}
-	else
-		error_exit(0, "invalid token type", 1);
-	*pid = fork();
-	if (*pid == 0)
-	{
-		if (cmd)
-			execve(cmd->cmd, cmd->argv, minishell->envp(minishell));
-		else if (builtin)
-			builtin->fn(minishell, builtin->argc, builtin->argv);
-		error_exit(0, "command not found", 127);
-	}
-	else if (pid < 0)
-		crash_exit();
-	return (pid);
-}
-
-void	executor(t_minishell *minishell, t_token *tokens)
-{
-	t_token	*token_head;
-
-	token_head = tokens;
-	while (tokens)
-	{
-		if (tokens->type == token_cmd)
-			execute_cmd(minishell, (t_cmd *)tokens->data);
-		tokens = tokens->next;
-	}
-	wait_tokens(token_head);
-}*/
