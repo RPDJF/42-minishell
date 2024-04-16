@@ -69,9 +69,7 @@ static t_word	*expand_words(t_word *words)
 	words = expand_vars(words);
 	if (*words->str == '~' && (
 			(words->str[1] == '/')
-			|| (!words->str[1] && (
-					!words->next
-					|| *words->next->str == '/'))))
+			|| (!words->str[1] && !words->next)))
 	{
 		home = get_var_value("HOME");
 		str = words->str;
