@@ -36,7 +36,7 @@ static char	*get_fulpath(char *binary)
 		}
 		gfree(tmp);
 	}
-	return (0);
+	return (binary);
 }
 
 char	*find_binary(char *binary)

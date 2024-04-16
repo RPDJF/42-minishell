@@ -77,9 +77,9 @@ CFLAGS += $(BETTERFT_LIB)
 SRC = 	env/env \
 		lexer/lexer \
 		parsing/parsing \
+		prompter/prompt \
 		main \
 		minishell \
-		prompt \
 
 SRC +=	env/env_add \
 		env/env_conv \
@@ -87,12 +87,14 @@ SRC +=	env/env_add \
 		env/env_get \
 		lexer/lexer_lst_add \
 		lexer/lexer_quote \
+		prompter/history \
 		utils/exit_handler \
 		utils/binary_finder \
 		utils/strr_realloc \
 		utils/lexer_bonus \
 		utils/lexer_utils \
 		utils/expand_words \
+		utils/expand_utils \
 
 CFILES = $(SRC:%=src/%.c)
 
@@ -108,7 +110,7 @@ debug: fclean $(CFILES)
 	@printf "\33[2K"
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is compiled ✅"
 	@echo "\nThe programm was compiled with debug sanitizer set to address\nDo not forget to use \"leak -atExit -- $(NAME)\" in order to check for potential leaks.\nNote that it won't work with the debug version.\n\nFor better debug, you can use \"lldb $(name) <args>\" after using debug rule.\n\n"
-	@norminette ./ | grep -E "Error:|Error!"
+	@norminette ./ | grep -E "Error:|Error!" | sed -E 's/(Error!)/\x1b[31m\1\x1b[0m/g'
 
 clean: $(BETTERFT_PATH)Makefile
 	@$(MAKE) -C $(BETTERFT_PATH) fclean --no-print-directory

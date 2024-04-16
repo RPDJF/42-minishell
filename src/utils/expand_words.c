@@ -5,13 +5,14 @@ static size_t	varlen(char *str)
 	size_t	len;
 
 	len = 1;
-	while (str[len] && (ft_isalnum(str[len]) || str[len] == '_'
-			|| str[len] == '?'))
+	if (str[1] == '?')
+		return (len + 1);
+	while (str[len] && (ft_isalnum(str[len]) || str[len] == '_'))
 		len++;
 	return (len);
 }
 
-void	replace_word(t_word *word, char *var_name)
+static void	replace_word(t_word *word, char *var_name)
 {
 	t_var	*var;
 	char	*expand;
@@ -32,7 +33,7 @@ void	replace_word(t_word *word, char *var_name)
 	gfree(tmp);
 }
 
-static t_word	*expand_words(t_word *words)
+static t_word	*expand_vars(t_word *words)
 {
 	t_word	*head;
 	char	*var_name;
@@ -60,6 +61,27 @@ static t_word	*expand_words(t_word *words)
 	return (head);
 }
 
+static t_word	*expand_words(t_word *words)
+{
+	char	*str;
+	char	*home;
+
+	words = expand_vars(words);
+	if (*words->str == '~' && (
+			(words->str[1] == '/')
+			|| (!words->str[1] && (
+					!words->next
+					|| *words->next->str == '/'))))
+	{
+		home = get_var_value("HOME");
+		str = words->str;
+		words->str = ft_strreplace_first(words->str, "~", home);
+		gfree(home);
+		gfree(str);
+	}
+	return (words);
+}
+
 char	*parse_words(t_word *words)
 {
 	char	*output;
@@ -69,12 +91,7 @@ char	*parse_words(t_word *words)
 
 	words = expand_words(words);
 	head = words;
-	len = 1;
-	while (words)
-	{
-		len += ft_strlen(words->str);
-		words = words->next;
-	}
+	len = words_strlen(words);
 	output = ft_calloc(len, sizeof(char));
 	if (!output)
 		crash_exit();
@@ -82,6 +99,8 @@ char	*parse_words(t_word *words)
 	{
 		tmp = output;
 		output = ft_strjoin(output, head->str);
+		if (!output)
+			crash_exit();
 		if (*tmp)
 			gfree(tmp);
 		head = head->next;
