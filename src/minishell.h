@@ -67,7 +67,7 @@ typedef struct s_cmd
 typedef struct s_builtin
 {
 	t_builtin_type	cmd;
-	t_word			*argv;
+	t_word			**argv;
 	int				argc;
 	pid_t			pid;
 }				t_builtin;
