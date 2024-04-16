@@ -9,6 +9,9 @@
 typedef struct s_executor
 {
 	bool	has_pipe;
+	t_token	*tokens;
+	int		original_fd_in;
+	int		original_fd_out;
 	int		fd_in;
 	int		fd_out;
 	int		fd_in_pipe;
@@ -16,6 +19,8 @@ typedef struct s_executor
 
 //	executor:	execute a list of tokens inside minishell
 void	executor(t_token *tokens);
+//	init_child:	init and execute a child from cmd or builtin token
+pid_t	init_child(t_executor *executor, t_token *tokens);
 //	exec_pipe:	Handles pipe type tokens
 int		exec_pipe(t_executor *executor, t_token *tokens);
 //	exec_redir:	handles redirections type tokens
