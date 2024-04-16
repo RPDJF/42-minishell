@@ -1,11 +1,9 @@
 #include "exit_handler.h"
-#include "../minishell.h"
 
 void	crash_exit(void)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putendl_fd(strerror(errno), STDERR_FILENO);
-	exit(1);
+	perror(APP_NAME);
+	exit(errno);
 }
 
 void	error_msg(char **context, char *msg)

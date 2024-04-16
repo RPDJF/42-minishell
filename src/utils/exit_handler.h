@@ -1,7 +1,7 @@
 #ifndef EXIT_HANDLER_H
 # define EXIT_HANDLER_H
 
-# include "../../libs/betterft/betterft.h"
+# include "../minishell.h"
 
 //	crash_exit: exit the program when unexpected error
 void	crash_exit(void);

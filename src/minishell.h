@@ -85,6 +85,11 @@ typedef struct s_stdin
 	char	*filename;
 }				t_stdin;
 
+typedef struct s_pipe
+{
+	int		pipe[2];
+}				t_pipe;
+
 typedef struct s_var
 {
 	bool			is_env;
