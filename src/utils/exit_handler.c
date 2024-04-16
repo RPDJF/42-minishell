@@ -8,8 +8,6 @@ void	crash_exit(void)
 
 void	error_msg(char **context, char *msg)
 {
-	ft_putstr_fd(APP_NAME, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
 	while (context && *context)
 	{
 		ft_putstr_fd(*context, STDERR_FILENO);
