@@ -1,7 +1,8 @@
 # Custom
 .vscode
 minishell
-test.c
+test*.c
+test*.txt
 
 # Prerequisites
 *.d
