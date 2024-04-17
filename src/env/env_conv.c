@@ -1,5 +1,4 @@
 #include "env.h"
-// TO DO: DETECT IF ENVP VALUE IS TOKEN OR STRING
 
 char	**var_to_tab(void)
 {
@@ -17,8 +16,7 @@ char	**var_to_tab(void)
 		tab = ft_reallocf(tab, i * sizeof(char *), (i + 1) * sizeof(char *));
 		if (!tab)
 			crash_exit();
-		if (var->type == var_str)
-			tab[i] = ft_strsjoin(3, var->name, "=", var->data);
+		tab[i] = ft_strsjoin(3, var->name, "=", var->value);
 		var = var->next;
 		i++;
 	}
@@ -28,8 +26,6 @@ char	**var_to_tab(void)
 	tab[i] = 0;
 	return (tab);
 }
-
-// TO DO: DETECT IF ENVP VALUE IS TOKEN OR STRING
 
 void	print_minienvp(void)
 {
@@ -44,8 +40,7 @@ void	print_minienvp(void)
 		{
 			ft_putstr_fd(var->name, STDOUT_FILENO);
 			ft_putstr_fd("=", STDOUT_FILENO);
-			if (var->type == var_str)
-				ft_putendl_fd((char *)var->data, STDOUT_FILENO);
+			ft_putendl_fd((char *)var->value, STDOUT_FILENO);
 		}
 		var = var->next;
 	}

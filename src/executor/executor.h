@@ -25,6 +25,8 @@ pid_t	init_child(t_executor *executor, t_token *tokens);
 int		exec_pipe(t_executor *executor, t_token *tokens);
 //	exec_redir:	handles redirections type tokens
 int		exec_redir(t_executor *executor, t_token *tokens);
+//	get_wexistatus:	get the exit status from a waitpid status
+int		get_wexistatus(int status);
 //	has_pipe:	check if a token list has a pipe token
 bool	has_pipe(t_token *tokens);
 

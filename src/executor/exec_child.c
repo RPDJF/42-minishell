@@ -2,24 +2,25 @@
 
 static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 {
-	pid_t	pid;
 	char	*path;
 	char	**argv;
 
-	pid = fork();
-	if (pid == 0)
+	cmd->pid = fork();
+	if (cmd->pid == 0)
 	{
+		if (executor->fd_in_pipe)
+			close(executor->fd_in_pipe);
 		dup2(executor->fd_in, STDIN_FILENO);
+		close(executor->fd_in);
 		dup2(executor->fd_out, STDOUT_FILENO);
+		close(executor->fd_out);
 		argv = parse_words_arr(cmd->argv);
 		path = parse_words(cmd->cmd);
 		path = find_binary(path);
 		execve(path, argv, get_minishell()->envp());
 		error_exit((char *[]){path, 0}, "command not found", 127);
 	}
-	if (pid < 0)
-		crash_exit();
-	return (pid);
+	return (cmd->pid);
 }
 
 static int	start_builtin(t_builtin *builtin)
@@ -38,32 +39,31 @@ static int	start_builtin(t_builtin *builtin)
 
 static pid_t	builtin_child(t_executor *executor, t_builtin *builtin)
 {
-	pid_t	pid;
 	int		status;
 
-	pid = 0;
+	builtin->pid = 0;
 	dup2(executor->fd_in, STDIN_FILENO);
 	close(executor->fd_in);
 	dup2(executor->fd_out, STDOUT_FILENO);
 	close(executor->fd_out);
 	if (executor->has_pipe)
 	{
-		pid = fork();
-		if (pid == 0)
+		builtin->pid = fork();
+		if (builtin->pid == 0)
 		{
+			if (executor->fd_in_pipe)
+				close(executor->fd_in_pipe);
 			status = start_builtin(builtin);
 			close(STDIN_FILENO);
 			close(STDOUT_FILENO);
 			exit(status);
 		}
-		if (pid < 0)
-			crash_exit();
-		return (pid);
 	}
-	start_builtin(builtin);
+	if (!builtin->pid)
+		status = start_builtin(builtin);
 	dup2(executor->original_fd_in, STDIN_FILENO);
 	dup2(executor->original_fd_out, STDOUT_FILENO);
-	return (pid);
+	return (builtin->pid);
 }
 
 pid_t	init_child(t_executor *executor, t_token *tokens)
@@ -73,12 +73,14 @@ pid_t	init_child(t_executor *executor, t_token *tokens)
 	if (tokens->type == token_cmd)
 	{
 		pid = &((t_cmd *)tokens->data)->pid;
-		*pid = cmd_child(executor, (t_cmd *)tokens->data);
+		cmd_child(executor, (t_cmd *)tokens->data);
 	}
 	else if (tokens->type == token_builtin)
 	{
 		pid = &((t_builtin *)tokens->data)->pid;
-		*pid = builtin_child(executor, (t_builtin *)tokens->data);
+		builtin_child(executor, (t_builtin *)tokens->data);
 	}
+	if (*pid < 0)
+		crash_exit();
 	return (*pid);
 }

@@ -37,7 +37,7 @@ static t_executor	*init_executor(t_token *tokens)
 static int	wait_tokens(t_executor *executor)
 {
 	t_token	*tokens;
-	int	status;
+	int		status;
 
 	tokens = executor->tokens;
 	status = 0;
@@ -45,19 +45,33 @@ static int	wait_tokens(t_executor *executor)
 	{
 		if (tokens->type == token_cmd)
 		{
-			ft_putendl_fd("waiting for cmd", STDERR_FILENO);
 			waitpid(((t_cmd *)tokens->data)->pid, &status, 0);
-			ft_putendl_fd("waited for cmd", STDERR_FILENO);
+			status = get_wexistatus(status);
 		}
 		else if (tokens->type == token_builtin)
 		{
-			ft_putendl_fd("waiting for builtin", STDERR_FILENO);
-			waitpid(((t_builtin *)tokens->data)->pid, &status, 0);
-			ft_putendl_fd("waited for builtin", STDERR_FILENO);
+			if (((t_builtin *)tokens->data)->pid)
+			{
+				waitpid(((t_builtin *)tokens->data)->pid, &status, 0);
+				status = get_wexistatus(status);
+			}
+			else
+				status = ((t_builtin *)tokens->data)->status;
 		}
 		tokens = tokens->next;
 	}
 	return (status);
+}
+
+static void	update_status_var(int status)
+{
+	char	*status_str;
+
+	status_str = ft_itoa(status);
+	if (!status_str)
+		crash_exit();
+	update_var(new_var("?", status_str, false));
+	free(status_str);
 }
 
 void	executor(t_token *tokens)
@@ -80,11 +94,11 @@ void	executor(t_token *tokens)
 		}
 		else if (tokens->type == token_cmd || tokens->type == token_builtin)
 		{
-			ft_putendl_fd("starting process", STDERR_FILENO);
 			init_child(executor, tokens);
-			ft_putendl_fd("started process", STDERR_FILENO);
+			if (executor->fd_in != STDIN_FILENO)
+				close(executor->fd_in);
 		}
 		tokens = tokens->next;
 	}
-	wait_tokens(executor);
+	update_status_var(wait_tokens(executor));
 }

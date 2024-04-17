@@ -40,12 +40,6 @@ typedef enum e_builtin_type
 	builtin_exit
 }				t_builtin_type;
 
-typedef enum e_var_type
-{
-	var_str,
-	var_token
-}				t_var_type;
-
 //	Token structure
 typedef struct s_token
 {
@@ -70,6 +64,7 @@ typedef struct s_builtin
 	t_word			**argv;
 	int				argc;
 	pid_t			pid;
+	int				status;
 }				t_builtin;
 
 typedef struct s_stdout
@@ -94,8 +89,7 @@ typedef struct s_var
 {
 	bool			is_env;
 	char			*name;
-	void			*data;
-	t_var_type		type;
+	char			*value;
 	struct s_var	*prev;
 	struct s_var	*next;
 }				t_var;

@@ -16,8 +16,6 @@ t_var	*get_var(char *name)
 	return (0);
 }
 
-// TO DO: GET TOKEN VALUE
-
 char	*get_var_value(char *name)
 {
 	char	*value;
@@ -26,10 +24,10 @@ char	*get_var_value(char *name)
 	var = get_var(name);
 	if (!var)
 		value = ft_strdup("");
-	else if (var->type == var_str)
-		value = ft_strdup((char *)var->data);
+	else if (var->value)
+		value = ft_strdup((char *)var->value);
 	else
-		value = ft_strdup("TOKEN_VAR_NOT_IMPLEMENTED_YET");
+		value = ft_strdup("");
 	if (!value)
 		crash_exit();
 	return (value);
