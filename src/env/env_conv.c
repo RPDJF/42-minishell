@@ -40,9 +40,9 @@ void	print_export(void)
 	{
 		if (var->is_env && ft_strcmp(var->name, "_"))
 		{
-			printf("declare -x %s=", var->name);
+			printf("declare -x %s", var->name);
 			if (var->value)
-				printf("\"%s\"\n", var->value);
+				printf("=\"%s\"\n", var->value);
 			else
 				printf("\n");
 		}
@@ -60,11 +60,7 @@ void	print_minienvp(void)
 	while (var)
 	{
 		if (var->is_env && var->value)
-		{
-			ft_putstr_fd(var->name, STDOUT_FILENO);
-			ft_putstr_fd("=", STDOUT_FILENO);
-			ft_putendl_fd(var->value, STDOUT_FILENO);
-		}
+			printf("%s=%s\n", var->name, var->value);
 		var = var->next;
 	}
 }
