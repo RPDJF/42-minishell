@@ -1,7 +1,5 @@
 #include "executor.h"
 
-// Test needed for this function
-
 static void	switch_fd(t_executor *executor, t_pipe *pipe)
 {
 	if (executor->fd_in_pipe)
@@ -70,7 +68,7 @@ static void	update_status_var(int status)
 	status_str = ft_itoa(status);
 	if (!status_str)
 		crash_exit();
-	update_var(new_var("?", status_str, false));
+	update_var(new_var("?", status_str, false, false));
 	free(status_str);
 }
 

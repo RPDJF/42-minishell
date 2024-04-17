@@ -25,8 +25,8 @@ static bool	is_opt(t_echo *echo, char *str)
 	{
 		is_option_valid = false;
 		i = -1;
-		while (OPTIONS[++i])
-			if (*str == OPTIONS[i])
+		while (ECHO_OPTIONS[++i])
+			if (*str == ECHO_OPTIONS[i])
 				is_option_valid = true;
 		if (!is_option_valid)
 			return (false);

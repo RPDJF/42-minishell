@@ -3,5 +3,6 @@
 
 # include "cd.h"
 # include "echo.h"
+# include "pwd.h"
 
 #endif

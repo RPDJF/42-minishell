@@ -27,6 +27,29 @@ char	**var_to_tab(void)
 	return (tab);
 }
 
+// TODO: print export in alphabetical order
+
+void	print_export(void)
+{
+	t_minishell	*minishell;
+	t_var		*var;
+
+	minishell = get_minishell();
+	var = minishell->mini_envp;
+	while (var)
+	{
+		if (var->is_env && ft_strcmp(var->name, "_"))
+		{
+			printf("declare -x %s=", var->name);
+			if (var->value)
+				printf("\"%s\"\n", var->value);
+			else
+				printf("\n");
+		}
+		var = var->next;
+	}
+}
+
 void	print_minienvp(void)
 {
 	t_minishell	*minishell;
@@ -36,11 +59,11 @@ void	print_minienvp(void)
 	var = minishell->mini_envp;
 	while (var)
 	{
-		if (var->is_env)
+		if (var->is_env && var->value)
 		{
 			ft_putstr_fd(var->name, STDOUT_FILENO);
 			ft_putstr_fd("=", STDOUT_FILENO);
-			ft_putendl_fd((char *)var->value, STDOUT_FILENO);
+			ft_putendl_fd(var->value, STDOUT_FILENO);
 		}
 		var = var->next;
 	}

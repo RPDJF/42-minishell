@@ -70,17 +70,25 @@ static pid_t	builtin_child(t_executor *executor, t_builtin *builtin)
 
 pid_t	init_child(t_executor *executor, t_token *tokens)
 {
-	pid_t	*pid;
+	pid_t		*pid;
+	t_cmd		*cmd;
+	t_builtin	*builtin;
 
 	if (tokens->type == token_cmd)
 	{
-		pid = &((t_cmd *)tokens->data)->pid;
-		cmd_child(executor, (t_cmd *)tokens->data);
+		cmd = (t_cmd *)tokens->data;
+		pid = &cmd->pid;
+		cmd_child(executor, cmd);
+		update_var(new_var("_",
+				parse_words(cmd->argv[cmd->argc - 1]), true, false));
 	}
 	else if (tokens->type == token_builtin)
 	{
-		pid = &((t_builtin *)tokens->data)->pid;
-		builtin_child(executor, (t_builtin *)tokens->data);
+		builtin = (t_builtin *)tokens->data;
+		pid = &builtin->pid;
+		builtin_child(executor, builtin);
+		update_var(new_var("_",
+				parse_words(builtin->argv[builtin->argc - 1]), true, false));
 	}
 	if (*pid < 0)
 		crash_exit();

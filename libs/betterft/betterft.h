@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:19:26 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/15 15:10:27 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:16:16 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <stdio.h>
+# include <limits.h>
+
+# ifndef PATH_MAX
+#  define PATH_MAX 4096
+# endif
 
 typedef struct s_list
 {
