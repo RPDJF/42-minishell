@@ -39,8 +39,6 @@ static int	start_builtin(t_builtin *builtin)
 
 static pid_t	builtin_child(t_executor *executor, t_builtin *builtin)
 {
-	int		status;
-
 	builtin->pid = 0;
 	dup2(executor->fd_in, STDIN_FILENO);
 	close(executor->fd_in);
@@ -53,14 +51,14 @@ static pid_t	builtin_child(t_executor *executor, t_builtin *builtin)
 		{
 			if (executor->fd_in_pipe)
 				close(executor->fd_in_pipe);
-			status = start_builtin(builtin);
+			builtin->status = start_builtin(builtin);
 			close(STDIN_FILENO);
 			close(STDOUT_FILENO);
-			exit(status);
+			exit(builtin->status);
 		}
 	}
 	if (!builtin->pid)
-		status = start_builtin(builtin);
+		builtin->status = start_builtin(builtin);
 	dup2(executor->original_fd_in, STDIN_FILENO);
 	dup2(executor->original_fd_out, STDOUT_FILENO);
 	return (builtin->pid);
