@@ -29,5 +29,7 @@ int		exec_redir(t_executor *executor, t_token *tokens);
 int		get_wexistatus(int status);
 //	has_pipe:	check if a token list has a pipe token
 bool	has_pipe(t_token *tokens);
+//	switch_fd:	switch file descriptors
+void	switch_fd(t_executor *executor, t_pipe *pipe);
 
 #endif
