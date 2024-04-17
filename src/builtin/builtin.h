@@ -3,6 +3,7 @@
 
 # include "cd.h"
 # include "echo.h"
+# include "exit.h"
 # include "pwd.h"
 
 #endif

@@ -69,7 +69,6 @@ static void	update_status_var(int status)
 	if (!status_str)
 		crash_exit();
 	update_var(new_var("?", status_str, false, false));
-	free(status_str);
 }
 
 void	executor(t_token *tokens)

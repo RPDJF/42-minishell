@@ -35,6 +35,10 @@ static int	start_builtin(t_builtin *builtin)
 		status = cd(builtin->argc, argv);
 	else if (builtin->cmd == builtin_echo)
 		status = echo(builtin->argc, argv);
+	else if (builtin->cmd == builtin_exit)
+		status = exit_ms(builtin->argc, argv);
+	else if (builtin->cmd == builtin_pwd)
+		status = pwd(builtin->argc, argv);
 	ft_free_tab(argv);
 	return (status);
 }
