@@ -81,7 +81,12 @@ SRC = 	env/env \
 		main \
 		minishell \
 
-SRC +=	env/env_add \
+SRC +=	builtin/cd \
+		builtin/echo \
+		builtin/exit \
+		builtin/export \
+		builtin/pwd \
+		env/env_add \
 		env/env_conv \
 		env/env_destroy \
 		env/env_get \

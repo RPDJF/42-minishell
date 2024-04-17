@@ -14,7 +14,7 @@ static t_echo	*init_echo(int argc, char **argv)
 	return (echo);
 }
 
-static bool	is_opt(t_echo *echo, char *str)
+static bool	is_opt(char *str)
 {
 	bool	is_option_valid;
 	int		i;
@@ -52,7 +52,7 @@ int	echo(int argc, char **argv)
 	i = 0;
 	while (argv[++i])
 	{
-		if (i == 1 && is_opt(echo, argv[i]))
+		if (i == 1 && is_opt(argv[i]))
 			load_opt(echo, argv[i]);
 		else
 		{
@@ -64,4 +64,5 @@ int	echo(int argc, char **argv)
 	if (echo->has_newline)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 	gfree(echo);
+	return (0);
 }
