@@ -95,6 +95,8 @@ void	executor(t_token *tokens)
 			if (executor->fd_in != STDIN_FILENO)
 				close(executor->fd_in);
 		}
+		else if (tokens->type == token_var)
+			update_var(tokens->data);
 		tokens = tokens->next;
 	}
 	update_status_var(wait_tokens(executor));
