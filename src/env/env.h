@@ -5,7 +5,7 @@
 
 //	new_var: create a new variable
 //	return: t_var pointer to the new variable
-t_var	*new_var(char *name, void *data, t_var_type type, bool is_env);
+t_var	*new_var(char *name, char *value, bool is_env);
 //	destroy_var: free a variable
 void	destroy_var(t_var *var);
 //	get_envp_value: get a value from envp

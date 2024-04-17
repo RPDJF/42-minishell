@@ -1,6 +1,6 @@
 #include "env.h"
 
-t_var	*new_var(char *name, void *data, t_var_type type, bool is_env)
+t_var	*new_var(char *name, char *value, bool is_env)
 {
 	t_var	*var;
 
@@ -8,8 +8,7 @@ t_var	*new_var(char *name, void *data, t_var_type type, bool is_env)
 	if (!var)
 		crash_exit();
 	var->name = name;
-	var->data = data;
-	var->type = type;
+	var->value = value;
 	var->is_env = is_env;
 	var->prev = 0;
 	var->next = 0;
@@ -23,8 +22,10 @@ t_var	*update_var(t_var *var)
 	duplicate = get_var(var->name);
 	if (duplicate)
 	{
-		duplicate->prev->next = var;
-		duplicate->next->prev = var;
+		if (duplicate->prev)
+			duplicate->prev->next = duplicate->next;
+		if (duplicate->next)
+			duplicate->next->prev = duplicate->prev;
 		var->prev = duplicate->prev;
 		var->next = duplicate->next;
 		if (duplicate->is_env)

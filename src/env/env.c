@@ -37,11 +37,9 @@ static void	add_default_vars(void)
 	tmp_value = ft_itoa(0);
 	if (!tmp_value)
 		crash_exit();
-	var = new_var(tmp_name, tmp_value, var_str, false);
+	var = new_var(tmp_name, tmp_value, false);
 	add_var(var);
 }
-
-// TO DO: DETECT IF ENVP VALUE IS TOKEN OR STRING
 
 t_var	*init_minienvp(void)
 {
@@ -56,15 +54,14 @@ t_var	*init_minienvp(void)
 		i++;
 	while (--i >= 0)
 	{
-		var = new_var(0, 0, 0, true);
+		var = new_var(0, 0, true);
 		var->name = ft_substr(minishell->old_envp[i], 0,
 				ft_strchr(minishell->old_envp[i],
 					'=') - minishell->old_envp[i]);
-		var->type = var_str;
 		if (!var->name)
 			crash_exit();
-		var->data = parse_var(var->name);
-		if (!var->data)
+		var->value = parse_var(var->name);
+		if (!var->value)
 			crash_exit();
 		add_var(var);
 	}

@@ -21,12 +21,7 @@ static void	replace_word(t_word *word, char *var_name)
 	tmp = word->str;
 	var = get_var(var_name + 1);
 	if (var)
-	{
-		if (var->type == var_str)
-			expand = var->data;
-		else
-			expand = "TOKEN_VAR_NOT_IMPLEMENTED_YET";
-	}
+		expand = var->value;
 	else
 		expand = "";
 	word->str = ft_strreplace(word->str, var_name, expand);
