@@ -14,6 +14,14 @@ static int	stdin_redir(t_executor *executor, t_stdin *stdin)
 		else
 			executor->fd_in = fd;
 	}
+	else
+	{
+		fd = here_doc(stdin->limiter);
+		if (fd < 0)
+			return (fd);
+		else
+			executor->fd_in = fd;
+	}
 	return (fd);
 }
 

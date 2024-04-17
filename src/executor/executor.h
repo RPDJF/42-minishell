@@ -5,6 +5,7 @@
 # include "../builtin/builtin.h"
 # include "../utils/expand_words.h"
 # include "../utils/binary_finder.h"
+# include "../prompter/here_doc.h"
 
 typedef struct s_executor
 {
