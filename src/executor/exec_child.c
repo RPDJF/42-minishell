@@ -11,9 +11,11 @@ static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 		if (executor->fd_in_pipe)
 			close(executor->fd_in_pipe);
 		dup2(executor->fd_in, STDIN_FILENO);
-		close(executor->fd_in);
+		if (executor->fd_in != STDIN_FILENO)
+			close(executor->fd_in);
 		dup2(executor->fd_out, STDOUT_FILENO);
-		close(executor->fd_out);
+		if (executor->fd_out != STDOUT_FILENO)
+			close(executor->fd_out);
 		argv = parse_words_arr(cmd->argv);
 		path = parse_words(cmd->cmd);
 		path = find_binary(path);
@@ -41,9 +43,11 @@ static pid_t	builtin_child(t_executor *executor, t_builtin *builtin)
 {
 	builtin->pid = 0;
 	dup2(executor->fd_in, STDIN_FILENO);
-	close(executor->fd_in);
+	if (executor->fd_in != STDIN_FILENO)
+		close(executor->fd_in);
 	dup2(executor->fd_out, STDOUT_FILENO);
-	close(executor->fd_out);
+	if (executor->fd_out != STDOUT_FILENO)
+		close(executor->fd_out);
 	if (executor->has_pipe)
 	{
 		builtin->pid = fork();
