@@ -27,18 +27,6 @@ static int	dup_fd(t_executor *executor)
 	return (0);
 }
 
-static void	print_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		printf("%s\n", tab[i]);
-		i++;
-	}
-}
-
 static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 {
 	char	*path;
@@ -60,7 +48,7 @@ static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 	return (cmd->pid);
 }
 
-static int	start_builtin(t_builtin *builtin)
+static int	start_builtin(t_executor *executor, t_builtin *builtin)
 {
 	int		status;
 	char	**argv;
@@ -73,7 +61,11 @@ static int	start_builtin(t_builtin *builtin)
 	else if (builtin->cmd == builtin_export)
 		status = export_ms(builtin->argc, argv);
 	else if (builtin->cmd == builtin_exit)
+	{
+		if (!executor->has_pipe)
+			printf("exit\n");
 		status = exit_ms(builtin->argc, argv);
+	}
 	else if (builtin->cmd == builtin_pwd)
 		status = pwd(builtin->argc, argv);
 	ft_free_tab(argv);
@@ -95,14 +87,14 @@ static pid_t	builtin_child(t_executor *executor, t_builtin *builtin)
 				close(executor->fd_in_pipe);
 			if (fd_status)
 				exit(1);
-			builtin->status = start_builtin(builtin);
+			builtin->status = start_builtin(executor, builtin);
 			close(STDIN_FILENO);
 			close(STDOUT_FILENO);
 			exit(builtin->status);
 		}
 	}
 	if (!builtin->pid && !fd_status)
-		builtin->status = start_builtin(builtin);
+		builtin->status = start_builtin(executor, builtin);
 	dup2(executor->original_fd_in, STDIN_FILENO);
 	dup2(executor->original_fd_out, STDOUT_FILENO);
 	return (builtin->pid);
