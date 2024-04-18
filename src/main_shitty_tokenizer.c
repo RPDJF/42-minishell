@@ -48,7 +48,6 @@ static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 		}
 		if (ft_strcmp(lexer->cmd->str, "|") && (!tmp || tmp->type != token_cmd))
 		{
-			printf("NOON\n");
 			tokens = galloc(sizeof(t_token));
 			if (tmp)
 				tmp->next = tokens;
