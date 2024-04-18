@@ -35,7 +35,7 @@ void	tword_add_back(t_tlex **lst, t_word *neww)
 	}
 }
 
-t_word	*tword_new(char *cmd, bool var)
+t_word	*tword_new(char *cmd, bool var, bool is_quoted)
 {
 	t_word	*p;
 
@@ -44,6 +44,7 @@ t_word	*tword_new(char *cmd, bool var)
 		crash_exit();
 	p->str = cmd;
 	p->is_var = var;
+	p->is_quoted = is_quoted;
 	p->next = NULL;
 	return (p);
 }

@@ -3,7 +3,6 @@
 #include "parsing/parsing.h"
 #include "lexer/lexer.h"
 #include "utils/exit_handler.h"
-#include "utils/expand_words.h"
 
 void	print_lex(t_tlex *lex)
 {
@@ -19,7 +18,8 @@ void	print_lex(t_tlex *lex)
 			tmp2 = tmp1->cmd;
 			while (tmp2)
 			{
-				ft_printf("--->[%s:%d]", tmp2->str, tmp2->is_var);
+				ft_printf("--->[%s:%d:%d]", tmp2->str, \
+					tmp2->is_var, tmp2->is_quoted);
 				tmp2 = tmp2->next;
 			}
 			i++;
@@ -33,6 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	*minishell;
 	char		*input;
 	t_tlex		*lex;
+	t_token		*token;
 
 	minishell = init_minishell(argc, argv, envp);
 	while (true)
@@ -41,11 +42,15 @@ int	main(int argc, char **argv, char **envp)
 		if (!input)
 			crash_exit();
 		lex = lexer(input);
-		print_lex(lex);
 		if (!lex)
+		{
+			gfree(input);
 			continue ;
-		printf("expanded node[0]--->[%s]\n", parse_words(lex->cmd));
-		parsing(&lex);
+		}
+		print_lex(lex);
+		// printf("expanded node[0]--->[%s]\n", parse_words(lex->cmd));
+		token = parsing(&lex);
+		ft_printf("token addr: %p\n", token);
 		gfree(input);
 	}
 	exit (0);
