@@ -107,6 +107,7 @@ pid_t	init_child(t_executor *executor, t_token *tokens)
 	t_cmd		*cmd;
 	t_builtin	*builtin;
 
+	pid = 0;
 	if (tokens->type == token_cmd)
 	{
 		cmd = (t_cmd *)tokens->data;
