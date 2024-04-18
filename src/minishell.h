@@ -12,6 +12,7 @@ typedef struct s_word
 {
 	char			*str;
 	bool			is_var;
+	bool			is_quoted;
 	struct s_word	*next;
 }	t_word;
 
@@ -34,6 +35,7 @@ typedef struct s_token
 	void			*data;
 	t_token_type	type;
 	struct s_token	*next;
+	struct s_token	*prev;
 }				t_token;
 
 //	Typed token structures
