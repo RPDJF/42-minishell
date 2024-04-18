@@ -9,10 +9,15 @@ static int	stdin_redir(t_executor *executor, t_stdin *stdin)
 	if (!stdin->is_heredoc)
 	{
 		fd = open(stdin->filename, O_RDONLY);
+		executor->fd_in = fd;
+		executor->fd_in_path = stdin->filename;
+	}
+	else
+	{
+		fd = here_doc(stdin->limiter);
 		if (fd < 0)
 			return (fd);
-		else
-			executor->fd_in = fd;
+		executor->fd_in = fd;
 	}
 	return (fd);
 }
@@ -29,24 +34,19 @@ static int	stdout_redir(t_executor *executor, t_stdout *stdout)
 		fd = open(stdout->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		return (fd);
-	else
-		executor->fd_out = fd;
+	executor->fd_out = fd;
+	executor->fd_out_path = stdout->filename;
 	return (fd);
 }
 
-int	exec_redir(t_executor *executor, t_token *tokens)
+void	exec_redir(t_executor *executor, t_token *tokens)
 {
-	int	status;
-
 	while (tokens && tokens->type != token_pipe)
 	{
 		if (tokens->type == token_stdin)
-			status = stdin_redir(executor, (t_stdin *)tokens->data);
+			executor->fd_in = stdin_redir(executor, (t_stdin *)tokens->data);
 		else if (tokens->type == token_stdout)
-			status = stdout_redir(executor, (t_stdout *)tokens->data);
-		if (status < 0)
-			return (status);
+			executor->fd_out = stdout_redir(executor, (t_stdout *)tokens->data);
 		tokens = tokens->next;
 	}
-	return (0);
 }

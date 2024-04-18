@@ -5,7 +5,7 @@
 
 //	new_var: create a new variable
 //	return: t_var pointer to the new variable
-t_var	*new_var(char *name, char *value, bool is_env);
+t_var	*new_var(char *name, char *value, bool is_env, bool is_name_alloc);
 //	destroy_var: free a variable
 void	destroy_var(t_var *var);
 //	get_envp_value: get a value from envp
@@ -33,6 +33,8 @@ t_var	*init_minienvp(void);
 //	meant to be used in execve, so it will be freed by the kernel
 //	return: char **tab
 char	**var_to_tab(void);
+//	print_export: print export
+void	print_export(void);
 //	print_minienvp: print mini_envp
 void	print_minienvp(void);
 

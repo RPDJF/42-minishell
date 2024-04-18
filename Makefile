@@ -81,7 +81,12 @@ SRC = 	env/env \
 		main \
 		minishell \
 
-SRC +=	env/env_add \
+SRC +=	builtin/cd \
+		builtin/echo \
+		builtin/exit \
+		builtin/export \
+		builtin/pwd \
+		env/env_add \
 		env/env_conv \
 		env/env_destroy \
 		env/env_get \
@@ -95,6 +100,42 @@ SRC +=	env/env_add \
 		utils/lexer_utils \
 		utils/expand_words \
 		utils/expand_utils \
+	
+SHITTY_TOKENIZER_SRC = 	env/env \
+						executor/executor \
+						lexer/lexer \
+						parsing/parsing \
+						prompter/prompt \
+						main_shitty_tokenizer \
+						minishell \
+
+SHITTY_TOKENIZER_SRC +=	builtin/cd \
+						builtin/echo \
+						builtin/exit \
+						builtin/export \
+						builtin/pwd \
+						env/env_add \
+						env/env_conv \
+						env/env_destroy \
+						env/env_get \
+						executor/exec_child \
+						executor/exec_pipe \
+						executor/exec_redir \
+						executor/exec_wexitstatus \
+						lexer/lexer_lst_add \
+						lexer/lexer_quote \
+						prompter/here_doc \
+						prompter/history \
+						utils/binary_finder \
+						utils/exit_handler \
+						utils/expand_arr_words \
+						utils/expand_utils \
+						utils/expand_words \
+						utils/lexer_bonus \
+						utils/lexer_utils \
+						utils/strr_realloc \
+
+CSHITTY_TOKENIZER = $(SHITTY_TOKENIZER_SRC:%=src/%.c)
 
 CFILES = $(SRC:%=src/%.c)
 
@@ -147,6 +188,13 @@ $(NAME): $(CFILES) $(BETTERFT_LIB)
 	@printf "\33[2K"
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is compiled ✅\n"
 
+SHITTY_TOKENIZER: $(CSHITTY_TOKENIZER) $(BETTERFT_LIB)
+	@echo "$$APP_HEADER"
+	@printf "\t🤖 Compiling $(NAME)...\r"
+	@$(CC) $(CSHITTY_TOKENIZER) $(CFLAGS) -o $(NAME) -g3 -fsanitize=address
+	@printf "\33[2K"
+	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is compiled ✅\n"
+
 $(BETTERFT_LIB): $(BETTERFT_PATH)Makefile
 	@echo "$$LIB_HEADER"
 	@make -C $(BETTERFT_PATH) all --no-print-directory
@@ -154,4 +202,4 @@ $(BETTERFT_LIB): $(BETTERFT_PATH)Makefile
 header:
 	@echo "$$HEADER"
 
-.PHONY = all clean fclean re header help
+.PHONY = all clean fclean re header help SHITTY_TOKENIZER

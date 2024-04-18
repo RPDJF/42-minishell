@@ -5,6 +5,12 @@
 # include "../builtin/builtin.h"
 # include "../utils/expand_words.h"
 # include "../utils/binary_finder.h"
+# include "../prompter/here_doc.h"
+
+//	Macros
+
+//		Error messages
+# define NO_SUCH_FILE_OR_DIR "no such file or directory"
 
 typedef struct s_executor
 {
@@ -13,7 +19,9 @@ typedef struct s_executor
 	int		original_fd_in;
 	int		original_fd_out;
 	int		fd_in;
+	char	*fd_in_path;
 	int		fd_out;
+	char	*fd_out_path;
 	int		fd_in_pipe;
 }	t_executor;
 
@@ -24,10 +32,12 @@ pid_t	init_child(t_executor *executor, t_token *tokens);
 //	exec_pipe:	Handles pipe type tokens
 int		exec_pipe(t_executor *executor, t_token *tokens);
 //	exec_redir:	handles redirections type tokens
-int		exec_redir(t_executor *executor, t_token *tokens);
+void	exec_redir(t_executor *executor, t_token *tokens);
 //	get_wexistatus:	get the exit status from a waitpid status
 int		get_wexistatus(int status);
 //	has_pipe:	check if a token list has a pipe token
 bool	has_pipe(t_token *tokens);
+//	switch_fd:	switch file descriptors
+void	switch_fd(t_executor *executor, t_pipe *pipe);
 
 #endif

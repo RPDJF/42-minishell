@@ -1,22 +1,5 @@
 #include "executor.h"
 
-// Test needed for this function
-
-static void	switch_fd(t_executor *executor, t_pipe *pipe)
-{
-	if (executor->fd_in_pipe)
-	{
-		if (executor->fd_in != STDIN_FILENO)
-			close(executor->fd_in);
-		executor->fd_in = executor->fd_in_pipe;
-		executor->fd_in_pipe = 0;
-		close(pipe->pipe[1]);
-	}
-	else
-		executor->fd_in = STDIN_FILENO;
-	executor->fd_out = STDOUT_FILENO;
-}
-
 static t_executor	*init_executor(t_token *tokens)
 {
 	t_executor	*executor;
@@ -70,8 +53,28 @@ static void	update_status_var(int status)
 	status_str = ft_itoa(status);
 	if (!status_str)
 		crash_exit();
-	update_var(new_var("?", status_str, false));
-	free(status_str);
+	update_var(new_var("?", status_str, false, false));
+}
+
+static void	execute_token(t_executor *executor, t_token **tokens)
+{
+	if ((*tokens)->type == token_pipe)
+	{
+		switch_fd(executor, (t_pipe *)(*tokens)->data);
+		(*tokens) = (*tokens)->next;
+		exec_pipe(executor, (*tokens));
+		exec_redir(executor, (*tokens));
+		return ;
+	}
+	else if ((*tokens)->type == token_cmd || (*tokens)->type == token_builtin)
+	{
+		init_child(executor, (*tokens));
+		if (executor->fd_in != STDIN_FILENO)
+			close(executor->fd_in);
+	}
+	else if ((*tokens)->type == token_var)
+		update_var((*tokens)->data);
+	(*tokens) = (*tokens)->next;
 }
 
 void	executor(t_token *tokens)
@@ -83,22 +86,6 @@ void	executor(t_token *tokens)
 		exec_pipe(executor, tokens);
 	exec_redir(executor, tokens);
 	while (tokens)
-	{
-		if (tokens->type == token_pipe)
-		{
-			switch_fd(executor, (t_pipe *)tokens->data);
-			tokens = tokens->next;
-			exec_pipe(executor, tokens);
-			exec_redir(executor, tokens);
-			continue ;
-		}
-		else if (tokens->type == token_cmd || tokens->type == token_builtin)
-		{
-			init_child(executor, tokens);
-			if (executor->fd_in != STDIN_FILENO)
-				close(executor->fd_in);
-		}
-		tokens = tokens->next;
-	}
+		execute_token(executor, &tokens);
 	update_status_var(wait_tokens(executor));
 }

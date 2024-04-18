@@ -3,7 +3,7 @@
 
 # include "../minishell.h"
 
-# define OPTIONS "n"
+# define ECHO_OPTIONS "n"
 
 typedef struct s_echo
 {

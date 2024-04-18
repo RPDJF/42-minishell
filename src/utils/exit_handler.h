@@ -2,6 +2,7 @@
 # define EXIT_HANDLER_H
 
 # include "../minishell.h"
+# include "../utils/colors.h"
 
 //	crash_exit: exit the program when unexpected error
 void	crash_exit(void);

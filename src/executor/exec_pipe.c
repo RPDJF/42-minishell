@@ -9,6 +9,21 @@ static int	init_pipe(t_executor *executor, t_pipe *pipes)
 	return (0);
 }
 
+void	switch_fd(t_executor *executor, t_pipe *pipe)
+{
+	if (executor->fd_in_pipe)
+	{
+		if (executor->fd_in != STDIN_FILENO)
+			close(executor->fd_in);
+		executor->fd_in = executor->fd_in_pipe;
+		executor->fd_in_pipe = 0;
+		close(pipe->pipe[1]);
+	}
+	else
+		executor->fd_in = STDIN_FILENO;
+	executor->fd_out = STDOUT_FILENO;
+}
+
 bool	has_pipe(t_token *tokens)
 {
 	while (tokens)
