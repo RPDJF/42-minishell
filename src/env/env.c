@@ -17,7 +17,7 @@ static char	*parse_var(char *var_name)
 	else if (!ft_strcmp(var_name, "PWD"))
 		output = addgarbage(getcwd(0, 0));
 	else if (!ft_strcmp(var_name, "SHELL"))
-		output = ft_strdup("/bin/minishell");
+		output = ft_strdup("/usr/local/bin/minishell");
 	else
 		output = ft_strdup(getenv(var_name));
 	if (!output)
