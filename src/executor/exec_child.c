@@ -53,6 +53,7 @@ static int	start_builtin(t_executor *executor, t_builtin *builtin)
 	int		status;
 	char	**argv;
 
+	status = 127;
 	argv = parse_words_arr(builtin->argv);
 	if (builtin->cmd == builtin_cd)
 		status = cd(builtin->argc, argv);
