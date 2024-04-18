@@ -1,4 +1,4 @@
-#include "../lexer/lexer.h"
+#include "lexer.h"
 
 void	delem(t_lex *lex, char *input, t_tlex **tlex)
 {

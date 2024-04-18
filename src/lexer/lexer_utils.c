@@ -1,4 +1,4 @@
-#include "../lexer/lexer.h"
+#include "lexer.h"
 
 int	ft_isdelem(char *str, int i)
 {

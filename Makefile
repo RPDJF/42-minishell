@@ -91,8 +91,8 @@ SRC +=	env/env_add \
 		utils/exit_handler \
 		utils/binary_finder \
 		utils/strr_realloc \
-		utils/lexer_bonus \
-		utils/lexer_utils \
+		lexer/lexer_bonus \
+		lexer/lexer_utils \
 		utils/expand_words \
 		utils/expand_utils \
 

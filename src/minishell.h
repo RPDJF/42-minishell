@@ -51,8 +51,8 @@ typedef struct s_token
 {
 	void			*data;
 	t_token_type	type;
-	struct s_token	*prev;
 	struct s_token	*next;
+	struct s_token	*prev;
 }				t_token;
 
 //	Typed token structures

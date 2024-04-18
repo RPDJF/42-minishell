@@ -1,7 +1,12 @@
 #include "../lexer/lexer.h"
 #include "parsing.h"
 
-void	parsing(t_tlex **lex)
+t_token	*parsing(t_tlex **lex)
 {
+	t_token	*token;
+
+	token = NULL;
 	(void)lex;
+	(void)token;
+	return (token);
 }

@@ -1,3 +1,4 @@
+#include "executor/executor.h"
 #include "minishell.h"
 #include "prompter/prompt.h"
 #include "parsing/parsing.h"
@@ -33,6 +34,7 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	*minishell;
 	char		*input;
 	t_tlex		*lex;
+	t_token		*token;
 
 	minishell = init_minishell(argc, argv, envp);
 	while (true)
@@ -41,11 +43,15 @@ int	main(int argc, char **argv, char **envp)
 		if (!input)
 			crash_exit();
 		lex = lexer(input);
-		print_lex(lex);
 		if (!lex)
+		{
+			gfree(input);
 			continue ;
-		printf("expanded node[0]--->[%s]\n", parse_words(lex->cmd));
-		parsing(&lex);
+		}
+		print_lex(lex);
+		// printf("expanded node[0]--->[%s]\n", parse_words(lex->cmd));
+		token = parsing(&lex);
+		ft_printf("token addr: %p\n", token);
 		gfree(input);
 	}
 	exit (0);
