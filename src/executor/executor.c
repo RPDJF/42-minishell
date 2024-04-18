@@ -28,26 +28,21 @@ static int	wait_tokens(t_executor *executor)
 	{
 		if (tokens->type == token_cmd)
 		{
-			printf("waiting cmd pid: %d\n", ((t_cmd *)tokens->data)->pid);
 			waitpid(((t_cmd *)tokens->data)->pid, &status, 0);
 			status = get_wexistatus(status);
-			printf("status: %d\n", status);
 		}
 		else if (tokens->type == token_builtin)
 		{
 			if (((t_builtin *)tokens->data)->pid)
 			{
-				printf("waiting builtin pid: %d\n", ((t_builtin *)tokens->data)->pid);
 				waitpid(((t_builtin *)tokens->data)->pid, &status, 0);
 				status = get_wexistatus(status);
-				printf("status: %d\n", status);
 			}
 			else
 				status = ((t_builtin *)tokens->data)->status;
 		}
 		tokens = tokens->next;
 	}
-	printf("FINAL status: %d\n", status);
 	return (status);
 }
 
@@ -93,5 +88,4 @@ void	executor(t_token *tokens)
 	while (tokens)
 		execute_token(executor, &tokens);
 	update_status_var(wait_tokens(executor));
-	exit(0);
 }
