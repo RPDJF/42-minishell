@@ -21,12 +21,7 @@ static void	replace_word(t_word *word, char *var_name)
 	tmp = word->str;
 	var = get_var(var_name + 1);
 	if (var)
-	{
-		if (var->type == var_str)
-			expand = var->data;
-		else
-			expand = "TOKEN_VAR_NOT_IMPLEMENTED_YET";
-	}
+		expand = var->value;
 	else
 		expand = "";
 	word->str = ft_strreplace(word->str, var_name, expand);
@@ -69,9 +64,7 @@ static t_word	*expand_words(t_word *words)
 	words = expand_vars(words);
 	if (*words->str == '~' && (
 			(words->str[1] == '/')
-			|| (!words->str[1] && (
-					!words->next
-					|| *words->next->str == '/'))))
+			|| (!words->str[1] && !words->next)))
 	{
 		home = get_var_value("HOME");
 		str = words->str;

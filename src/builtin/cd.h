@@ -9,10 +9,9 @@ typedef struct s_cd
 	int		argc;
 	char	**argv;
 	char	*pwd;
-	char	*oldpwd;
-	char	**context;
-	int		status;
-	int		(*exec)(const char *__path);
+	char	pwd_buff[PATH_MAX];
+	char	oldpwd[PATH_MAX];
+	int		(*exec)(struct s_cd *cd);
 }	t_cd;
 
 //	cd: change directory

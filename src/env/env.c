@@ -1,7 +1,7 @@
 #include "env.h"
 #include "../utils/binary_finder.h"
 
-static void	*parse_var(char *var_name)
+static char	*parse_var(char *var_name)
 {
 	char	*env;
 	char	*output;
@@ -28,25 +28,34 @@ static void	*parse_var(char *var_name)
 static void	add_default_vars(void)
 {
 	t_var	*var;
-	char	*tmp_name;
-	char	*tmp_value;
+	char	*value;
 
-	tmp_name = ft_strdup("?");
-	if (!tmp_name)
+	value = ft_itoa(0);
+	if (!value)
 		crash_exit();
-	tmp_value = ft_itoa(0);
-	if (!tmp_value)
-		crash_exit();
-	var = new_var(tmp_name, tmp_value, var_str, false);
+	var = new_var("?", value, false, false);
 	add_var(var);
 }
 
-// TO DO: DETECT IF ENVP VALUE IS TOKEN OR STRING
+t_var	*new_env_var(char *env)
+{
+	t_var	*var;
+	char	*name;
+	char	*value;
+
+	name = ft_substr(env, 0, ft_strchr(env, '=') - env);
+	if (!name)
+		crash_exit();
+	value = parse_var(name);
+	if (!value)
+		crash_exit();
+	var = new_var(name, value, true, false);
+	return (var);
+}
 
 t_var	*init_minienvp(void)
 {
 	t_minishell	*minishell;
-	t_var		*var;
 	int			i;
 
 	minishell = get_minishell();
@@ -55,19 +64,7 @@ t_var	*init_minienvp(void)
 	while (minishell->old_envp[i])
 		i++;
 	while (--i >= 0)
-	{
-		var = new_var(0, 0, 0, true);
-		var->name = ft_substr(minishell->old_envp[i], 0,
-				ft_strchr(minishell->old_envp[i],
-					'=') - minishell->old_envp[i]);
-		var->type = var_str;
-		if (!var->name)
-			crash_exit();
-		var->data = parse_var(var->name);
-		if (!var->data)
-			crash_exit();
-		add_var(var);
-	}
+		add_var(new_env_var(minishell->old_envp[i]));
 	add_default_vars();
 	return (minishell->mini_envp);
 }

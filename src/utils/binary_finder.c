@@ -23,13 +23,13 @@ static char	*get_fulpath(char *binary)
 	i = -1;
 	while (path[++i])
 	{
-		if (!*(strrchr(path[i], '/') + 1))
+		if (strrchr(path[i], '/') && !*(strrchr(path[i], '/') + 1))
 			tmp = ft_strjoin(path[i], binary);
 		else
 			tmp = ft_strsjoin(3, path[i], "/", binary);
 		if (!tmp)
 			crash_exit();
-		if (access(tmp, O_RDONLY | O_EXCL) == 0)
+		if (!access(tmp, X_OK))
 		{
 			ft_free_tab(path);
 			return (tmp);

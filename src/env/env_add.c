@@ -1,15 +1,17 @@
 #include "env.h"
 
-t_var	*new_var(char *name, void *data, t_var_type type, bool is_env)
+t_var	*new_var(char *name, char *value, bool is_env, bool is_name_alloc)
 {
 	t_var	*var;
 
 	var = galloc(sizeof(t_var));
 	if (!var)
 		crash_exit();
-	var->name = name;
-	var->data = data;
-	var->type = type;
+	if (!is_name_alloc)
+		var->name = ft_strdup(name);
+	else
+		var->name = name;
+	var->value = value;
 	var->is_env = is_env;
 	var->prev = 0;
 	var->next = 0;
@@ -23,12 +25,16 @@ t_var	*update_var(t_var *var)
 	duplicate = get_var(var->name);
 	if (duplicate)
 	{
-		duplicate->prev->next = var;
-		duplicate->next->prev = var;
+		if (duplicate->prev)
+			duplicate->prev->next = var;
+		if (duplicate->next)
+			duplicate->next->prev = var;
 		var->prev = duplicate->prev;
 		var->next = duplicate->next;
 		if (duplicate->is_env)
 			var->is_env = true;
+		if (get_minishell()->mini_envp == duplicate)
+			get_minishell()->mini_envp = var;
 		destroy_var(duplicate);
 		return (var);
 	}
