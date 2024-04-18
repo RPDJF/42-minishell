@@ -1,5 +1,44 @@
 #include "executor.h"
 
+static int	dup_fd(t_executor *executor)
+{
+	if (executor->fd_in != STDIN_FILENO && executor->fd_in >= 0)
+	{
+		dup2(executor->fd_in, STDIN_FILENO);
+		close(executor->fd_in);
+	}
+	if (executor->fd_out != STDOUT_FILENO && executor->fd_out >= 0)
+	{
+		dup2(executor->fd_out, STDOUT_FILENO);
+		close(executor->fd_out);
+	}
+	if (executor->fd_in < 0)
+	{
+		error_msg((char *[]){APP_NAME,
+			executor->fd_in_path, 0}, strerror(errno));
+		return (-1);
+	}
+	if (executor->fd_out < 0)
+	{
+		error_msg((char *[]){APP_NAME,
+			executor->fd_out_path, 0}, strerror(errno));
+		return (-1);
+	}
+	return (0);
+}
+
+static void	print_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		printf("%s\n", tab[i]);
+		i++;
+	}
+}
+
 static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 {
 	char	*path;
@@ -10,12 +49,8 @@ static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 	{
 		if (executor->fd_in_pipe)
 			close(executor->fd_in_pipe);
-		dup2(executor->fd_in, STDIN_FILENO);
-		if (executor->fd_in != STDIN_FILENO)
-			close(executor->fd_in);
-		dup2(executor->fd_out, STDOUT_FILENO);
-		if (executor->fd_out != STDOUT_FILENO)
-			close(executor->fd_out);
+		if (dup_fd(executor))
+			exit(1);
 		argv = parse_words_arr(cmd->argv);
 		path = parse_words(cmd->cmd);
 		path = find_binary(path);
@@ -47,13 +82,10 @@ static int	start_builtin(t_builtin *builtin)
 
 static pid_t	builtin_child(t_executor *executor, t_builtin *builtin)
 {
+	int		fd_status;
+
 	builtin->pid = 0;
-	dup2(executor->fd_in, STDIN_FILENO);
-	if (executor->fd_in != STDIN_FILENO)
-		close(executor->fd_in);
-	dup2(executor->fd_out, STDOUT_FILENO);
-	if (executor->fd_out != STDOUT_FILENO)
-		close(executor->fd_out);
+	fd_status = dup_fd(executor);
 	if (executor->has_pipe)
 	{
 		builtin->pid = fork();
@@ -61,13 +93,15 @@ static pid_t	builtin_child(t_executor *executor, t_builtin *builtin)
 		{
 			if (executor->fd_in_pipe)
 				close(executor->fd_in_pipe);
+			if (fd_status)
+				exit(1);
 			builtin->status = start_builtin(builtin);
 			close(STDIN_FILENO);
 			close(STDOUT_FILENO);
 			exit(builtin->status);
 		}
 	}
-	if (!builtin->pid)
+	if (!builtin->pid && !fd_status)
 		builtin->status = start_builtin(builtin);
 	dup2(executor->original_fd_in, STDIN_FILENO);
 	dup2(executor->original_fd_out, STDOUT_FILENO);
