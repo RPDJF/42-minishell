@@ -191,7 +191,7 @@ $(NAME): $(CFILES) $(BETTERFT_LIB)
 SHITTY_TOKENIZER: $(CSHITTY_TOKENIZER) $(BETTERFT_LIB)
 	@echo "$$APP_HEADER"
 	@printf "\t🤖 Compiling $(NAME)...\r"
-	@$(CC) $(CSHITTY_TOKENIZER) $(CFLAGS) -o $(NAME)
+	@$(CC) $(CSHITTY_TOKENIZER) $(CFLAGS) -o $(NAME) -g3 -fsanitize=address
 	@printf "\33[2K"
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is compiled ✅\n"
 

@@ -29,7 +29,7 @@ static char	*get_fulpath(char *binary)
 			tmp = ft_strsjoin(3, path[i], "/", binary);
 		if (!tmp)
 			crash_exit();
-		if (!access(tmp, O_EXCL))
+		if (!access(tmp, X_OK))
 		{
 			ft_free_tab(path);
 			return (tmp);

@@ -6,7 +6,7 @@
 #include "utils/expand_words.h"
 #include "executor/executor.h"
 
-/*static void	print_lex(t_tlex *lex)
+static void	print_lex(t_tlex *lex)
 {
 	int		i;
 	t_word	*tmp2;
@@ -27,7 +27,7 @@
 			ft_printf("\n");
 		}
 	}
-}*/
+}
 
 static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 {
@@ -152,7 +152,7 @@ static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 	return (head);
 }
 
-/*static void	print_tokens(t_token *tokens)
+static void	print_tokens(t_token *tokens)
 {
 	while (tokens)
 	{
@@ -169,7 +169,7 @@ static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 		printf("\n\n");
 		tokens = tokens->next;
 	}
-}*/
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -186,10 +186,12 @@ int	main(int argc, char **argv, char **envp)
 		lex = lexer(input);
 		if (!lex)
 			continue ;
-		//print_lex(lex);
+		if (argv[1] && !ft_strcmp(argv[1], "debug"))
+			print_lex(lex);
 		t_token	*tokens;
 		tokens = shitty_quick_tokenizer(lex);
-		//print_tokens(tokens);
+		if (argv[1] && !ft_strcmp(argv[1], "debug"))
+			print_tokens(tokens);
 		executor(tokens);
 		parsing(&lex);
 		gfree(input);
