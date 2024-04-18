@@ -1,34 +1,25 @@
 #include "executor.h"
+#include <sys/stat.h>
 
-static int	dup_fd(t_executor *executor)
+static void	error_cmd(char *path)
 {
-	if (executor->fd_in != STDIN_FILENO && executor->fd_in >= 0)
-	{
-		dup2(executor->fd_in, STDIN_FILENO);
-		close(executor->fd_in);
-	}
-	if (executor->fd_out != STDOUT_FILENO && executor->fd_out >= 0)
-	{
-		dup2(executor->fd_out, STDOUT_FILENO);
-		close(executor->fd_out);
-	}
-	if (executor->fd_in < 0)
-	{
-		error_msg((char *[]){APP_NAME,
-			executor->fd_in_path, 0}, strerror(errno));
-		return (-1);
-	}
-	if (executor->fd_out < 0)
-	{
-		error_msg((char *[]){APP_NAME,
-			executor->fd_out_path, 0}, strerror(errno));
-		return (-1);
-	}
-	return (0);
+	int			err;
+	struct stat	path_stat;
+
+	err = errno;
+	if (stat(path, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
+		error_exit((char *[]){APP_NAME, path, 0}, IS_DIR, 126);
+	else if (err == EACCES)
+		error_exit((char *[]){APP_NAME, path, 0}, strerror(err), 126);
+	else if (!ft_strchr(path, '/'))
+		error_exit((char *[]){path, 0}, COMMAND_NOT_FOUND, 127);
+	else
+		error_exit((char *[]){APP_NAME, path, 0}, strerror(err), 127);
 }
 
 static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 {
+	int		err;
 	char	*path;
 	char	**argv;
 
@@ -43,7 +34,7 @@ static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 		path = parse_words(cmd->cmd);
 		path = find_binary(path);
 		execve(path, argv, get_minishell()->envp());
-		error_exit((char *[]){path, 0}, "command not found", 127);
+		error_cmd(path);
 	}
 	return (cmd->pid);
 }

@@ -9,6 +9,33 @@ static int	init_pipe(t_executor *executor, t_pipe *pipes)
 	return (0);
 }
 
+int	dup_fd(t_executor *executor)
+{
+	if (executor->fd_in != STDIN_FILENO && executor->fd_in >= 0)
+	{
+		dup2(executor->fd_in, STDIN_FILENO);
+		close(executor->fd_in);
+	}
+	if (executor->fd_out != STDOUT_FILENO && executor->fd_out >= 0)
+	{
+		dup2(executor->fd_out, STDOUT_FILENO);
+		close(executor->fd_out);
+	}
+	if (executor->fd_in < 0)
+	{
+		error_msg((char *[]){APP_NAME,
+			executor->fd_in_path, 0}, strerror(errno));
+		return (-1);
+	}
+	if (executor->fd_out < 0)
+	{
+		error_msg((char *[]){APP_NAME,
+			executor->fd_out_path, 0}, strerror(errno));
+		return (-1);
+	}
+	return (0);
+}
+
 void	switch_fd(t_executor *executor, t_pipe *pipe)
 {
 	if (executor->fd_in_pipe)
