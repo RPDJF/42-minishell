@@ -1,25 +1,7 @@
 #include "executor.h"
-#include <sys/stat.h>
-
-static void	error_cmd(char *path)
-{
-	int			err;
-	struct stat	path_stat;
-
-	err = errno;
-	if (stat(path, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
-		error_exit((char *[]){APP_NAME, path, 0}, IS_DIR, 126);
-	else if (err == EACCES)
-		error_exit((char *[]){APP_NAME, path, 0}, strerror(err), 126);
-	else if (!ft_strchr(path, '/'))
-		error_exit((char *[]){path, 0}, COMMAND_NOT_FOUND, 127);
-	else
-		error_exit((char *[]){APP_NAME, path, 0}, strerror(err), 127);
-}
 
 static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 {
-	int		err;
 	char	*path;
 	char	**argv;
 
@@ -35,36 +17,41 @@ static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 		path = find_binary(path);
 		execve(path, argv, get_minishell()->envp());
 		error_cmd(path);
+		gfree(path);
+		ft_free_tab(argv);
 	}
 	return (cmd->pid);
 }
 
-static int	start_builtin(t_executor *executor, t_builtin *builtin)
+static int	start_builtin(t_executor *executor, t_cmd *builtin)
 {
 	int		status;
+	char	*cmd;
 	char	**argv;
 
 	status = 127;
+	cmd = parse_words(builtin->cmd);
 	argv = parse_words_arr(builtin->argv);
-	if (builtin->cmd == builtin_cd)
+	if (!ft_strcmp(cmd, "cd"))
 		status = cd(builtin->argc, argv);
-	else if (builtin->cmd == builtin_echo)
+	else if (!ft_strcmp(cmd, "echo"))
 		status = echo(builtin->argc, argv);
-	else if (builtin->cmd == builtin_export)
+	else if (!ft_strcmp(cmd, "export"))
 		status = export_ms(builtin->argc, argv);
-	else if (builtin->cmd == builtin_exit)
+	else if (!ft_strcmp(cmd, "exit"))
 	{
 		if (!executor->has_pipe)
 			printf("exit\n");
 		status = exit_ms(builtin->argc, argv);
 	}
-	else if (builtin->cmd == builtin_pwd)
+	else if (!ft_strcmp(cmd, "pwd"))
 		status = pwd(builtin->argc, argv);
+	gfree(cmd);
 	ft_free_tab(argv);
 	return (status);
 }
 
-static pid_t	builtin_child(t_executor *executor, t_builtin *builtin)
+static pid_t	builtin_child(t_executor *executor, t_cmd *builtin)
 {
 	int		fd_status;
 
@@ -92,28 +79,43 @@ static pid_t	builtin_child(t_executor *executor, t_builtin *builtin)
 	return (builtin->pid);
 }
 
+static bool	is_builtin(t_cmd *cmd)
+{
+	bool	output;
+	char	*cmd_str;
+
+	cmd_str = parse_words(cmd->cmd);
+	if (!ft_strcmp(cmd_str, "cd") || !ft_strcmp(cmd_str, "echo")
+		|| !ft_strcmp(cmd_str, "export") || !ft_strcmp(cmd_str, "exit")
+		|| !ft_strcmp(cmd_str, "pwd"))
+		output = true;
+	else
+		output = false;
+	gfree(cmd_str);
+	return (output);
+}
+
 pid_t	init_child(t_executor *executor, t_token *tokens)
 {
-	pid_t		*pid;
-	t_cmd		*cmd;
-	t_builtin	*builtin;
+	pid_t	*pid;
+	t_cmd	*cmd;
 
 	pid = 0;
-	if (tokens->type == token_cmd)
+	cmd = (t_cmd *)tokens->data;
+	if (is_builtin(cmd))
+	{
+		pid = &cmd->pid;
+		builtin_child(executor, cmd);
+		update_var(new_var("_",
+				parse_words(cmd->argv[cmd->argc - 1]), true, false));
+	}
+	else
 	{
 		cmd = (t_cmd *)tokens->data;
 		pid = &cmd->pid;
 		cmd_child(executor, cmd);
 		update_var(new_var("_",
 				parse_words(cmd->argv[cmd->argc - 1]), true, false));
-	}
-	else if (tokens->type == token_builtin)
-	{
-		builtin = (t_builtin *)tokens->data;
-		pid = &builtin->pid;
-		builtin_child(executor, builtin);
-		update_var(new_var("_",
-				parse_words(builtin->argv[builtin->argc - 1]), true, false));
 	}
 	if (*pid < 0)
 		crash_exit();

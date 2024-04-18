@@ -7,12 +7,6 @@
 # include "../utils/binary_finder.h"
 # include "../prompter/here_doc.h"
 
-//	Macros
-
-//		Error messages
-# define IS_DIR "is a directory"
-# define COMMAND_NOT_FOUND "command not found"
-
 typedef struct s_executor
 {
 	bool	has_pipe;
