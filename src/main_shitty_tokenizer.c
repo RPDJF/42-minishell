@@ -31,7 +31,7 @@ static void	print_lex(t_tlex *lex)
 
 static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 {
-	t_token *head;
+	t_token	*head;
 	t_token	*tmp;
 	t_token	*tokens;
 	int	i;
@@ -46,82 +46,25 @@ static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 			tmp = tokens;
 			tokens = tokens->next;
 		}
-		if (ft_strcmp(lexer->cmd->str, "|") && (!tmp || (tmp->type != token_cmd && tmp->type != token_builtin)))
+		if (ft_strcmp(lexer->cmd->str, "|") && (!tmp || tmp->type != token_cmd))
 		{
 			tokens = galloc(sizeof(t_token));
 			if (tmp)
 				tmp->next = tokens;
 			if (i == 0)
 				head = tokens;
-			if (!ft_strcmp (lexer->cmd->str, "cd"))
-			{
-				tokens->type = token_builtin;
-				tokens->data = ft_calloc(1, sizeof(t_builtin));
-				((t_builtin *)tokens->data)->cmd = builtin_cd;
-				((t_builtin *)tokens->data)->argv = ft_calloc(2, sizeof(t_word *));
-				((t_builtin *)tokens->data)->argv[0] = lexer->cmd;
-				((t_builtin *)tokens->data)->argv[1] = 0;
-				((t_builtin *)tokens->data)->argc = 1;
-			}
-			else if (!ft_strcmp(lexer->cmd->str, "echo"))
-			{
-				tokens->type = token_builtin;
-				tokens->data = ft_calloc(1, sizeof(t_builtin));
-				((t_builtin *)tokens->data)->cmd = builtin_echo;
-				((t_builtin *)tokens->data)->argv = ft_calloc(2, sizeof(t_word *));
-				((t_builtin *)tokens->data)->argv[0] = lexer->cmd;
-				((t_builtin *)tokens->data)->argv[1] = 0;
-				((t_builtin *)tokens->data)->argc = 1;
-			}
-			else if (!ft_strcmp(lexer->cmd->str, "exit"))
-			{
-				tokens->type = token_builtin;
-				tokens->data = ft_calloc(1, sizeof(t_builtin));
-				((t_builtin *)tokens->data)->cmd = builtin_exit;
-				((t_builtin *)tokens->data)->argv = ft_calloc(2, sizeof(t_word *));
-				((t_builtin *)tokens->data)->argv[0] = lexer->cmd;
-				((t_builtin *)tokens->data)->argv[1] = 0;
-				((t_builtin *)tokens->data)->argc = 1;
-			}
-			else if (!ft_strcmp(lexer->cmd->str, "export"))
-			{
-				tokens->type = token_builtin;
-				tokens->data = ft_calloc(1, sizeof(t_builtin));
-				((t_builtin *)tokens->data)->cmd = builtin_export;
-				((t_builtin *)tokens->data)->argv = ft_calloc(2, sizeof(t_word *));
-				((t_builtin *)tokens->data)->argv[0] = lexer->cmd;
-				((t_builtin *)tokens->data)->argv[1] = 0;
-				((t_builtin *)tokens->data)->argc = 1;
-			}
-			else if (!ft_strcmp(lexer->cmd->str, "pwd"))
-			{
-				tokens->type = token_builtin;
-				tokens->data = ft_calloc(1, sizeof(t_builtin));
-				((t_builtin *)tokens->data)->cmd = builtin_pwd;
-				((t_builtin *)tokens->data)->argv = ft_calloc(2, sizeof(t_word *));
-				((t_builtin *)tokens->data)->argv[0] = lexer->cmd;
-				((t_builtin *)tokens->data)->argv[1] = 0;
-				((t_builtin *)tokens->data)->argc = 1;
-			}
-			else
-			{
-				tokens->type = token_cmd;
-				tokens->data = ft_calloc(1, sizeof(t_cmd));
-				((t_cmd *)tokens->data)->cmd = lexer->cmd;
-				((t_cmd *)tokens->data)->argv = ft_calloc(2, sizeof(t_word *));
-				((t_cmd *)tokens->data)->argv[0] = lexer->cmd;
-				((t_cmd *)tokens->data)->argv[1] = 0;
-				((t_cmd *)tokens->data)->argc = 1;
-			}
-			if (!tmp)
-				tokens->prev = 0;
-			else
-				tokens->prev = tmp;
+			tokens->type = token_cmd;
+			tokens->data = ft_calloc(1, sizeof(t_cmd));
+			((t_cmd *)tokens->data)->cmd = lexer->cmd;
+			((t_cmd *)tokens->data)->argv = ft_calloc(2, sizeof(t_word *));
+			((t_cmd *)tokens->data)->argv[0] = lexer->cmd;
+			((t_cmd *)tokens->data)->argv[1] = 0;
+			((t_cmd *)tokens->data)->argc = 1;
 			tokens->next = 0;
 			lexer = lexer->next;
 			continue ;
 		}
-		else if (ft_strcmp(lexer->cmd->str, "|") && tmp && (tmp->type == token_cmd || tmp->type == token_builtin))
+		else if (ft_strcmp(lexer->cmd->str, "|") && tmp && tmp->type == token_cmd)
 		{
 			if (tmp->type == token_cmd)
 			{
@@ -130,13 +73,6 @@ static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 				((t_cmd *)tmp->data)->argv[((t_cmd *)tmp->data)->argc + 1] = 0;
 				((t_cmd *)tmp->data)->argc++;
 			}
-			else if (tmp->type == token_builtin)
-			{
-				((t_builtin *)tmp->data)->argv = ft_reallocf(((t_builtin *)tmp->data)->argv, (((t_builtin *)tmp->data)->argc) * sizeof(t_word *), (((t_builtin *)tmp->data)->argc + 2) * sizeof(t_word *));
-				((t_builtin *)tmp->data)->argv[((t_builtin *)tmp->data)->argc] = lexer->cmd;
-				((t_builtin *)tmp->data)->argv[((t_builtin *)tmp->data)->argc + 1] = 0;
-				((t_builtin *)tmp->data)->argc++;
-			}
 		}
 		else if (!ft_strcmp(lexer->cmd->str, "|"))
 		{
@@ -144,7 +80,6 @@ static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 			tmp->next = tokens;
 			tokens->type = token_pipe;
 			tokens->data = ft_calloc(1, sizeof(t_pipe));
-			tokens->prev = tmp;
 			tokens->next = 0;
 		}
 		lexer = lexer->next;
@@ -154,19 +89,45 @@ static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 
 static void	print_tokens(t_token *tokens)
 {
+	char	*token_type;
+
 	while (tokens)
 	{
-		printf("token n°%p\n", tokens);
-		printf("type: %d\n", tokens->type);
-		printf("prev: %p\n", tokens->prev);
+		printf("\ntoken %p\n", tokens);
+		if (tokens->type == token_cmd)
+			token_type = "token_cmd";
+		else if (tokens->type == token_var)
+			token_type = "token_var";
+		else if (tokens->type == token_pipe)
+			token_type = "token_pipe";
+		else if (tokens->type == token_stdin)
+			token_type = "token_stdin";
+		else if (tokens->type == token_stdout)
+			token_type = "token_stdout";
+		else if (tokens->type == token_and)
+			token_type = "token_and";
+		else if (tokens->type == token_or)
+			token_type = "token_or";
+		else if (tokens->type == token_grp)
+			token_type = "token_grp";
+		printf("type: %s\n", token_type);
 		printf("next: %p\n", tokens->next);
 		if (tokens->type == token_cmd)
 		{
-			printf("cmd: %s\n", ((t_cmd *)tokens->data)->cmd->str);
-			for (int i = 0; ((t_cmd *)tokens->data)->argv[i]; i++)
-				printf("argv[%d]: %s\n", i, ((t_cmd *)tokens->data)->argv[i]->str);
+			t_cmd	*cmd = (t_cmd *)tokens->data;
+			printf("cmd: ");
+			t_word	*tmp = cmd->cmd;
+			while (tmp)
+			{
+				printf("%s", tmp->str);
+				tmp = tmp->next;
+			}
+			printf("\n");
+			printf("argv: ");
+			for (int i = 0; cmd->argv[i]; i++)
+				printf("\"%s\", ", cmd->argv[i]->str);
 		}
-		printf("\n\n");
+		printf("\n");
 		tokens = tokens->next;
 	}
 }

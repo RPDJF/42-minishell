@@ -20,7 +20,6 @@ typedef struct s_word
 typedef enum e_token_type
 {
 	token_cmd,
-	token_builtin,
 	token_var,
 	token_pipe,
 	token_stdin,
@@ -29,17 +28,6 @@ typedef enum e_token_type
 	token_or,
 	token_grp
 }				t_token_type;
-
-typedef enum e_builtin_type
-{
-	builtin_echo,
-	builtin_cd,
-	builtin_pwd,
-	builtin_export,
-	builtin_unset,
-	builtin_env,
-	builtin_exit
-}				t_builtin_type;
 
 //	Token structure
 typedef struct s_token
@@ -56,17 +44,9 @@ typedef struct s_cmd
 	t_word	*cmd;
 	t_word	**argv;
 	int		argc;
+	int		status;
 	pid_t	pid;
 }				t_cmd;
-
-typedef struct s_builtin
-{
-	t_builtin_type	cmd;
-	t_word			**argv;
-	int				argc;
-	pid_t			pid;
-	int				status;
-}				t_builtin;
 
 typedef struct s_stdout
 {

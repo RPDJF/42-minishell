@@ -52,6 +52,8 @@ char	*find_binary(char *binary)
 			if (!output)
 				crash_exit();
 		}
+		else
+			return (binary);
 	}
 	else
 		output = get_fulpath(binary);

@@ -28,18 +28,13 @@ static int	wait_tokens(t_executor *executor)
 	{
 		if (tokens->type == token_cmd)
 		{
-			waitpid(((t_cmd *)tokens->data)->pid, &status, 0);
-			status = get_wexistatus(status);
-		}
-		else if (tokens->type == token_builtin)
-		{
-			if (((t_builtin *)tokens->data)->pid)
+			if (((t_cmd *)tokens->data)->pid)
 			{
-				waitpid(((t_builtin *)tokens->data)->pid, &status, 0);
+				waitpid(((t_cmd *)tokens->data)->pid, &status, 0);
 				status = get_wexistatus(status);
 			}
 			else
-				status = ((t_builtin *)tokens->data)->status;
+				status = ((t_cmd *)tokens->data)->status;
 		}
 		tokens = tokens->next;
 	}
@@ -66,7 +61,7 @@ static void	execute_token(t_executor *executor, t_token **tokens)
 		exec_redir(executor, (*tokens));
 		return ;
 	}
-	else if ((*tokens)->type == token_cmd || (*tokens)->type == token_builtin)
+	else if ((*tokens)->type == token_cmd)
 	{
 		init_child(executor, (*tokens));
 		if (executor->fd_in != STDIN_FILENO)

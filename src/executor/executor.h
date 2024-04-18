@@ -7,11 +7,6 @@
 # include "../utils/binary_finder.h"
 # include "../prompter/here_doc.h"
 
-//	Macros
-
-//		Error messages
-# define NO_SUCH_FILE_OR_DIR "no such file or directory"
-
 typedef struct s_executor
 {
 	bool	has_pipe;
@@ -39,5 +34,7 @@ int		get_wexistatus(int status);
 bool	has_pipe(t_token *tokens);
 //	switch_fd:	switch file descriptors
 void	switch_fd(t_executor *executor, t_pipe *pipe);
+//	dup_fd:	duplicate file descriptors
+int		dup_fd(t_executor *executor);
 
 #endif
