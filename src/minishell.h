@@ -12,6 +12,7 @@ typedef struct s_word
 {
 	char			*str;
 	bool			is_var;
+	bool			is_quoted;
 	struct s_word	*next;
 }	t_word;
 

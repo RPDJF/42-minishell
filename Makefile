@@ -131,8 +131,8 @@ SHITTY_TOKENIZER_SRC +=	builtin/cd \
 						utils/expand_arr_words \
 						utils/expand_utils \
 						utils/expand_words \
-						utils/lexer_bonus \
-						utils/lexer_utils \
+						lexer/lexer_bonus \
+						lexer/lexer_utils \
 						utils/strr_realloc \
 
 CSHITTY_TOKENIZER = $(SHITTY_TOKENIZER_SRC:%=src/%.c)

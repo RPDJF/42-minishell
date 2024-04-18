@@ -18,7 +18,7 @@ void	delem(t_lex *lex, char *input, t_tlex **tlex)
 		k++;
 		lex->i++;
 	}
-	tword_add_back(tlex, tword_new(word, false));
+	tword_add_back(tlex, tword_new(word, false, false));
 	lex->i = lex->j;
 }
 
@@ -40,6 +40,6 @@ void	delem_bonus(t_lex *lex, char *input, t_tlex **tlex)
 		k++;
 		lex->i++;
 	}
-	tword_add_back(tlex, tword_new(word, false));
+	tword_add_back(tlex, tword_new(word, false, false));
 	lex->i = lex->j;
 }

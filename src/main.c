@@ -1,10 +1,8 @@
-#include "executor/executor.h"
 #include "minishell.h"
 #include "prompter/prompt.h"
 #include "parsing/parsing.h"
 #include "lexer/lexer.h"
 #include "utils/exit_handler.h"
-#include "utils/expand_words.h"
 
 void	print_lex(t_tlex *lex)
 {
@@ -20,7 +18,8 @@ void	print_lex(t_tlex *lex)
 			tmp2 = tmp1->cmd;
 			while (tmp2)
 			{
-				ft_printf("--->[%s:%d]", tmp2->str, tmp2->is_var);
+				ft_printf("--->[%s:%d:%d]", tmp2->str, \
+					tmp2->is_var, tmp2->is_quoted);
 				tmp2 = tmp2->next;
 			}
 			i++;

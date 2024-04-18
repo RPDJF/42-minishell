@@ -27,7 +27,7 @@ void	end_single_quote(t_lex *lex, char *input, t_tlex **tlex, char *word)
 		lex->i++;
 		k++;
 	}
-	tword_add_back(tlex, tword_new(word, false));
+	tword_add_back(tlex, tword_new(word, false, true));
 	lex->i++;
 }
 
@@ -71,7 +71,7 @@ void	end_double_quote(t_lex *lex, char *input, t_tlex **tlex, char *word)
 		lex->i++;
 		k++;
 	}
-	tword_add_back(tlex, tword_new(word, ft_strchr(word, '$')));
+	tword_add_back(tlex, tword_new(word, ft_strchr(word, '$'), true));
 	lex->i++;
 }
 
