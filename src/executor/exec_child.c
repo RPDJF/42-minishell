@@ -3,6 +3,7 @@
 static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 {
 	char	*path;
+	char	*tmp_path;
 	char	**argv;
 
 	cmd->pid = fork();
@@ -14,7 +15,9 @@ static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 			exit(1);
 		argv = parse_words_arr(cmd->argv);
 		path = parse_words(cmd->cmd);
+		tmp_path = path;
 		path = find_binary(path);
+		gfree(tmp_path);
 		execve(path, argv, get_minishell()->envp());
 		error_cmd(path);
 		gfree(path);
@@ -25,30 +28,29 @@ static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 
 static int	start_builtin(t_executor *executor, t_cmd *builtin)
 {
-	int		status;
 	char	*cmd;
 	char	**argv;
 
-	status = 127;
+	builtin->status = 127;
 	cmd = parse_words(builtin->cmd);
 	argv = parse_words_arr(builtin->argv);
 	if (!ft_strcmp(cmd, "cd"))
-		status = cd(builtin->argc, argv);
+		builtin->status = cd(builtin->argc, argv);
 	else if (!ft_strcmp(cmd, "echo"))
-		status = echo(builtin->argc, argv);
+		builtin->status = echo(builtin->argc, argv);
 	else if (!ft_strcmp(cmd, "export"))
-		status = export_ms(builtin->argc, argv);
+		builtin->status = export_ms(builtin->argc, argv);
 	else if (!ft_strcmp(cmd, "exit"))
 	{
 		if (!executor->has_pipe)
 			printf("exit\n");
-		status = exit_ms(builtin->argc, argv);
+		builtin->status = exit_ms(builtin->argc, argv);
 	}
 	else if (!ft_strcmp(cmd, "pwd"))
-		status = pwd(builtin->argc, argv);
+		builtin->status = pwd(builtin->argc, argv);
 	gfree(cmd);
 	ft_free_tab(argv);
-	return (status);
+	return (builtin->status);
 }
 
 static pid_t	builtin_child(t_executor *executor, t_cmd *builtin)
