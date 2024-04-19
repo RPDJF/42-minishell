@@ -8,6 +8,8 @@
 t_var	*new_var(char *name, char *value, bool is_env, bool is_name_alloc);
 //	destroy_var: free a variable
 void	destroy_var(t_var *var);
+//	remove_var: remove and destroy a variable from mini_envp
+void	remove_var(t_var *var);
 //	get_envp_value: get a value from envp
 //	return: char *value or 0 if not found
 char	*get_envp_value(char *name, char **envp);

@@ -101,7 +101,8 @@ SRC +=	builtin/cd \
 		utils/expand_words \
 		utils/expand_utils \
 	
-SHITTY_TOKENIZER_SRC = 	env/env \
+SHITTY_TOKENIZER_SRC = 	builtin/builtin \
+						env/env \
 						executor/executor \
 						lexer/lexer \
 						parsing/parsing \
@@ -111,9 +112,11 @@ SHITTY_TOKENIZER_SRC = 	env/env \
 
 SHITTY_TOKENIZER_SRC +=	builtin/cd \
 						builtin/echo \
+						builtin/envb \
 						builtin/exit \
 						builtin/export \
 						builtin/pwd \
+						builtin/unset \
 						env/env_add \
 						env/env_conv \
 						env/env_destroy \

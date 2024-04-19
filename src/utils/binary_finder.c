@@ -29,13 +29,17 @@ static char	*get_fulpath(char *binary)
 			tmp = ft_strsjoin(3, path[i], "/", binary);
 		if (!tmp)
 			crash_exit();
-		if (!access(tmp, X_OK))
+		if (access(tmp, F_OK) == 0)
 		{
 			ft_free_tab(path);
 			return (tmp);
 		}
 		gfree(tmp);
 	}
+	ft_free_tab(path);
+	binary = ft_strdup(binary);
+	if (!binary)
+		crash_exit();
 	return (binary);
 }
 
@@ -46,14 +50,9 @@ char	*find_binary(char *binary)
 	output = 0;
 	if (ft_strchr(binary, '/'))
 	{
-		if (access(binary, R_OK) == 0)
-		{
-			output = ft_strdup(binary);
-			if (!output)
-				crash_exit();
-		}
-		else
-			return (binary);
+		output = ft_strdup(binary);
+		if (!output)
+			crash_exit();
 	}
 	else
 		output = get_fulpath(binary);

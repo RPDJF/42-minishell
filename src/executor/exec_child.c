@@ -15,40 +15,27 @@ static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 		argv = parse_words_arr(cmd->argv);
 		path = parse_words(cmd->cmd);
 		path = find_binary(path);
+		if (!strchr(path, '/'))
+			error_cmd(path);
+		rl_clear_history();
 		execve(path, argv, get_minishell()->envp());
 		error_cmd(path);
-		gfree(path);
-		ft_free_tab(argv);
 	}
 	return (cmd->pid);
 }
 
 static int	start_builtin(t_executor *executor, t_cmd *builtin)
 {
-	int		status;
 	char	*cmd;
 	char	**argv;
 
-	status = 127;
 	cmd = parse_words(builtin->cmd);
 	argv = parse_words_arr(builtin->argv);
-	if (!ft_strcmp(cmd, "cd"))
-		status = cd(builtin->argc, argv);
-	else if (!ft_strcmp(cmd, "echo"))
-		status = echo(builtin->argc, argv);
-	else if (!ft_strcmp(cmd, "export"))
-		status = export_ms(builtin->argc, argv);
-	else if (!ft_strcmp(cmd, "exit"))
-	{
-		if (!executor->has_pipe)
-			printf("exit\n");
-		status = exit_ms(builtin->argc, argv);
-	}
-	else if (!ft_strcmp(cmd, "pwd"))
-		status = pwd(builtin->argc, argv);
+	builtin->status
+		= builtin_exec(cmd, builtin->argc, argv, executor->has_pipe);
 	gfree(cmd);
 	ft_free_tab(argv);
-	return (status);
+	return (builtin->status);
 }
 
 static pid_t	builtin_child(t_executor *executor, t_cmd *builtin)
@@ -69,6 +56,7 @@ static pid_t	builtin_child(t_executor *executor, t_cmd *builtin)
 			builtin->status = start_builtin(executor, builtin);
 			close(STDIN_FILENO);
 			close(STDOUT_FILENO);
+			rl_clear_history();
 			exit(builtin->status);
 		}
 	}
@@ -87,7 +75,8 @@ static bool	is_builtin(t_cmd *cmd)
 	cmd_str = parse_words(cmd->cmd);
 	if (!ft_strcmp(cmd_str, "cd") || !ft_strcmp(cmd_str, "echo")
 		|| !ft_strcmp(cmd_str, "export") || !ft_strcmp(cmd_str, "exit")
-		|| !ft_strcmp(cmd_str, "pwd"))
+		|| !ft_strcmp(cmd_str, "pwd") || !ft_strcmp(cmd_str, "unset")
+		|| !ft_strcmp(cmd_str, "env"))
 		output = true;
 	else
 		output = false;

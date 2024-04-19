@@ -28,15 +28,16 @@ static char	*get_prompt(t_minishell *minishell)
 	if (!user)
 		user = get_var_value("USER");
 	if (minishell->hostname && *user)
-		output = ft_strsjoin(10, C_MAGENTA, user, "@",
+		output = ft_strsjoin(13, C_MAGENTA, user, "@",
 				minishell->hostname, C_RESET, ":", C_CYAN,
-				cwd, C_RESET, ENDLINE);
+				cwd, C_RESET, " [", get_var("?")->value, "]-", ENDLINE);
 	else if (*user)
-		output = ft_strsjoin(8, C_MAGENTA, user,
-				C_RESET, ":", C_CYAN, cwd, C_RESET, ENDLINE);
+		output = ft_strsjoin(11, C_MAGENTA, user,
+				C_RESET, ":", C_CYAN, cwd, C_RESET,
+				" [", get_var("?")->value, "]-", ENDLINE);
 	else
-		output = ft_strsjoin(8, C_MAGENTA, "minishell-", C_CYAN, VERSION,
-				C_RESET, ":", cwd, ENDLINE);
+		output = ft_strsjoin(12, C_MAGENTA, APP_NAME, "-", C_CYAN, VERSION,
+				C_RESET, ":", cwd, " [", get_var("?")->value, "]-", ENDLINE);
 	if (!output)
 		crash_exit();
 	gfree(cwd);
