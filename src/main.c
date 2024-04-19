@@ -28,11 +28,26 @@ void	print_lex(t_tlex *lex)
 	}
 }
 
+t_token	*tokenizer(char	*input)
+{
+	t_tlex		*lex;
+	t_token		*token;
+
+	lex = lexer(input);
+	if (!lex)
+		return (NULL);
+	print_lex(lex);
+	token = parsing(lex);
+	if (!token)
+		return (NULL);
+	ft_printf("token addr: %p\n", token);
+	return (token);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	t_minishell	*minishell;
 	char		*input;
-	t_tlex		*lex;
+	t_minishell	*minishell;
 	t_token		*token;
 
 	minishell = init_minishell(argc, argv, envp);
@@ -41,16 +56,12 @@ int	main(int argc, char **argv, char **envp)
 		input = prompt(minishell);
 		if (!input)
 			crash_exit();
-		lex = lexer(input);
-		if (!lex)
+		token = tokenizer(input);
+		if (!token)
 		{
 			gfree(input);
 			continue ;
 		}
-		print_lex(lex);
-		// printf("expanded node[0]--->[%s]\n", parse_words(lex->cmd));
-		token = parsing(&lex);
-		ft_printf("token addr: %p\n", token);
 		gfree(input);
 	}
 	exit (0);
