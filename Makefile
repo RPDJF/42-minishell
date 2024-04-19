@@ -74,44 +74,32 @@ BETTERFT_LIB = $(BETTERFT_PATH:%=%betterft.a)
 
 CFLAGS += $(BETTERFT_LIB)
 
-SRC = 	builtin/builtin \
-		env/env \
-		executor/executor \
+SRC = 	env/env \
 		lexer/lexer \
 		parsing/parsing \
 		prompter/prompt \
-		signals/signals \
 		main \
 		minishell \
 
 SRC +=	builtin/cd \
 		builtin/echo \
-		builtin/envb \
 		builtin/exit \
 		builtin/export \
 		builtin/pwd \
-		builtin/unset \
 		env/env_add \
 		env/env_conv \
 		env/env_destroy \
 		env/env_get \
-		executor/exec_child \
-		executor/exec_pipe \
-		executor/exec_redir \
-		executor/exec_signint \
-		executor/exec_wexitstatus \
 		lexer/lexer_lst_add \
 		lexer/lexer_quote \
-		prompter/here_doc \
 		prompter/history \
-		utils/binary_finder \
 		utils/exit_handler \
-		utils/expand_arr_words \
-		utils/expand_utils \
-		utils/expand_words \
+		utils/binary_finder \
+		utils/strr_realloc \
 		lexer/lexer_bonus \
 		lexer/lexer_utils \
-		utils/strr_realloc \
+		utils/expand_words \
+		utils/expand_utils \
 	
 SHITTY_TOKENIZER_SRC = 	builtin/builtin \
 						env/env \
