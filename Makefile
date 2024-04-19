@@ -112,6 +112,7 @@ SHITTY_TOKENIZER_SRC = 	builtin/builtin \
 
 SHITTY_TOKENIZER_SRC +=	builtin/cd \
 						builtin/echo \
+						builtin/envb \
 						builtin/exit \
 						builtin/export \
 						builtin/pwd \

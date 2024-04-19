@@ -78,7 +78,8 @@ static bool	is_builtin(t_cmd *cmd)
 	cmd_str = parse_words(cmd->cmd);
 	if (!ft_strcmp(cmd_str, "cd") || !ft_strcmp(cmd_str, "echo")
 		|| !ft_strcmp(cmd_str, "export") || !ft_strcmp(cmd_str, "exit")
-		|| !ft_strcmp(cmd_str, "pwd") || !ft_strcmp(cmd_str, "unset"))
+		|| !ft_strcmp(cmd_str, "pwd") || !ft_strcmp(cmd_str, "unset")
+		|| !ft_strcmp(cmd_str, "env"))
 		output = true;
 	else
 		output = false;

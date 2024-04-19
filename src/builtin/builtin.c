@@ -6,6 +6,8 @@ int	builtin_exec(char *builtin, int argc, char **argv, bool is_piped)
 		return (cd(argc, argv));
 	else if (!ft_strcmp(builtin, "echo"))
 		return (echo(argc, argv));
+	else if (!ft_strcmp(builtin, "env"))
+		return (env(argc, argv));
 	else if (!ft_strcmp(builtin, "exit"))
 	{
 		if (!is_piped)
