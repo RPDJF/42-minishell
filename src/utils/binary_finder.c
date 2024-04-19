@@ -37,6 +37,9 @@ static char	*get_fulpath(char *binary)
 		gfree(tmp);
 	}
 	ft_free_tab(path);
+	binary = ft_strdup(binary);
+	if (!binary)
+		crash_exit();
 	return (binary);
 }
 
