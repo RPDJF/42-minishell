@@ -80,7 +80,9 @@ void	executor(t_token *tokens)
 	if (executor->has_pipe)
 		exec_pipe(executor, tokens);
 	exec_redir(executor, tokens);
+	get_minishell()->is_interactive = false;
 	while (tokens)
 		execute_token(executor, &tokens);
 	update_status_var(wait_tokens(executor));
+	get_minishell()->is_interactive = true;
 }

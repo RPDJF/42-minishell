@@ -107,6 +107,7 @@ SHITTY_TOKENIZER_SRC = 	builtin/builtin \
 						lexer/lexer \
 						parsing/parsing \
 						prompter/prompt \
+						signals/signals \
 						main_shitty_tokenizer \
 						minishell \
 
