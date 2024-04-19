@@ -8,9 +8,9 @@ void	add_word_to_lex_str(t_lex *lex, char *input, t_tlex **tlex)
 
 	k = 0;
 	lex->j = lex->i;
-	while (ft_isspace(input[lex->j]) == 0 && \
-		ft_isprint(input[lex->j]) == 1 && input[lex->j] != 34 && \
-			input[lex->j] != 39 && ft_isdelem(input, lex->j) == 0)
+	while (input[lex->j] && ft_isspace(input[lex->j]) == 0
+		&& input[lex->j] != 34 && input[lex->j] != 39
+		&& ft_isdelem(input, lex->j) == 0)
 		lex->j++;
 	word = ft_calloc((lex->j - lex->i) + 1, sizeof(char));
 	if (!word)
