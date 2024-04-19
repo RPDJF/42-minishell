@@ -27,7 +27,7 @@ int	here_doc(char *delimiter)
 	{
 		ft_putendl_fd(line, pipe_fd[1]);
 		free(line);
-		if (get_minishell()->sigint)
+		if (get_minishell()->sigint == SIGINT)
 			return (handle_sigint(pipe_fd));
 		line = prompt_here_doc();
 		printf("PONPONPOOOON\n");

@@ -56,7 +56,7 @@ static void	update_status_var(int status)
 
 static void	execute_token(t_executor *executor, t_token **tokens)
 {
-	if (get_minishell()->sigint)
+	if (get_minishell()->sigint == SIGINT)
 	{
 		exit_signint(executor);
 		get_minishell()->sigint = 0;
@@ -89,9 +89,9 @@ void	executor(t_token *tokens)
 		exec_pipe(executor, tokens);
 	exec_redir(executor, tokens);
 	get_minishell()->is_interactive = false;
-	while (!get_minishell()->sigint && tokens)
+	while (get_minishell()->sigint != SIGINT && tokens)
 		execute_token(executor, &tokens);
-	if (get_minishell()->sigint)
+	if (get_minishell()->sigint == SIGINT)
 	{
 		exit_signint(executor);
 		get_minishell()->sigint = 0;
