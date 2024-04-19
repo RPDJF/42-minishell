@@ -3,7 +3,6 @@
 static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 {
 	char	*path;
-	char	*tmp_path;
 	char	**argv;
 
 	cmd->pid = fork();
@@ -15,15 +14,12 @@ static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 			exit(1);
 		argv = parse_words_arr(cmd->argv);
 		path = parse_words(cmd->cmd);
-		tmp_path = path;
 		path = find_binary(path);
 		if (!strchr(path, '/'))
 			error_cmd(path);
+		rl_clear_history();
 		execve(path, argv, get_minishell()->envp());
-		gfree(tmp_path);
 		error_cmd(path);
-		gfree(path);
-		ft_free_tab(argv);
 	}
 	return (cmd->pid);
 }
@@ -60,6 +56,7 @@ static pid_t	builtin_child(t_executor *executor, t_cmd *builtin)
 			builtin->status = start_builtin(executor, builtin);
 			close(STDIN_FILENO);
 			close(STDOUT_FILENO);
+			rl_clear_history();
 			exit(builtin->status);
 		}
 	}
