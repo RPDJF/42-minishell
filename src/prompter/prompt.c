@@ -54,17 +54,20 @@ char	*prompt(t_minishell *minishell)
 	{
 		strprompt = get_prompt(minishell);
 		if (!strprompt)
-			return (0);
-		input = 0;
+			crash_exit();
+		rl_on_new_line();
+		rl_replace_line("", 0);
 		input = readline(strprompt);
+		gfree(strprompt);
 		if (!input)
 			continue ;
-		if (*input && !ft_isspace(*input))
+		if (!*input || ft_isspace(*input))
 		{
-			add_history(input);
-			ms_write_history(input);
+			gfree(input);
+			continue ;
 		}
-		gfree(strprompt);
+		add_history(input);
+		ms_write_history(input);
 		return (input);
 	}
 }
