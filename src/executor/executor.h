@@ -36,5 +36,7 @@ bool	has_pipe(t_token *tokens);
 void	switch_fd(t_executor *executor, t_pipe *pipe);
 //	dup_fd:	duplicate file descriptors
 int		dup_fd(t_executor *executor);
+//	exit_signint:	exit all processes killing them with SIGINT
+void	exit_signint(t_executor *executor);
 
 #endif

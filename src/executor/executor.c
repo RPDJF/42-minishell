@@ -45,7 +45,10 @@ static void	update_status_var(int status)
 {
 	char	*status_str;
 
-	status_str = ft_itoa(status);
+	if (get_minishell()->sigint != SIGINT)
+		status_str = ft_itoa(status);
+	else
+		status_str = ft_strdup("130");
 	if (!status_str)
 		crash_exit();
 	update_var(new_var("?", status_str, false, false));
@@ -53,7 +56,12 @@ static void	update_status_var(int status)
 
 static void	execute_token(t_executor *executor, t_token **tokens)
 {
-	if ((*tokens)->type == token_pipe)
+	if (get_minishell()->sigint)
+	{
+		exit_signint(executor);
+		get_minishell()->sigint = 0;
+	}
+	else if ((*tokens)->type == token_pipe)
 	{
 		switch_fd(executor, (t_pipe *)(*tokens)->data);
 		(*tokens) = (*tokens)->next;
@@ -81,8 +89,14 @@ void	executor(t_token *tokens)
 		exec_pipe(executor, tokens);
 	exec_redir(executor, tokens);
 	get_minishell()->is_interactive = false;
-	while (tokens)
+	while (!get_minishell()->sigint && tokens)
 		execute_token(executor, &tokens);
-	update_status_var(wait_tokens(executor));
+	if (get_minishell()->sigint)
+	{
+		exit_signint(executor);
+		get_minishell()->sigint = 0;
+	}
+	else
+		update_status_var(wait_tokens(executor));
 	get_minishell()->is_interactive = true;
 }

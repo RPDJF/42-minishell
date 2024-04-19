@@ -46,7 +46,21 @@ static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 			tmp = tokens;
 			tokens = tokens->next;
 		}
-		if (ft_strcmp(lexer->cmd->str, "|") && (!tmp || tmp->type != token_cmd))
+		if (!ft_strcmp(lexer->cmd->str, "<<"))
+		{
+			tokens = galloc(sizeof(t_token));
+			if (tmp)
+				tmp->next = tokens;
+			if (i == 0)
+				head = tokens;
+			tokens->type = token_stdin;
+			tokens->data = ft_calloc(1, sizeof(t_stdin));
+			((t_stdin *)tokens->data)->is_heredoc = true;
+			lexer = lexer->next;
+			((t_stdin *)tokens->data)->limiter = ft_strdup(lexer->cmd->str);
+			tokens->next = 0;
+		}
+		else if (ft_strcmp(lexer->cmd->str, "|") && (!tmp || tmp->type != token_cmd))
 		{
 			tokens = galloc(sizeof(t_token));
 			if (tmp)
@@ -61,8 +75,6 @@ static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 			((t_cmd *)tokens->data)->argv[1] = 0;
 			((t_cmd *)tokens->data)->argc = 1;
 			tokens->next = 0;
-			lexer = lexer->next;
-			continue ;
 		}
 		else if (ft_strcmp(lexer->cmd->str, "|") && tmp && tmp->type == token_cmd)
 		{

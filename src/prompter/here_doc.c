@@ -1,48 +1,39 @@
 #include "here_doc.h"
 
-static void	write_to_history(bool trigger, char *pipe_content)
+static int	handle_sigint(int *pipe_fd)
 {
-	if (trigger)
-	{
-		add_history(pipe_content);
-		ms_write_history(pipe_content);
-		gfree(pipe_content);
-	}
+	close(pipe_fd[1]);
+	close(pipe_fd[0]);
+	return (-1);
 }
 
-static void	fill_pipe_content(bool trigger, char **pipe_content, char *line)
+char	*prompt_here_doc(void)
 {
-	char	*tmp;
-
-	tmp = *pipe_content;
-	*pipe_content = ft_strsjoin(3, *pipe_content, "\n", line);
-	if (!*pipe_content)
-		crash_exit();
-	if (trigger)
-		gfree(tmp);
+	write (STDOUT_FILENO, "> ", 2);
+	return (ft_get_next_line(STDIN_FILENO));
 }
 
 int	here_doc(char *delimiter)
 {
-	bool	trigger;
 	int		pipe_fd[2];
-	char	*pipe_content;
 	char	*line;
 
-	trigger = 0;
-	pipe_content = "";
 	if (pipe(pipe_fd) < 0)
 		crash_exit();
-	line = readline("> ");
+	get_minishell()->here_doc_fd[0] = pipe_fd[0];
+	get_minishell()->here_doc_fd[1] = pipe_fd[1];
+	line = prompt_here_doc();
 	while (line && ft_strcmp(line, delimiter))
 	{
 		ft_putendl_fd(line, pipe_fd[1]);
-		fill_pipe_content(trigger, &pipe_content, line);
 		free(line);
-		line = readline("> ");
-		trigger = 1;
+		if (get_minishell()->sigint)
+			return (handle_sigint(pipe_fd));
+		line = prompt_here_doc();
+		printf("PONPONPOOOON\n");
 	}
 	close(pipe_fd[1]);
-	write_to_history(trigger, pipe_content);
+	get_minishell()->here_doc_fd[0] = 0;
+	get_minishell()->here_doc_fd[1] = 0;
 	return (pipe_fd[0]);
 }
