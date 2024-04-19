@@ -48,7 +48,7 @@ static char	*get_prompt(t_minishell *minishell)
 static void	handle_exit(void)
 {
 	write(STDERR_FILENO, "exit\n", 5);
-	exit(0);
+	secure_exit(0);
 }
 
 char	*prompt(t_minishell *minishell)

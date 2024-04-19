@@ -5,7 +5,7 @@ static void	fn(char **context, char *errmsg, int exitcode)
 	if (errmsg)
 		error_exit(context, errmsg, exitcode % 256);
 	else
-		exit(exitcode);
+		secure_exit(exitcode % 256);
 }
 
 int	exit_ms(int argc, char **argv)
