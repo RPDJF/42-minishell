@@ -51,7 +51,6 @@ static t_var	**var_to_vartab(void)
 	}
 	vars[size] = 0;
 	return (vars);
-
 }
 
 static t_var	**sorted_vartab(void)
