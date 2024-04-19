@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:19:26 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/19 00:46:55 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/19 18:19:02 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <stdio.h>
 # include <limits.h>
 # include <sys/stat.h>
+# include <signal.h>
 
 # ifndef PATH_MAX
 #  define PATH_MAX 4096

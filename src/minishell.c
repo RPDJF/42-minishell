@@ -1,6 +1,7 @@
 #include "minishell.h"
 #include "env/env.h"
 #include "prompter/prompt.h"
+#include "signals/signals.h"
 
 static char	*mini_gethostname(void)
 {
@@ -39,7 +40,7 @@ t_minishell	*init_minishell(int argc, char **argv, char **envp)
 		return (minishell);
 	else if (!argc || !argv)
 		return (0);
-	minishell = galloc(sizeof(t_minishell));
+	minishell = ft_calloc(1, sizeof(t_minishell));
 	if (!minishell)
 		crash_exit();
 	minishell->hostname = mini_gethostname();
@@ -48,7 +49,9 @@ t_minishell	*init_minishell(int argc, char **argv, char **envp)
 	minishell->old_envp = envp;
 	minishell->mini_envp = init_minienvp();
 	minishell->envp = &var_to_tab;
+	minishell->is_interactive = true;
 	ms_load_history();
+	init_signals();
 	return (minishell);
 }
 

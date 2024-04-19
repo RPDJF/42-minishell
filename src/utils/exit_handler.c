@@ -1,5 +1,12 @@
 #include "exit_handler.h"
 
+void	secure_exit(int exitcode)
+{
+	printf("exit\n");
+	rl_clear_history();
+	exit(exitcode);
+}
+
 void	crash_exit(void)
 {
 	ft_putstr_fd(APP_NAME, STDERR_FILENO);
@@ -7,7 +14,7 @@ void	crash_exit(void)
 	ft_putstr_fd(C_RED, STDERR_FILENO);
 	ft_putendl_fd(strerror(errno), STDERR_FILENO);
 	ft_putstr_fd(C_RESET, STDERR_FILENO);
-	exit(errno);
+	secure_exit(errno);
 }
 
 void	error_msg(char **context, char *msg)
@@ -26,7 +33,7 @@ void	error_msg(char **context, char *msg)
 void	error_exit(char **context, char *msg, int exitcode)
 {
 	error_msg(context, msg);
-	exit(exitcode);
+	secure_exit(exitcode);
 }
 
 void	error_cmd(char *path)

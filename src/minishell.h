@@ -79,12 +79,15 @@ typedef struct s_var
 typedef struct s_minishell	t_minishell;
 typedef struct s_minishell
 {
-	int			argc;
-	char		**argv;
-	char		**old_envp;
-	char		**(*envp)(void);
-	t_var		*mini_envp;
-	char		*hostname;
+	int		argc;
+	char	**argv;
+	char	**old_envp;
+	char	**(*envp)(void);
+	t_var	*mini_envp;
+	char	*hostname;
+	bool	is_interactive;
+	int		sigint;
+	int		here_doc_fd[2];
 }				t_minishell;
 
 //	init_minishell: init a new minishell instance

@@ -11,7 +11,7 @@ static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 		if (executor->fd_in_pipe)
 			close(executor->fd_in_pipe);
 		if (dup_fd(executor))
-			exit(1);
+			secure_exit(1);
 		argv = parse_words_arr(cmd->argv);
 		path = parse_words(cmd->cmd);
 		path = find_binary(path);
@@ -52,12 +52,11 @@ static pid_t	builtin_child(t_executor *executor, t_cmd *builtin)
 			if (executor->fd_in_pipe)
 				close(executor->fd_in_pipe);
 			if (fd_status)
-				exit(1);
+				secure_exit(1);
 			builtin->status = start_builtin(executor, builtin);
 			close(STDIN_FILENO);
 			close(STDOUT_FILENO);
-			rl_clear_history();
-			exit(builtin->status);
+			secure_exit(builtin->status);
 		}
 	}
 	if (!builtin->pid && !fd_status)

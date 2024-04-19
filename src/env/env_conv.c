@@ -29,27 +29,78 @@ char	**var_to_tab(void)
 	return (tab);
 }
 
-// TODO: print export in alphabetical order
+static t_var	**var_to_vartab(void)
+{
+	t_var	**vars;
+	t_var	*var;
+	int		size;
+
+	var = get_minishell()->mini_envp;
+	size = -1;
+	while (++size, var)
+		var = var->next;
+	vars = galloc((size + 1) * sizeof(t_var *));
+	if (!vars)
+		crash_exit();
+	var = get_minishell()->mini_envp;
+	size = -1;
+	while (++size, var)
+	{
+		vars[size] = var;
+		var = var->next;
+	}
+	vars[size] = 0;
+	return (vars);
+}
+
+static t_var	**sorted_vartab(void)
+{
+	t_var	**vars_export;
+	t_var	*vars;
+	int		size;
+
+	vars_export = var_to_vartab();
+	vars = get_minishell()->mini_envp;
+	size = -1;
+	while (++size, vars)
+	{
+		vars = vars->next;
+		if (size && vars_export[size - 1])
+		{
+			if (ft_strcmp(vars_export[size - 1]->name,
+					vars_export[size]->name) > 0)
+			{
+				vars = vars_export[size];
+				vars_export[size] = vars_export[size - 1];
+				vars_export[size - 1] = vars;
+				size = -1;
+				vars = get_minishell()->mini_envp;
+			}
+		}
+	}
+	return (vars_export);
+}
 
 void	print_export(void)
 {
-	t_minishell	*minishell;
-	t_var		*var;
+	t_var		**head;
+	t_var		**vars;
 
-	minishell = get_minishell();
-	var = minishell->mini_envp;
-	while (var)
+	vars = sorted_vartab();
+	head = vars;
+	while (*vars)
 	{
-		if (var->is_env && ft_strcmp(var->name, "_"))
+		if ((*vars)->is_env && ft_strcmp((*vars)->name, "_"))
 		{
-			printf("declare -x %s", var->name);
-			if (var->value)
-				printf("=\"%s\"\n", var->value);
+			printf("declare -x %s", (*vars)->name);
+			if ((*vars)->value)
+				printf("=\"%s\"\n", (*vars)->value);
 			else
 				printf("\n");
 		}
-		var = var->next;
+		vars++;
 	}
+	gfree(head);
 }
 
 void	print_minienvp(void)

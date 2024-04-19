@@ -62,7 +62,7 @@ static t_word	*expand_words(t_word *words)
 	char	*home;
 
 	words = expand_vars(words);
-	if (*words->str == '~' && (
+	if (*words->str == '~' && !words->is_quoted && (
 			(words->str[1] == '/')
 			|| (!words->str[1] && !words->next)))
 	{
