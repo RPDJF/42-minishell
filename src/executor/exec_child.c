@@ -17,8 +17,10 @@ static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 		path = parse_words(cmd->cmd);
 		tmp_path = path;
 		path = find_binary(path);
-		gfree(tmp_path);
+		if (!strchr(path, '/'))
+			error_cmd(path);
 		execve(path, argv, get_minishell()->envp());
+		gfree(tmp_path);
 		error_cmd(path);
 		gfree(path);
 		ft_free_tab(argv);
