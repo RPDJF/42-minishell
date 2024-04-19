@@ -33,23 +33,10 @@ static int	start_builtin(t_executor *executor, t_cmd *builtin)
 	char	*cmd;
 	char	**argv;
 
-	builtin->status = 127;
 	cmd = parse_words(builtin->cmd);
 	argv = parse_words_arr(builtin->argv);
-	if (!ft_strcmp(cmd, "cd"))
-		builtin->status = cd(builtin->argc, argv);
-	else if (!ft_strcmp(cmd, "echo"))
-		builtin->status = echo(builtin->argc, argv);
-	else if (!ft_strcmp(cmd, "export"))
-		builtin->status = export_ms(builtin->argc, argv);
-	else if (!ft_strcmp(cmd, "exit"))
-	{
-		if (!executor->has_pipe)
-			printf("exit\n");
-		builtin->status = exit_ms(builtin->argc, argv);
-	}
-	else if (!ft_strcmp(cmd, "pwd"))
-		builtin->status = pwd(builtin->argc, argv);
+	builtin->status
+		= builtin_exec(cmd, builtin->argc, argv, executor->has_pipe);
 	gfree(cmd);
 	ft_free_tab(argv);
 	return (builtin->status);
@@ -91,7 +78,7 @@ static bool	is_builtin(t_cmd *cmd)
 	cmd_str = parse_words(cmd->cmd);
 	if (!ft_strcmp(cmd_str, "cd") || !ft_strcmp(cmd_str, "echo")
 		|| !ft_strcmp(cmd_str, "export") || !ft_strcmp(cmd_str, "exit")
-		|| !ft_strcmp(cmd_str, "pwd"))
+		|| !ft_strcmp(cmd_str, "pwd") || !ft_strcmp(cmd_str, "unset"))
 		output = true;
 	else
 		output = false;
