@@ -30,7 +30,6 @@ int	here_doc(char *delimiter)
 		if (get_minishell()->sigint == SIGINT)
 			return (handle_sigint(pipe_fd));
 		line = prompt_here_doc();
-		printf("PONPONPOOOON\n");
 	}
 	close(pipe_fd[1]);
 	get_minishell()->here_doc_fd[0] = 0;
