@@ -45,6 +45,12 @@ static char	*get_prompt(t_minishell *minishell)
 	return (output);
 }
 
+static void	handle_exit(void)
+{
+	write(STDERR_FILENO, "exit\n", 5);
+	secure_exit(0);
+}
+
 char	*prompt(t_minishell *minishell)
 {
 	char		*input;
@@ -54,17 +60,18 @@ char	*prompt(t_minishell *minishell)
 	{
 		strprompt = get_prompt(minishell);
 		if (!strprompt)
-			return (0);
-		input = 0;
+			crash_exit();
+		rl_on_new_line();
+		rl_replace_line("", 0);
 		input = readline(strprompt);
-		if (!input)
-			continue ;
-		if (*input && !ft_isspace(*input))
-		{
-			add_history(input);
-			ms_write_history(input);
-		}
+		get_minishell()->sigint = 0;
 		gfree(strprompt);
+		if (!input)
+			handle_exit();
+		if (!*input || ft_isspace(*input))
+			return (input);
+		add_history(input);
+		ms_write_history(input);
 		return (input);
 	}
 }

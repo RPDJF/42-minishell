@@ -13,6 +13,19 @@ static char	**get_patharr(void)
 	return (path);
 }
 
+char	*build_path(char **path, char *binary, int i)
+{
+	char	*output;
+
+	if (strrchr(path[i], '/') && !*(strrchr(path[i], '/') + 1))
+		output = ft_strjoin(path[i], binary);
+	else
+		output = ft_strsjoin(3, path[i], "/", binary);
+	if (!output)
+		crash_exit();
+	return (output);
+}
+
 static char	*get_fulpath(char *binary)
 {
 	char	*tmp;
@@ -23,12 +36,7 @@ static char	*get_fulpath(char *binary)
 	i = -1;
 	while (path[++i])
 	{
-		if (strrchr(path[i], '/') && !*(strrchr(path[i], '/') + 1))
-			tmp = ft_strjoin(path[i], binary);
-		else
-			tmp = ft_strsjoin(3, path[i], "/", binary);
-		if (!tmp)
-			crash_exit();
+		tmp = build_path(path, binary, i);
 		if (access(tmp, F_OK) == 0)
 		{
 			ft_free_tab(path);

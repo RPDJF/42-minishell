@@ -69,9 +69,25 @@ static t_cd	*init_cd(int argc, char **argv)
 int	cd(int argc, char **argv)
 {
 	t_cd	*cd;
+	t_var	*var_oldpwd;
 
 	cd = init_cd(argc, argv);
 	if (!cd)
 		return (1);
+	if (ft_strcmp(cd->pwd, "-") == 0)
+	{
+		var_oldpwd = get_var("OLDPWD");
+		if (!var_oldpwd || !var_oldpwd->value)
+		{
+			error_msg((char *[]){APP_NAME, "cd", 0}, "OLDPWD not set");
+			gfree(cd);
+			return (1);
+		}
+		else if (!*var_oldpwd->value)
+		{
+			getcwd(cd->pwd_buff, PATH_MAX);
+			cd->pwd = cd->pwd_buff;
+		}
+	}
 	return (cd->exec(cd));
 }

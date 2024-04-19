@@ -3,12 +3,15 @@
 
 # include "../minishell.h"
 # include "../utils/colors.h"
+# include <readline/readline.h>
 
 //	Error codes
 //		Error messages
 # define IS_DIR "is a directory"
 # define COMMAND_NOT_FOUND "command not found"
 
+//	secure_exit: exits the program with a specific exit code freeing all memory
+void	secure_exit(int exitcode);
 //	crash_exit: exit the program when unexpected error
 void	crash_exit(void);
 //	error_exit: exit the program when expected error with specific message
