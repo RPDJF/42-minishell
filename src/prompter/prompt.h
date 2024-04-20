@@ -8,7 +8,11 @@
 # include "history.h"
 
 # ifdef __APPLE__
-#  define ENDLINE "$ "
+#  ifdef READLINE
+#   define ENDLINE "❥ "
+#  else
+#   define ENDLINE "$ "
+#  endif
 # else
 #  define ENDLINE "❥ "
 # endif
