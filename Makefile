@@ -69,6 +69,10 @@ export APP_HEADER
 CC = gcc
 CFLAGS = -lreadline -Wall -Wextra -Werror
 
+ifdef READLINE
+	CFLAGS += -L$(READLINE)/lib -I$(READLINE)/include
+endif
+
 BETTERFT_PATH = libs/betterft/
 BETTERFT_LIB = $(BETTERFT_PATH:%=%betterft.a)
 
@@ -163,6 +167,13 @@ all: $(NAME)
 debug: fclean $(CFILES)
 	@$(MAKE) $(BETTERFT_LIB) --no-print-directory
 	@echo "$$APP_HEADER"
+	@if [ `uname` = "Darwin" ] && [ -z $(READLINE) ]; then \
+		echo "\033[0;33mYou may need to install readline library from brew"; \
+		echo "Please run: brew install readline"; \
+		echo "Then set READLINE to the path of the readline library"; \
+		echo "\nExamples: export READLINE=/usr/local/Cellar/readline/8.2.10"; \
+		echo "          export READLINE=~/.brew/Cellar/readline/8.2.10\033[0m\n"; \
+	fi
 	@printf "\t🤖 Compiling $(NAME)...\r"
 	@$(CC) -g3 -pthread -fsanitize=thread $(CFILES) $(CFLAGS) -o $(NAME)
 	@printf "\33[2K"
@@ -193,6 +204,11 @@ help:
 
 $(CFILES): header
 
+# Q: how to print in orange light  ?
+# A: echo "\033[0;31mHello, World!\033[0m"
+# Q: this is red, i want loight orange
+
+
 %.o: %.c
 	@printf "\t🤖 Compiling $<...\r"
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -200,6 +216,13 @@ $(CFILES): header
 
 $(NAME): $(CFILES) $(BETTERFT_LIB)
 	@echo "$$APP_HEADER"
+	@if [ `uname` = "Darwin" ] && [ -z $(READLINE) ]; then \
+		echo "\033[0;33mYou may need to install readline library from brew"; \
+		echo "Please run: brew install readline"; \
+		echo "Then set READLINE to the path of the readline library"; \
+		echo "\nExamples: export READLINE=/usr/local/Cellar/readline/8.2.10"; \
+		echo "          export READLINE=~/.brew/Cellar/readline/8.2.10\033[0m\n"; \
+	fi
 	@printf "\t🤖 Compiling $(NAME)...\r"
 	@$(CC) $(CFILES) $(CFLAGS) -o $(NAME)
 	@printf "\33[2K"
@@ -207,6 +230,13 @@ $(NAME): $(CFILES) $(BETTERFT_LIB)
 
 SHITTY_TOKENIZER: $(CSHITTY_TOKENIZER) $(BETTERFT_LIB)
 	@echo "$$APP_HEADER"
+	@if [ `uname` = "Darwin" ] && [ -z $(READLINE) ]; then \
+		echo "\033[0;33mYou may need to install readline library from brew"; \
+		echo "Please run: brew install readline"; \
+		echo "Then set READLINE to the path of the readline library"; \
+		echo "\nExamples: export READLINE=/usr/local/Cellar/readline/8.2.10"; \
+		echo "          export READLINE=~/.brew/Cellar/readline/8.2.10\033[0m\n"; \
+	fi
 	@printf "\t🤖 Compiling $(NAME)...\r"
 	@$(CC) $(CSHITTY_TOKENIZER) $(CFLAGS) -o $(NAME) -g3 -fsanitize=address
 	@printf "\33[2K"
