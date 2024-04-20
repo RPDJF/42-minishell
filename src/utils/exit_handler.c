@@ -2,7 +2,6 @@
 
 void	secure_exit(int exitcode)
 {
-	printf("exit\n");
 	rl_clear_history();
 	exit(exitcode);
 }
