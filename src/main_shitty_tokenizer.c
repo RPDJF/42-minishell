@@ -12,6 +12,8 @@ static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 	t_token	*tokens;
 	int	i;
 
+	if (!lexer || !lexer->cmd)
+		return (0);
 	tmp = 0;
 	tokens = 0;
 	i = -1;
@@ -132,6 +134,7 @@ int	main(int argc, char **argv, char **envp)
 		input = prompt(minishell);
 		if (!input)
 			crash_exit();
+		
 		token = shitty_quick_tokenizer(lexer(input));
 		if (!token)
 		{
