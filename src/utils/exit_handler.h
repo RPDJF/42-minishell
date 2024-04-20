@@ -19,6 +19,6 @@ void	error_exit(char **context, char *msg, int exitcode);
 //	error_msg: sends specific error to the terminal without exiting
 void	error_msg(char **context, char *msg);
 //	error_cmd: sends specific error to the terminal and exits
-void	error_cmd(char *path);
+void	error_cmd(char *path, bool is_script);
 
 #endif

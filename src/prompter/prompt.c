@@ -5,6 +5,8 @@ static char	*parse_prompt(char *prompt)
 	char	*home;
 	char	*tmp;
 
+	if (!prompt)
+		return (0);
 	home = get_var_value("HOME");
 	if (*home)
 	{
@@ -38,17 +40,24 @@ static char	*get_prompt(t_minishell *minishell)
 	else
 		output = ft_strsjoin(12, C_MAGENTA, APP_NAME, "-", C_CYAN, VERSION,
 				C_RESET, ":", cwd, " [", get_var("?")->value, "]-", ENDLINE);
-	if (!output)
-		crash_exit();
 	gfree(cwd);
 	output = parse_prompt(output);
+	if (!output)
+		crash_exit();
 	return (output);
 }
 
-static void	handle_exit(void)
+char	*script_prompt(void)
 {
-	write(STDERR_FILENO, "exit\n", 5);
-	secure_exit(0);
+	char		*input;
+
+	while (true)
+	{
+		input = ft_get_next_line(STDIN_FILENO);
+		if (!input)
+			secure_exit(0);
+		return (input);
+	}
 }
 
 char	*prompt(t_minishell *minishell)
@@ -56,18 +65,20 @@ char	*prompt(t_minishell *minishell)
 	char		*input;
 	char		*strprompt;
 
+	if (minishell->is_script)
+		return (script_prompt());
 	while (true)
 	{
 		strprompt = get_prompt(minishell);
-		if (!strprompt)
-			crash_exit();
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		input = readline(strprompt);
 		get_minishell()->sigint = 0;
 		gfree(strprompt);
 		if (!input)
-			handle_exit();
+			write(STDERR_FILENO, "exit\n", 5);
+		if (!input)
+			secure_exit(0);
 		if (!*input || ft_isspace(*input))
 			return (input);
 		add_history(input);

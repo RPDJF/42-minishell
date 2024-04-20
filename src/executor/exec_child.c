@@ -16,10 +16,10 @@ static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 		path = parse_words(cmd->cmd);
 		path = find_binary(path);
 		if (!strchr(path, '/'))
-			error_cmd(path);
+			error_cmd(path, false);
 		rl_clear_history();
 		execve(path, argv, get_minishell()->envp());
-		error_cmd(path);
+		error_cmd(path, false);
 	}
 	return (cmd->pid);
 }
