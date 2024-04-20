@@ -85,6 +85,7 @@ typedef struct s_minishell
 	t_var	*mini_envp;
 	char	*hostname;
 	bool	is_interactive;
+	bool	is_script;
 	int		sigint;
 	int		here_doc_fd[2];
 }				t_minishell;

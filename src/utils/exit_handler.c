@@ -35,13 +35,13 @@ void	error_exit(char **context, char *msg, int exitcode)
 	secure_exit(exitcode);
 }
 
-void	error_cmd(char *path)
+void	error_cmd(char *path, bool is_script)
 {
 	int			err;
 	struct stat	path_stat;
 
 	err = errno;
-	if (!ft_strchr(path, '/'))
+	if (!is_script && !ft_strchr(path, '/'))
 		error_exit((char *[]){path, 0}, COMMAND_NOT_FOUND, 127);
 	else if (stat(path, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
 		error_exit((char *[]){APP_NAME, path, 0}, IS_DIR, 126);

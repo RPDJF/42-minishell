@@ -32,6 +32,26 @@ static char	*mini_gethostname(void)
 	return (output);
 }
 
+//	TODO: remove debug mode when done
+
+static void	script_mode(void)
+{
+	t_minishell	*minishell;
+	struct stat	buf;
+
+	minishell = get_minishell();
+	if (minishell->argc <= 1 || !ft_strcmp(minishell->argv[1], "debug"))
+		return ;
+	if (!stat(minishell->argv[1], &buf) && !S_ISDIR(buf.st_mode)
+		&& !access(minishell->argv[1], R_OK))
+	{
+		dup2(open(minishell->argv[1], O_RDONLY), STDIN_FILENO);
+		minishell->is_script = true;
+	}
+	else
+		error_cmd(minishell->argv[1], true);
+}
+
 t_minishell	*init_minishell(int argc, char **argv, char **envp)
 {
 	static t_minishell	*minishell;
@@ -52,6 +72,7 @@ t_minishell	*init_minishell(int argc, char **argv, char **envp)
 	minishell->is_interactive = true;
 	ms_load_history();
 	init_signals();
+	script_mode();
 	return (minishell);
 }
 
