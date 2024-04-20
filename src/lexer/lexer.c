@@ -24,7 +24,19 @@ void	add_word_to_lex_str(t_lex *lex, char *input, t_tlex **tlex)
 	tword_add_back(tlex, tword_new(word, ft_strchr(word, '$'), false));
 }
 
-void	words_lexing(t_lex *lex, char *input, t_tlex **tlex)
+int	end_words_lexing(t_lex *lex, char *input, t_tlex **tlex, \
+															t_tlex **new_tlex)
+{
+	if (!(*new_tlex)->cmd && ft_isdelem(input, lex->i) == 1)
+		delem(lex, input, new_tlex);
+	else if (!(*new_tlex)->cmd && ft_isdelem(input, lex->i) == 2)
+		delem_bonus(lex, input, new_tlex);
+	if ((*new_tlex)->cmd)
+		tlex_add_back(tlex, *new_tlex);
+	return (0);
+}
+
+int	words_lexing(t_lex *lex, char *input, t_tlex **tlex)
 {
 	t_tlex	*new_tlex;
 
@@ -36,20 +48,21 @@ void	words_lexing(t_lex *lex, char *input, t_tlex **tlex)
 			|| ft_isspace(input[lex->i]) == 0))
 	{
 		if (input[lex->i] == 39)
-			single_quote(lex, input, &new_tlex);
+		{
+			if (single_quote(lex, input, &new_tlex) == 1)
+				return (1);
+		}
 		else if (input[lex->i] == 34)
-			double_quote(lex, input, &new_tlex);
+		{
+			if (double_quote(lex, input, &new_tlex) == 1)
+				return (1);
+		}
 		else if (ft_isspace(input[lex->i]) == 0)
 			add_word_to_lex_str(lex, input, &new_tlex);
 		else
 			break ;
 	}
-	if (!new_tlex->cmd && ft_isdelem(input, lex->i) == 1)
-		delem(lex, input, &new_tlex);
-	else if (!new_tlex->cmd && ft_isdelem(input, lex->i) == 2)
-		delem_bonus(lex, input, &new_tlex);
-	if (new_tlex->cmd)
-		tlex_add_back(tlex, new_tlex);
+	return (end_words_lexing(lex, input, tlex, &new_tlex));
 }
 
 t_tlex	*lexer(char *input)
@@ -66,7 +79,8 @@ t_tlex	*lexer(char *input)
 		if (ft_isspace(input[lex.i]) == 0 || input[lex.i] == 39 || \
 			input[lex.i] == 34 || ft_isdelem(input, lex.i) == 1 || \
 			ft_isdelem(input, lex.i) == 2)
-			words_lexing(&lex, input, &tlex);
+			if (words_lexing(&lex, input, &tlex) == 1)
+				return (free_exit(&tlex));
 	}
 	return (tlex);
 }

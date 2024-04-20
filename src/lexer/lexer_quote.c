@@ -31,14 +31,14 @@ void	end_single_quote(t_lex *lex, char *input, t_tlex **tlex, char *word)
 	lex->i++;
 }
 
-void	single_quote(t_lex *lex, char *input, t_tlex **tlex)
+int	single_quote(t_lex *lex, char *input, t_tlex **tlex)
 {
 	char	*word;
 	int		k;
 
 	k = 0;
 	if (impair_pair_char(input, 39) == 1)
-		error_exit(NULL, "minishell: bad single_quote format", 127);
+		return (exit_print("minishell: error: bad single quote format."));
 	lex->i++;
 	lex->j = lex->i;
 	while (input[lex->j])
@@ -49,15 +49,13 @@ void	single_quote(t_lex *lex, char *input, t_tlex **tlex)
 			k++;
 		lex->j++;
 	}
-	if (lex->j == lex->i)
-	{
-		lex->i++;
-		return ;
-	}
+	if (lex->j == lex->i && lex->i++)
+		return (0);
 	word = ft_calloc(k + 1, sizeof(char));
 	if (!word)
 		crash_exit();
 	end_single_quote(lex, input, tlex, word);
+	return (0);
 }
 
 void	end_double_quote(t_lex *lex, char *input, t_tlex **tlex, char *word)
@@ -75,14 +73,14 @@ void	end_double_quote(t_lex *lex, char *input, t_tlex **tlex, char *word)
 	lex->i++;
 }
 
-void	double_quote(t_lex *lex, char *input, t_tlex **tlex)
+int	double_quote(t_lex *lex, char *input, t_tlex **tlex)
 {
 	char	*word;
 	int		k;
 
 	k = 0;
 	if (impair_pair_char(input, 34) == 1)
-		error_exit(NULL, "minishell: bad single_quote format", 127);
+		return (exit_print("minishell: error: bad double quote format."));
 	lex->i++;
 	lex->j = lex->i;
 	while (input[lex->j])
@@ -93,13 +91,11 @@ void	double_quote(t_lex *lex, char *input, t_tlex **tlex)
 			k++;
 		lex->j++;
 	}
-	if (lex->j == lex->i)
-	{
-		lex->i++;
-		return ;
-	}
+	if (lex->j == lex->i && lex->i++)
+		return (0);
 	word = ft_calloc(k + 1, sizeof(char));
 	if (!word)
 		crash_exit();
 	end_double_quote(lex, input, tlex, word);
+	return (0);
 }
