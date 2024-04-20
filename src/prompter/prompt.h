@@ -7,11 +7,7 @@
 # include "../env/env.h"
 # include "history.h"
 
-# ifdef __APPLE__
-#  define ENDLINE "$ "
-# else
-#  define ENDLINE "❥ "
-# endif
+# define ENDLINE "❥ "
 
 # include "../utils/colors.h"
 

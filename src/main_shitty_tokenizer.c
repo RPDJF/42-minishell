@@ -3,31 +3,7 @@
 #include "parsing/parsing.h"
 #include "lexer/lexer.h"
 #include "utils/exit_handler.h"
-#include "utils/expand_words.h"
 #include "executor/executor.h"
-
-static void	print_lex(t_tlex *lex)
-{
-	int		i;
-	t_word	*tmp2;
-
-	i = 0;
-	if (lex)
-	{
-		for (t_tlex *tmp1 = lex; tmp1; tmp1 = tmp1->next)
-		{
-			ft_printf("noeud[%d]", i);
-			tmp2 = tmp1->cmd;
-			while (tmp2)
-			{
-				ft_printf("--->[%s:%d]", tmp2->str, tmp2->is_var);
-				tmp2 = tmp2->next;
-			}
-			i++;
-			ft_printf("\n");
-		}
-	}
-}
 
 static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 {
@@ -146,9 +122,9 @@ static void	print_tokens(t_token *tokens)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_minishell	*minishell;
 	char		*input;
-	t_tlex		*lex;
+	t_minishell	*minishell;
+	t_token		*token;
 
 	minishell = init_minishell(argc, argv, envp);
 	while (true)
@@ -156,17 +132,15 @@ int	main(int argc, char **argv, char **envp)
 		input = prompt(minishell);
 		if (!input)
 			crash_exit();
-		lex = lexer(input);
-		if (!lex)
+		token = shitty_quick_tokenizer(lexer(input));
+		if (!token)
+		{
+			gfree(input);
 			continue ;
+		}
 		if (argv[1] && !ft_strcmp(argv[1], "debug"))
-			print_lex(lex);
-		t_token	*tokens;
-		tokens = shitty_quick_tokenizer(lex);
-		if (argv[1] && !ft_strcmp(argv[1], "debug"))
-			print_tokens(tokens);
-		executor(tokens);
-		parsing(&lex);
+			print_tokens(token);
+		executor(token);
 		gfree(input);
 	}
 	exit (0);
