@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include <unistd.h>
 
 int	ft_isdelem(char *str, int i)
 {
@@ -23,4 +24,34 @@ int	impair_pair_char(char *str, char c)
 	if (count % 2 == 0)
 		return (0);
 	return (1);
+}
+
+int	exit_print(char *str)
+{
+	ft_putendl_fd(str, STDOUT_FILENO);
+	return (1);
+}
+
+t_tlex	*free_exit(t_tlex **tlex)
+{
+	t_tlex	*tmp1;
+	t_word	*tmp2;
+	t_word	*tmp3;
+
+	tmp1 = *tlex;
+	while (tmp1)
+	{
+		tmp2 = tmp1->cmd;
+		while (tmp2)
+		{
+			if (tmp2->str)
+				free(tmp2->str);
+			tmp3 = tmp2;
+			tmp2 = tmp2->next;
+			if (tmp3)
+				free(tmp3);
+		}
+		tmp1 = tmp1->next;
+	}
+	return (NULL);
 }

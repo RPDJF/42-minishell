@@ -20,10 +20,10 @@ typedef struct s_tlex
 t_tlex	*lexer(char *input);
 
 // Fonction for lexing the quotes
+int		single_quote(t_lex *lex, char *input, t_tlex **tlex);
+int		double_quote(t_lex *lex, char *input, t_tlex **tlex);
 void	end_single_quote(t_lex *lex, char *input, t_tlex **tlex, char *word);
-void	single_quote(t_lex *lex, char *input, t_tlex **tlex);
 void	end_double_quote(t_lex *lex, char *input, t_tlex **tlex, char *word);
-void	double_quote(t_lex *lex, char *input, t_tlex **tlex);
 
 // Create a new tword* noeud and return it.
 t_word	*tword_new(char *cmd, bool var, bool is_quoted);
@@ -40,6 +40,8 @@ int		impair_pair_char(char *str, char c);
 void	delem(t_lex *lex, char *input, t_tlex **tlex);
 void	delem_bonus(t_lex *lex, char *input, t_tlex **tlex);
 void	add_word_to_lex_str(t_lex *lex, char *input, t_tlex **tlex);
-void	words_lexing(t_lex *lex, char *input, t_tlex **tlex);
+int		words_lexing(t_lex *lex, char *input, t_tlex **tlex);
+int		exit_print(char *str);
+t_tlex	*free_exit(t_tlex **tlex);
 
 #endif

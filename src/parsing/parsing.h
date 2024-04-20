@@ -3,6 +3,6 @@
 
 # include "../lexer/lexer.h"
 
-t_token	*parsing(t_tlex **lex);
+t_token	*parsing(t_tlex *lex);
 
 #endif
