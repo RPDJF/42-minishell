@@ -172,7 +172,7 @@ debug: fclean $(CFILES)
 	@if [ `uname` = "Darwin" ]; then \
 		echo "\033[0;33mYou may need to install an readline library from brew"; \
 		echo "Default readline library on MacOS may not be compatible with Minishell"; \
-		echo "Please run: brew install readline"; \
+		echo "\nPlease run: brew install readline"; \
 		echo "Then set READLINE to the path of the newly installed readline library"; \
 		echo "\nExamples: export READLINE=/usr/local/Cellar/readline/8.2.10"; \
 		echo "          export READLINE=~/.brew/Cellar/readline/8.2.10\033[0m\n"; \
@@ -222,7 +222,7 @@ $(NAME): $(CFILES) $(BETTERFT_LIB)
 	@if [ `uname` = "Darwin" ]; then \
 		echo "\033[0;33mYou may need to install an readline library from brew"; \
 		echo "Default readline library on MacOS may not be compatible with Minishell"; \
-		echo "Please run: brew install readline"; \
+		echo "\nPlease run: brew install readline"; \
 		echo "Then set READLINE to the path of the newly installed readline library"; \
 		echo "\nExamples: export READLINE=/usr/local/Cellar/readline/8.2.10"; \
 		echo "          export READLINE=~/.brew/Cellar/readline/8.2.10\033[0m\n"; \
@@ -237,7 +237,7 @@ SHITTY_TOKENIZER: $(CSHITTY_TOKENIZER) $(BETTERFT_LIB)
 	@if [ `uname` = "Darwin" ]; then \
 		echo "\033[0;33mYou may need to install an readline library from brew"; \
 		echo "Default readline library on MacOS may not be compatible with Minishell"; \
-		echo "Please run: brew install readline"; \
+		echo "\nPlease run: brew install readline"; \
 		echo "Then set READLINE to the path of the newly installed readline library"; \
 		echo "\nExamples: export READLINE=/usr/local/Cellar/readline/8.2.10"; \
 		echo "          export READLINE=~/.brew/Cellar/readline/8.2.10\033[0m\n"; \
