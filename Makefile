@@ -67,10 +67,12 @@ endef
 export APP_HEADER
 
 CC = gcc
-CFLAGS = -lreadline -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 ifdef READLINE
 	CFLAGS += -L$(READLINE)/lib -I$(READLINE)/include
+else
+	CFLAGS += -lreadline
 endif
 
 BETTERFT_PATH = libs/betterft/
@@ -167,10 +169,11 @@ all: $(NAME)
 debug: fclean $(CFILES)
 	@$(MAKE) $(BETTERFT_LIB) --no-print-directory
 	@echo "$$APP_HEADER"
-	@if [ `uname` = "Darwin" ] && [ -z $(READLINE) ]; then \
-		echo "\033[0;33mYou may need to install readline library from brew"; \
+	@if [ `uname` = "Darwin" ]; then \
+		echo "\033[0;33mYou may need to install an readline library from brew"; \
+		echo "Default readline library on MacOS may not be compatible with Minishell"; \
 		echo "Please run: brew install readline"; \
-		echo "Then set READLINE to the path of the readline library"; \
+		echo "Then set READLINE to the path of the newly installed readline library"; \
 		echo "\nExamples: export READLINE=/usr/local/Cellar/readline/8.2.10"; \
 		echo "          export READLINE=~/.brew/Cellar/readline/8.2.10\033[0m\n"; \
 	fi
@@ -216,10 +219,11 @@ $(CFILES): header
 
 $(NAME): $(CFILES) $(BETTERFT_LIB)
 	@echo "$$APP_HEADER"
-	@if [ `uname` = "Darwin" ] && [ -z $(READLINE) ]; then \
-		echo "\033[0;33mYou may need to install readline library from brew"; \
+	@if [ `uname` = "Darwin" ]; then \
+		echo "\033[0;33mYou may need to install an readline library from brew"; \
+		echo "Default readline library on MacOS may not be compatible with Minishell"; \
 		echo "Please run: brew install readline"; \
-		echo "Then set READLINE to the path of the readline library"; \
+		echo "Then set READLINE to the path of the newly installed readline library"; \
 		echo "\nExamples: export READLINE=/usr/local/Cellar/readline/8.2.10"; \
 		echo "          export READLINE=~/.brew/Cellar/readline/8.2.10\033[0m\n"; \
 	fi
@@ -230,10 +234,11 @@ $(NAME): $(CFILES) $(BETTERFT_LIB)
 
 SHITTY_TOKENIZER: $(CSHITTY_TOKENIZER) $(BETTERFT_LIB)
 	@echo "$$APP_HEADER"
-	@if [ `uname` = "Darwin" ] && [ -z $(READLINE) ]; then \
-		echo "\033[0;33mYou may need to install readline library from brew"; \
+	@if [ `uname` = "Darwin" ]; then \
+		echo "\033[0;33mYou may need to install an readline library from brew"; \
+		echo "Default readline library on MacOS may not be compatible with Minishell"; \
 		echo "Please run: brew install readline"; \
-		echo "Then set READLINE to the path of the readline library"; \
+		echo "Then set READLINE to the path of the newly installed readline library"; \
 		echo "\nExamples: export READLINE=/usr/local/Cellar/readline/8.2.10"; \
 		echo "          export READLINE=~/.brew/Cellar/readline/8.2.10\033[0m\n"; \
 	fi
