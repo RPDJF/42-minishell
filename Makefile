@@ -221,7 +221,6 @@ $(NAME): $(CFILES) $(BETTERFT_LIB)
 		echo "\nExamples: export READLINE=/usr/local/Cellar/readline/8.2.10"; \
 		echo "          export READLINE=/opt/homebrew/Cellar/readline/8.2.10"; \
 		echo "          export READLINE=~/.brew/Cellar/readline/8.2.10\033[0m\n"; \
-
 	fi
 	@printf "\t🤖 Compiling $(NAME)...\r"
 	@$(CC) $(CFILES) $(CFLAGS) -o $(NAME)
