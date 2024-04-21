@@ -1,44 +1,46 @@
 #include "executor.h"
 
+static t_context	*init_context(t_executor *executor)
+{
+	t_context	*context;
+
+	context = ft_calloc(1, sizeof(t_context));
+	if (!context)
+		crash_exit();
+	context->has_pipe = &executor->has_pipe;
+	context->og_fd_in = &executor->og_fd_in;
+	context->og_fd_out = &executor->og_fd_out;
+	context->fd_in = STDIN_FILENO;
+	context->fd_out = STDOUT_FILENO;
+	return (context);
+}
+
 static t_executor	*init_executor(t_token *tokens)
 {
 	t_executor	*executor;
+	t_context	**context;
 
 	executor = galloc(sizeof(t_executor));
 	if (!executor)
 		crash_exit();
-	executor->original_fd_in = dup(STDIN_FILENO);
-	executor->original_fd_out = dup(STDOUT_FILENO);
+	executor->og_fd_in = dup(STDIN_FILENO);
+	if (executor->og_fd_in < 0)
+		crash_exit();
+	executor->og_fd_out = dup(STDOUT_FILENO);
+	if (executor->og_fd_out < 0)
+		crash_exit();
 	executor->has_pipe = has_pipe(tokens);
 	executor->tokens = tokens;
-	executor->fd_in = STDIN_FILENO;
-	executor->fd_out = STDOUT_FILENO;
-	executor->fd_in_pipe = 0;
-	return (executor);
-}
-
-static int	wait_tokens(t_executor *executor)
-{
-	t_token	*tokens;
-	int		status;
-
-	tokens = executor->tokens;
-	status = 0;
+	context = &executor->context;
 	while (tokens)
 	{
-		if (tokens->type == token_cmd)
-		{
-			if (((t_cmd *)tokens->data)->pid)
-			{
-				waitpid(((t_cmd *)tokens->data)->pid, &status, 0);
-				status = get_wexistatus(status);
-			}
-			else
-				status = ((t_cmd *)tokens->data)->status;
-		}
+		*context = init_context(executor);
+		if (!*context)
+			crash_exit();
+		context = &(*context)->next;
 		tokens = tokens->next;
 	}
-	return (status);
+	return (executor);
 }
 
 static void	update_status_var(int status)
@@ -54,26 +56,25 @@ static void	update_status_var(int status)
 	update_var(new_var("?", status_str, false, false));
 }
 
-static void	execute_token(t_executor *executor, t_token **tokens)
+static void	exec_token(t_executor *exec, t_context *context, t_token **tokens)
 {
 	if (get_minishell()->sigint == SIGINT)
 	{
-		exit_signint(executor);
+		exit_signint(exec);
 		get_minishell()->sigint = 0;
 	}
 	else if ((*tokens)->type == token_pipe)
 	{
-		switch_fd(executor, (t_pipe *)(*tokens)->data);
 		(*tokens) = (*tokens)->next;
-		exec_pipe(executor, (*tokens));
-		exec_redir(executor, (*tokens));
 		return ;
 	}
 	else if ((*tokens)->type == token_cmd)
 	{
-		init_child(executor, (*tokens));
-		if (executor->fd_in != STDIN_FILENO)
-			close(executor->fd_in);
+		init_child(context, (*tokens));
+		if (context->fd_in != STDIN_FILENO)
+			close(context->fd_in);
+		if (context->fd_out != STDOUT_FILENO)
+			close(context->fd_out);
 	}
 	else if ((*tokens)->type == token_var)
 		update_var((*tokens)->data);
@@ -83,14 +84,20 @@ static void	execute_token(t_executor *executor, t_token **tokens)
 void	executor(t_token *tokens)
 {
 	t_executor	*executor;
+	t_context	*context;
 
 	executor = init_executor(tokens);
+	context = executor->context;
 	if (executor->has_pipe)
 		exec_pipe(executor, tokens);
 	exec_redir(executor, tokens);
 	get_minishell()->is_interactive = false;
 	while (get_minishell()->sigint != SIGINT && tokens)
-		execute_token(executor, &tokens);
+	{
+		if (tokens->type == token_pipe)
+			context = context->next;
+		exec_token(executor, context, &tokens);
+	}
 	if (get_minishell()->sigint == SIGINT)
 	{
 		exit_signint(executor);
