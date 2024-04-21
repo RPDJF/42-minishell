@@ -74,7 +74,7 @@ int	cd(int argc, char **argv)
 	cd = init_cd(argc, argv);
 	if (!cd)
 		return (1);
-	if (ft_strcmp(cd->pwd, "-") == 0)
+	if (!ft_strcmp(cd->pwd, "-"))
 	{
 		var_oldpwd = get_var("OLDPWD");
 		if (!var_oldpwd || !var_oldpwd->value)
@@ -88,6 +88,8 @@ int	cd(int argc, char **argv)
 			getcwd(cd->pwd_buff, PATH_MAX);
 			cd->pwd = cd->pwd_buff;
 		}
+		else
+			cd->pwd = var_oldpwd->value;
 	}
 	return (cd->exec(cd));
 }
