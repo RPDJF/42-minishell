@@ -55,6 +55,12 @@ static void	destroy_tokens(t_token *token)
 			destroy_cmdtoken(token);
 		else if (token->type == token_stdout || token->type == token_stdin)
 			destroy_redirtokens(token);
+		else if (token->type == token_var)
+		{
+			gfree(((t_var_init *)token->data)->name);
+			destroy_words(((t_var_init *)token->data)->value);
+			gfree(token->data);
+		}
 		gfree(token);
 		token = next;
 	}

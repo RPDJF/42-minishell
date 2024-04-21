@@ -50,5 +50,7 @@ int		dup_fd(t_context *context);
 void	exit_signint(t_executor *executor);
 //	exec_destroy:	free executor structure
 void	exec_destroy(t_executor *exec);
+//	exec_var_init:	initialize local variables for execution
+void	exec_var_init(t_executor *executor, t_token *tokens);
 
 #endif
