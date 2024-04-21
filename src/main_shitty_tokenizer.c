@@ -134,7 +134,6 @@ int	main(int argc, char **argv, char **envp)
 		input = prompt(minishell);
 		if (!input)
 			crash_exit();
-		
 		token = shitty_quick_tokenizer(lexer(input));
 		if (!token)
 		{

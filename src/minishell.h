@@ -35,6 +35,7 @@ typedef struct s_token
 	void			*data;
 	t_token_type	type;
 	struct s_token	*next;
+	struct s_token	*prev;
 }				t_token;
 
 //	Typed token structures
@@ -65,6 +66,13 @@ typedef struct s_pipe
 	int		pipe[2];
 }				t_pipe;
 
+typedef struct s_var_init
+{
+	char	*name;
+	t_word	*value;
+}	t_var_init;
+
+//	Var structure
 typedef struct s_var
 {
 	bool			is_env;
@@ -75,7 +83,6 @@ typedef struct s_var
 }				t_var;
 
 //	Minishell structure
-typedef struct s_minishell	t_minishell;
 typedef struct s_minishell
 {
 	int		argc;
