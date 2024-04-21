@@ -14,7 +14,8 @@ Minishell is a project that invites you to a symphony of shell scripting. It's l
 
 Just a few magic spells to summon your Minishell masterpiece:
 
-- `make`: For a regular enchantment. Compile that code, and you're ready for the grand shell performance!
+- `make`: For a regular enchantment. Compile that code, and you're ready for the grand shell performance! This build isn't ready for use yet, please try SHITTY_TOKENIZER one.
+- `make SHITTY_TOKENIZER`: Crafting this command will conjure up a highly functional test realm for our Minishell, brimming with enchantment and prowess.
 - `make bonus`: Feeling adventurous? Add the bonus ingredients for an extra shell crescendo.
 - `make clean`: Clear away the traces of your enchantment. A tidy workspace is a powerful workspace.
 - `make fclean`: Need a clean slate? This erases all enchantments, leaving nothing behind.
