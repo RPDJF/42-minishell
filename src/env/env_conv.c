@@ -92,7 +92,7 @@ void	print_export(void)
 	{
 		if ((*vars)->is_env && ft_strcmp((*vars)->name, "_"))
 		{
-			printf("declare -x %s", (*vars)->name);
+			printf("export %s", (*vars)->name);
 			if ((*vars)->value)
 				printf("=\"%s\"\n", (*vars)->value);
 			else

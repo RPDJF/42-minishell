@@ -48,5 +48,7 @@ void	switch_fd(t_executor *executor, t_pipe *pipe);
 int		dup_fd(t_context *context);
 //	exit_signint:	exit all processes killing them with SIGINT
 void	exit_signint(t_executor *executor);
+//	exec_destroy:	free executor structure
+void	exec_destroy(t_executor *exec);
 
 #endif

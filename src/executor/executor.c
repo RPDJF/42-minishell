@@ -105,5 +105,6 @@ void	executor(t_token *tokens)
 	}
 	else
 		update_status_var(wait_tokens(executor));
+	exec_destroy(executor);
 	get_minishell()->is_interactive = true;
 }
