@@ -71,6 +71,7 @@ CFLAGS = -lreadline -Wall -Wextra -Werror
 
 ifdef READLINE
 	CFLAGS += -L$(READLINE)/lib -I$(READLINE)/include
+endif
 
 BETTERFT_PATH = libs/betterft/
 BETTERFT_LIB = $(BETTERFT_PATH:%=%betterft.a)
