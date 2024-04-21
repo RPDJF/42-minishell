@@ -1,6 +1,6 @@
 #include "executor.h"
 
-static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
+static pid_t	cmd_child(t_context *context, t_cmd *cmd)
 {
 	char	*path;
 	char	**argv;
@@ -8,9 +8,7 @@ static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
-		if (executor->fd_in_pipe)
-			close(executor->fd_in_pipe);
-		if (dup_fd(executor))
+		if (dup_fd(context))
 			secure_exit(1);
 		argv = parse_words_arr(cmd->argv);
 		path = parse_words(cmd->cmd);
@@ -24,7 +22,7 @@ static pid_t	cmd_child(t_executor *executor, t_cmd *cmd)
 	return (cmd->pid);
 }
 
-static int	start_builtin(t_executor *executor, t_cmd *builtin)
+static int	start_builtin(t_context *context, t_cmd *builtin)
 {
 	char	*cmd;
 	char	**argv;
@@ -32,37 +30,35 @@ static int	start_builtin(t_executor *executor, t_cmd *builtin)
 	cmd = parse_words(builtin->cmd);
 	argv = parse_words_arr(builtin->argv);
 	builtin->status
-		= builtin_exec(cmd, builtin->argc, argv, executor->has_pipe);
+		= builtin_exec(cmd, builtin->argc, argv, *context->has_pipe);
 	gfree(cmd);
 	ft_free_tab(argv);
 	return (builtin->status);
 }
 
-static pid_t	builtin_child(t_executor *executor, t_cmd *builtin)
+static pid_t	builtin_child(t_context *context, t_cmd *builtin)
 {
 	int		fd_status;
 
 	builtin->pid = 0;
-	fd_status = dup_fd(executor);
-	if (executor->has_pipe)
+	fd_status = dup_fd(context);
+	if (*context->has_pipe)
 	{
 		builtin->pid = fork();
 		if (builtin->pid == 0)
 		{
-			if (executor->fd_in_pipe)
-				close(executor->fd_in_pipe);
 			if (fd_status)
 				secure_exit(1);
-			builtin->status = start_builtin(executor, builtin);
+			builtin->status = start_builtin(context, builtin);
 			close(STDIN_FILENO);
 			close(STDOUT_FILENO);
 			secure_exit(builtin->status);
 		}
 	}
 	if (!builtin->pid && !fd_status)
-		builtin->status = start_builtin(executor, builtin);
-	dup2(executor->original_fd_in, STDIN_FILENO);
-	dup2(executor->original_fd_out, STDOUT_FILENO);
+		builtin->status = start_builtin(context, builtin);
+	dup2(*context->og_fd_in, STDIN_FILENO);
+	dup2(*context->og_fd_out, STDOUT_FILENO);
 	return (builtin->pid);
 }
 
@@ -83,7 +79,7 @@ static bool	is_builtin(t_cmd *cmd)
 	return (output);
 }
 
-pid_t	init_child(t_executor *executor, t_token *tokens)
+pid_t	init_child(t_context *context, t_token *tokens)
 {
 	pid_t	*pid;
 	t_cmd	*cmd;
@@ -93,7 +89,7 @@ pid_t	init_child(t_executor *executor, t_token *tokens)
 	if (is_builtin(cmd))
 	{
 		pid = &cmd->pid;
-		builtin_child(executor, cmd);
+		builtin_child(context, cmd);
 		update_var(new_var("_",
 				parse_words(cmd->argv[cmd->argc - 1]), true, false));
 	}
@@ -101,7 +97,7 @@ pid_t	init_child(t_executor *executor, t_token *tokens)
 	{
 		cmd = (t_cmd *)tokens->data;
 		pid = &cmd->pid;
-		cmd_child(executor, cmd);
+		cmd_child(context, cmd);
 		update_var(new_var("_",
 				parse_words(cmd->argv[cmd->argc - 1]), true, false));
 	}

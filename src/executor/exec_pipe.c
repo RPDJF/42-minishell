@@ -1,54 +1,30 @@
 #include "executor.h"
 
-static int	init_pipe(t_executor *executor, t_pipe *pipes)
+int	dup_fd(t_context *context)
 {
-	if (pipe(pipes->pipe) < 0)
-		crash_exit();
-	executor->fd_out = pipes->pipe[1];
-	executor->fd_in_pipe = pipes->pipe[0];
-	return (0);
-}
-
-int	dup_fd(t_executor *executor)
-{
-	if (executor->fd_in != STDIN_FILENO && executor->fd_in >= 0)
+	if (context->fd_in != STDIN_FILENO && context->fd_in >= 0)
 	{
-		dup2(executor->fd_in, STDIN_FILENO);
-		close(executor->fd_in);
+		dup2(context->fd_in, STDIN_FILENO);
+		close(context->fd_in);
 	}
-	if (executor->fd_out != STDOUT_FILENO && executor->fd_out >= 0)
+	if (context->fd_out != STDOUT_FILENO && context->fd_out >= 0)
 	{
-		dup2(executor->fd_out, STDOUT_FILENO);
-		close(executor->fd_out);
+		dup2(context->fd_out, STDOUT_FILENO);
+		close(context->fd_out);
 	}
-	if (executor->fd_in < 0)
+	if (context->fd_in < 0)
 	{
 		error_msg((char *[]){APP_NAME,
-			executor->fd_in_path, 0}, strerror(errno));
+			context->fd_in_path, 0}, strerror(errno));
 		return (-1);
 	}
-	if (executor->fd_out < 0)
+	if (context->fd_out < 0)
 	{
 		error_msg((char *[]){APP_NAME,
-			executor->fd_out_path, 0}, strerror(errno));
+			context->fd_out_path, 0}, strerror(errno));
 		return (-1);
 	}
 	return (0);
-}
-
-void	switch_fd(t_executor *executor, t_pipe *pipe)
-{
-	if (executor->fd_in_pipe)
-	{
-		if (executor->fd_in != STDIN_FILENO)
-			close(executor->fd_in);
-		executor->fd_in = executor->fd_in_pipe;
-		executor->fd_in_pipe = 0;
-		close(pipe->pipe[1]);
-	}
-	else
-		executor->fd_in = STDIN_FILENO;
-	executor->fd_out = STDOUT_FILENO;
 }
 
 bool	has_pipe(t_token *tokens)
@@ -64,12 +40,22 @@ bool	has_pipe(t_token *tokens)
 
 int	exec_pipe(t_executor *executor, t_token *tokens)
 {
+	t_context	*context;
+
+	context = executor->context;
 	while (tokens)
 	{
 		if (tokens->type == token_pipe)
 		{
-			init_pipe(executor, (t_pipe *)tokens->data);
-			break ;
+			if (pipe(((t_pipe *)tokens->data)->pipe))
+				crash_exit();
+			if (context->fd_out != STDOUT_FILENO)
+				close(context->fd_out);
+			context->fd_out = ((t_pipe *)tokens->data)->pipe[1];
+			context = context->next;
+			if (context->fd_in != STDIN_FILENO)
+				close(context->fd_in);
+			context->fd_in = ((t_pipe *)tokens->data)->pipe[0];
 		}
 		tokens = tokens->next;
 	}

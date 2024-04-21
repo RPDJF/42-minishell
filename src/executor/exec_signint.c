@@ -2,9 +2,11 @@
 
 void	exit_signint(t_executor *executor)
 {
-	t_token	*tokens;
+	t_token		*tokens;
+	t_context	*context;
 
 	tokens = executor->tokens;
+	context = executor->context;
 	while (tokens)
 	{
 		if (tokens->type == token_cmd)
@@ -14,10 +16,12 @@ void	exit_signint(t_executor *executor)
 		}
 		tokens = tokens->next;
 	}
-	if (executor->fd_in != STDIN_FILENO)
-		close(executor->fd_in);
-	if (executor->fd_out != STDOUT_FILENO)
-		close(executor->fd_out);
-	if (executor->fd_in_pipe)
-		close(executor->fd_in_pipe);
+	while (context)
+	{
+		if (context->fd_in != STDIN_FILENO && context->fd_in > -1)
+			close(context->fd_in);
+		if (context->fd_out != STDOUT_FILENO && context->fd_out > -1)
+			close(context->fd_out);
+		context = context->next;
+	}
 }
