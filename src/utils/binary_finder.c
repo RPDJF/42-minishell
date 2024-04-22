@@ -55,6 +55,15 @@ char	*find_binary(char *binary)
 {
 	char	*output;
 
+	if (!binary)
+		return (0);
+	else if (!*binary)
+	{
+		output = ft_strdup("");
+		if (!output)
+			crash_exit();
+		return (output);
+	}
 	output = 0;
 	if (ft_strchr(binary, '/'))
 	{
