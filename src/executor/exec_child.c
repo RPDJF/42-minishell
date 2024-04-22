@@ -16,6 +16,10 @@ static pid_t	cmd_child(t_context *context, t_cmd *cmd)
 		if (!strchr(path, '/'))
 			error_cmd(path, false);
 		rl_clear_history();
+		context = context->next;
+		if (context)
+			if (context->fd_in != STDIN_FILENO)
+				close(context->fd_in);
 		execve(path, argv, get_minishell()->envp());
 		error_cmd(path, false);
 	}
