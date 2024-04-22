@@ -75,6 +75,10 @@ void	exec_destroy(t_executor *exec)
 	while (context)
 	{
 		next = context->next;
+		if (context->fd_in != STDIN_FILENO)
+			close(context->fd_in);
+		if (context->fd_out != STDOUT_FILENO)
+			close(context->fd_out);
 		gfree(context);
 		context = next;
 	}
