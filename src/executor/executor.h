@@ -40,6 +40,8 @@ void	exec_redir(t_executor *executor, t_token *tokens);
 //	wait_tokens:	wait for tokens to finish executing
 //	returns last process exit code
 int		wait_tokens(t_executor *executor);
+//	wait_last_token:	wait for the last token to finish executing
+int		wait_last_token(t_executor *executor, t_token *tokens);
 //	has_pipe:	check if a token list has a pipe token
 bool	has_pipe(t_token *tokens);
 //	switch_fd:	switch file descriptors
@@ -50,5 +52,7 @@ int		dup_fd(t_context *context);
 void	exit_signint(t_executor *executor);
 //	exec_destroy:	free executor structure
 void	exec_destroy(t_executor *exec);
+//	exec_var_init:	initialize local variables for execution
+void	exec_var_init(t_executor *executor, t_token *tokens);
 
 #endif

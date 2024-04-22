@@ -58,26 +58,21 @@ static void	update_status_var(int status)
 
 static void	exec_token(t_executor *exec, t_context *context, t_token **tokens)
 {
-	if (get_minishell()->sigint == SIGINT)
-	{
-		exit_signint(exec);
-		get_minishell()->sigint = 0;
-	}
-	else if ((*tokens)->type == token_pipe)
+	if ((*tokens)->type == token_pipe)
 	{
 		(*tokens) = (*tokens)->next;
 		return ;
 	}
 	else if ((*tokens)->type == token_cmd)
 	{
-		init_child(context, (*tokens));
+		init_child(context, *tokens);
 		if (context->fd_in != STDIN_FILENO)
 			close(context->fd_in);
 		if (context->fd_out != STDOUT_FILENO)
 			close(context->fd_out);
 	}
 	else if ((*tokens)->type == token_var)
-		update_var((*tokens)->data);
+		exec_var_init(exec, *tokens);
 	(*tokens) = (*tokens)->next;
 }
 
