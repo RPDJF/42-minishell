@@ -61,6 +61,8 @@ static pid_t	builtin_child(t_context *context, t_cmd *builtin)
 	}
 	if (!builtin->pid && !fd_status)
 		builtin->status = start_builtin(context, builtin);
+	if (fd_status)
+		builtin->status = 1;
 	dup2(*context->og_fd_in, STDIN_FILENO);
 	dup2(*context->og_fd_out, STDOUT_FILENO);
 	return (builtin->pid);
