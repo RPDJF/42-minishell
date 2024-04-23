@@ -3,10 +3,8 @@
 void	free_cmd(t_cmd	*data)
 {
 	int		i;
-	t_word	*tmp;
 
 	i = -1;
-	tmp = *(data)->argv;
 	if (!data)
 		return ;
 	if (data->cmd)

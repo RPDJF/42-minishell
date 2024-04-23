@@ -5,6 +5,51 @@
 #include "utils/exit_handler.h"
 #include "executor/executor.h"
 
+static void	print_tokens(t_token *tokens)
+{
+	char	*token_type;
+
+	while (tokens)
+	{
+		printf("\ntoken %p\n", tokens);
+		if (tokens->type == token_cmd)
+			token_type = "token_cmd";
+		else if (tokens->type == token_var)
+			token_type = "token_var";
+		else if (tokens->type == token_pipe)
+			token_type = "token_pipe";
+		else if (tokens->type == token_stdin)
+			token_type = "token_stdin";
+		else if (tokens->type == token_stdout)
+			token_type = "token_stdout";
+		else if (tokens->type == token_and)
+			token_type = "token_and";
+		else if (tokens->type == token_or)
+			token_type = "token_or";
+		else if (tokens->type == token_grp)
+			token_type = "token_grp";
+		printf("type: %s\n", token_type);
+		printf("next: %p\n", tokens->next);
+		if (tokens->type == token_cmd)
+		{
+			t_cmd	*cmd = (t_cmd *)tokens->data;
+			printf("cmd: ");
+			t_word	*tmp = cmd->cmd;
+			while (tmp)
+			{
+				printf("%s", tmp->str);
+				tmp = tmp->next;
+			}
+			printf("\n");
+			printf("argv: ");
+			for (int i = 0; cmd->argv[i]; i++)
+				printf("\"%s\", ", cmd->argv[i]->str);
+		}
+		printf("\n");
+		tokens = tokens->next;
+	}
+}
+
 void	print_lex(t_tlex *lex)
 {
 	int		i;
@@ -62,6 +107,7 @@ int	main(int argc, char **argv, char **envp)
 			gfree(input);
 			continue ;
 		}
+		print_tokens(token);
 		executor(token);
 		gfree(input);
 	}
