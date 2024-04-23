@@ -98,6 +98,7 @@ SRC +=	builtin/cd \
 		env/env_add \
 		env/env_conv \
 		env/env_destroy \
+		env/env_exitcode \
 		env/env_get \
 		executor/exec_child \
 		executor/exec_pipe \
@@ -141,6 +142,7 @@ SHITTY_TOKENIZER_SRC +=	builtin/cd \
 						env/env_add \
 						env/env_conv \
 						env/env_destroy \
+						env/env_exitcode \
 						env/env_get \
 						executor/exec_child \
 						executor/exec_pipe \

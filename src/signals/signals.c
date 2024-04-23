@@ -38,17 +38,12 @@ static void	update_line(void)
 
 static void	signal_handler(int signum)
 {
-	char	*tmp;
-
 	get_minishell()->sigint = signum;
 	if (signum == SIGINT && get_minishell()->is_interactive)
 	{
 		if (!close_here_doc_fd())
 			update_line();
-		tmp = ft_strdup("130");
-		if (!tmp)
-			crash_exit();
-		update_var(new_var("?", tmp, false, false));
+		update_exitcode(130);
 	}
 }
 
