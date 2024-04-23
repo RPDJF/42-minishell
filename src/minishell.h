@@ -96,6 +96,7 @@ typedef struct s_minishell
 	bool	is_script;
 	int		sigint;
 	int		here_doc_fd[2];
+	int		dup_stdin;
 }				t_minishell;
 
 //	init_minishell: init a new minishell instance
