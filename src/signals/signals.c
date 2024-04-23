@@ -20,6 +20,7 @@ static void	update_line(void)
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
+	print_userinfo();
 	rl_redisplay();
 }
 
