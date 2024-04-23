@@ -62,7 +62,7 @@ t_token	**token_add_back(t_token **token, t_token *neww)
 	else
 	{
 		tmp = *token;
-		while (tmp->next)
+		while (tmp && tmp->next)
 			tmp = tmp->next;
 		tmp->next = neww;
 		neww->prev = tmp;
@@ -101,9 +101,9 @@ int	arg_count(t_tlex *arg)
 			break ;
 		else if (tw_is_delem(tmp->cmd) == 2)
 		{
-			if (tmp->next)
+			if (tmp)
 				tmp = tmp->next;
-			if (tmp->next)
+			if (tmp)
 				tmp = tmp->next;
 			continue ;
 		}
@@ -156,6 +156,52 @@ char	*join_tword(t_word	*cmd)
 	return (filename);
 }
 
+t_token	*end_newtk_delem2(t_word *cmd, t_pars *pars, t_token *new)
+{
+	if (new->type == token_stdout && cmd->str[0] == '>'
+		&& cmd->str[1] == '>' && !cmd->str[2])
+	{
+		if (!pars->tmp1->next)
+			return (exit_tk((char *[]){APP_NAME, "token", 0}, \
+				"syntax error near unexpected token `newline'"));
+		new->data = (t_stdout *)ft_calloc(1, sizeof(t_stdout));
+		if (!new->data)
+			crash_exit();
+		((t_stdout *)(new)->data)->filename = pars->tmp1->next->cmd;
+		((t_stdout *)(new)->data)->is_append = true;
+	}
+	return (new);
+}
+
+t_token	*end_newtk_delem(t_word *cmd, t_pars *pars, t_token *new)
+{
+	if (new->type == token_stdin && cmd->str[0] == '<'
+		&& !cmd->str[1])
+	{
+		if (!pars->tmp1->next)
+			return (exit_tk((char *[]){APP_NAME, "token", 0}, \
+				"syntax error near unexpected token `newline'"));
+		new->data = (t_stdin *)ft_calloc(1, sizeof(t_stdin));
+		if (!new->data)
+			crash_exit();
+		((t_stdin *)(new)->data)->filename = pars->tmp1->next->cmd;
+	}
+	else if (new->type == token_stdout && cmd->str[0] == '>' && !cmd->str[1])
+	{
+		if (!pars->tmp1->next)
+			return (exit_tk((char *[]){APP_NAME, "token", 0}, \
+				"syntax error near unexpected token `newline'"));
+		new->data = (t_stdout *)ft_calloc(1, sizeof(t_stdout));
+		if (!new->data)
+			crash_exit();
+		((t_stdout *)(new)->data)->filename = pars->tmp1->next->cmd;
+	}
+	else if (!end_newtk_delem2(cmd, pars, new))
+		return (exit_tk((char *[]){APP_NAME, "token", 0}, \
+				"syntax error near unexpected token `newline'"));
+	return (new);
+}
+
 t_token	*newtk_delem(t_word *cmd, t_pars *pars)
 {
 	t_token	*new;
@@ -165,7 +211,7 @@ t_token	*newtk_delem(t_word *cmd, t_pars *pars)
 		crash_exit();
 	new->type = define_type(cmd);
 	if (new->type == token_stdin && cmd->str[0] == '<'
-		&& cmd->str[1] == '<' && !cmd->str[1])
+		&& cmd->str[1] == '<' && !cmd->str[2])
 	{
 		if (!pars->tmp1->next)
 			return (exit_tk((char *[]){APP_NAME, "token", 0}, \
@@ -176,13 +222,10 @@ t_token	*newtk_delem(t_word *cmd, t_pars *pars)
 		((t_stdin *)(new)->data)->limiter = join_tword(pars->tmp1->next->cmd);
 		((t_stdin *)(new)->data)->is_heredoc = true;
 	}
-	if (new->type == token_stdin && cmd->str[0] == '<'
-		&& !cmd->str[1])
-	{
-		if (!pars->tmp1->next)
-			return (NULL);
-		((t_stdin *)(new)->data)->filename = cmd->next;
-	}
+	else if (!end_newtk_delem(cmd, pars, new))
+		return (exit_tk((char *[]){APP_NAME, "token", 0}, \
+				"syntax error near unexpected token `newline'"));
+	pars->tmp1 = pars->tmp1->next->next;
 	return (new);
 }
 
@@ -195,9 +238,11 @@ int	pars_arg_tk_cmd(t_token *new, t_cmd *token, t_pars *pars)
 	{
 		if (tw_is_delem(pars->tmp1->cmd) == 1)
 			break ;
-		else if ((tw_is_delem(pars->tmp1->cmd) == 2)
-			&& (!(token_add_back(&new, newtk_delem(pars->tmp1->cmd, pars)))))
-			return (0);
+		else if (tw_is_delem(pars->tmp1->cmd) == 2)
+		{
+			if (!token_add_back(&new, newtk_delem(pars->tmp1->cmd, pars)))
+				return (0);
+		}
 		else
 		{
 			token->argv[i] = pars->tmp1->cmd;
@@ -269,6 +314,7 @@ t_token	*parsing(t_tlex **lex)
 	t_token	*new;
 	t_pars	pars;
 
+	token = NULL;
 	ft_bzero(&pars, sizeof(t_pars));
 	pars.tmp1 = *lex;
 	while (pars.tmp1)
