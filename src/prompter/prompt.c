@@ -73,7 +73,7 @@ char	*prompt(t_minishell *minishell)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		input = readline(strprompt);
-		get_minishell()->sigint = 0;
+		minishell->sigint = 0;
 		gfree(strprompt);
 		if (!input)
 			write(STDERR_FILENO, "exit\n", 5);

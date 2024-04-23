@@ -25,18 +25,13 @@ t_var	*update_var(t_var *var)
 	duplicate = get_var(var->name);
 	if (duplicate)
 	{
-		if (duplicate->prev)
-			duplicate->prev->next = var;
-		if (duplicate->next)
-			duplicate->next->prev = var;
-		var->prev = duplicate->prev;
-		var->next = duplicate->next;
-		if (duplicate->is_env)
-			var->is_env = true;
-		if (get_minishell()->mini_envp == duplicate)
-			get_minishell()->mini_envp = var;
-		destroy_var(duplicate);
-		return (var);
+		gfree(duplicate->value);
+		duplicate->value = var->value;
+		if (var->is_env)
+			duplicate->is_env = true;
+		gfree(var->name);
+		gfree(var);
+		return (duplicate);
 	}
 	add_var(var);
 	return (var);
