@@ -5,7 +5,7 @@
 #include "utils/exit_handler.h"
 #include "executor/executor.h"
 
-static void	print_tokens(t_token *tokens)
+void	print_tokens(t_token *tokens)
 {
 	char	*token_type;
 
@@ -45,6 +45,12 @@ static void	print_tokens(t_token *tokens)
 			for (int i = 0; cmd->argv[i]; i++)
 				printf("\"%s\", ", cmd->argv[i]->str);
 		}
+		else if (tokens->type == token_stdout)
+		{
+			t_stdout	*cmd = (t_stdout *)tokens->data;
+			printf("is_append: %d\n", cmd->is_append);
+			printf("filename: %s", cmd->filename->str);
+		}
 		printf("\n");
 		tokens = tokens->next;
 	}
@@ -82,10 +88,11 @@ t_token	*tokenizer(char	*input)
 	lex = lexer(input);
 	if (!lex)
 		return (NULL);
-	print_lex(lex);
+	//print_lex(lex);
 	token = parsing(&lex);
 	if (!token)
 		return (NULL);
+	//print_tokens(token);
 	return (token);
 }
 
@@ -107,7 +114,6 @@ int	main(int argc, char **argv, char **envp)
 			gfree(input);
 			continue ;
 		}
-		print_tokens(token);
 		executor(token);
 		gfree(input);
 	}
