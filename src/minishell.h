@@ -14,6 +14,7 @@ typedef struct s_word
 	bool			is_var;
 	bool			is_quoted;
 	struct s_word	*next;
+	struct s_word	*prev;
 }	t_word;
 
 //	Type enumerators

@@ -32,7 +32,7 @@ int	exit_print(char *str)
 	return (1);
 }
 
-t_tlex	*free_exit(t_tlex **tlex)
+t_tlex	*free_exit_lexer(t_tlex **tlex)
 {
 	t_tlex	*tmp1;
 	t_word	*tmp2;
