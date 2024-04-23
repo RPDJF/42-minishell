@@ -160,6 +160,18 @@ static void	print_tokens(t_token *tokens)
 			for (int i = 0; cmd->argv[i]; i++)
 				printf("\"%s\", ", cmd->argv[i]->str);
 		}
+		else if (tokens->type == token_stdout)
+		{
+			t_stdout	*stdout = (t_stdout *)tokens->data;
+			printf("filename: %s\n", parse_words(stdout->filename));
+			printf("is_heredoc: %d\n", stdout->is_append);
+		}
+		else if (tokens->type == token_stdin)
+		{
+			t_stdin	*stdin = (t_stdin *)tokens->data;
+			printf("filename: %s\n", parse_words(stdin->filename));
+			printf("is_heredoc: %d\n", stdin->is_heredoc);
+		}
 		printf("\n");
 		tokens = tokens->next;
 	}
