@@ -33,11 +33,13 @@ void	print_userinfo(void)
 					get_minishell()->hostname, "]", C_RESET, " [SHLVL ",
 					get_var("SHLVL")->value, "]\n");
 		else if (user && user->value && *user->value)
-			userinfo = ft_strsjoin(6, "\n┌", C_MAGENTA, "[",
-					get_var("USER")->value, "]\n", C_RESET);
+			userinfo = ft_strsjoin(9, "\n┌", C_MAGENTA, "[",
+					get_var("USER")->value, "]", C_RESET, " [SHLVL ",
+					get_var("SHLVL")->value, "]\n");
 		else
-			userinfo = ft_strsjoin(8, "\n┌", C_MAGENTA, "[",
-					APP_NAME, "-", VERSION, "]\n", C_RESET);
+			userinfo = ft_strsjoin(11, "\n┌", C_MAGENTA, "[",
+					APP_NAME, "-", VERSION, "]", C_RESET, " [SHLVL ",
+					get_var("SHLVL")->value, "]\n");
 		if (!userinfo)
 			crash_exit();
 		bytes = ft_strlen(userinfo);
@@ -45,7 +47,7 @@ void	print_userinfo(void)
 	write(STDOUT_FILENO, userinfo, bytes);
 }
 
-static char	*get_prompt(t_minishell *minishell)
+static char	*get_prompt(void)
 {
 	char		*output;
 	char		*cwd;
@@ -56,17 +58,11 @@ static char	*get_prompt(t_minishell *minishell)
 		crash_exit();
 	if (!user)
 		user = get_var_value("USER");
-	if (minishell->hostname && *user)
-		output = ft_strsjoin(10, "└", C_CYAN, "[", cwd, "]",
-				C_RESET, " [", get_var("?")->value, "]-", ENDLINE);
-	else if (*user)
-		output = ft_strsjoin(11, C_MAGENTA, user,
-				C_RESET, ":", C_CYAN, cwd, C_RESET,
-				" [", get_var("?")->value, "]-", ENDLINE);
-	else
-		output = ft_strsjoin(12, C_MAGENTA, APP_NAME, "-", C_CYAN, VERSION,
-				C_RESET, ":", cwd, " [", get_var("?")->value, "]-", ENDLINE);
+	output = ft_strsjoin(10, "└", C_CYAN, "[", cwd, "]",
+			C_RESET, " [", get_var("?")->value, "]-", ENDLINE);
 	gfree(cwd);
+	if (!output)
+		crash_exit();
 	output = parse_prompt(output);
 	if (!output)
 		crash_exit();
@@ -95,7 +91,7 @@ char	*prompt(t_minishell *minishell)
 		return (script_prompt());
 	while (true)
 	{
-		strprompt = get_prompt(minishell);
+		strprompt = get_prompt();
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		print_userinfo();
