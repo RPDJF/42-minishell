@@ -49,7 +49,7 @@ static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 			tokens->data = ft_calloc(1, sizeof(t_stdin));
 			((t_stdin *)tokens->data)->is_heredoc = false;
 			lexer = lexer->next;
-			((t_stdin *)tokens->data)->filename = lexer->cmd->str;
+			((t_stdin *)tokens->data)->filename = lexer->cmd;
 			tokens->next = 0;
 		}
 		else if (!ft_strcmp(lexer->cmd->str, ">>"))
@@ -64,7 +64,7 @@ static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 			((t_stdout *)tokens->data)->is_append = true;
 			if(!ft_strcmp(lexer->cmd->str, ">>"))
 			lexer = lexer->next;
-			((t_stdout *)tokens->data)->filename = lexer->cmd->str;
+			((t_stdout *)tokens->data)->filename = lexer->cmd;
 			tokens->next = 0;
 		}
 		else if (!ft_strcmp(lexer->cmd->str, ">"))
@@ -78,7 +78,7 @@ static t_token	*shitty_quick_tokenizer(t_tlex *lexer)
 			tokens->data = ft_calloc(1, sizeof(t_stdout));
 			((t_stdout *)tokens->data)->is_append = false;
 			lexer = lexer->next;
-			((t_stdout *)tokens->data)->filename = lexer->cmd->str;
+			((t_stdout *)tokens->data)->filename = lexer->cmd;
 			tokens->next = 0;
 		}
 		else if (ft_strcmp(lexer->cmd->str, "|") && (!tmp || tmp->type != token_cmd))
