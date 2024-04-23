@@ -44,12 +44,12 @@ int	tk_is_var_init(t_token *new, t_pars *pars)
 	return (1);
 }
 
-void	token_add_back(t_token **token, t_token *neww)
+t_token	**token_add_back(t_token **token, t_token *neww)
 {
 	t_token	*tmp;
 
 	if (!token || !neww)
-		return ;
+		return (NULL);
 	if (!*token)
 		*token = neww;
 	else
@@ -60,16 +60,17 @@ void	token_add_back(t_token **token, t_token *neww)
 		tmp->next = neww;
 		neww->prev = tmp;
 	}
+	return (token);
 }
 
 int	tw_is_delem(t_word *cmd)
 {
-	if (cmd->is_quoted == 0 && !cmd->next && \
+	if (!cmd->is_quoted && !cmd->next && \
 		(cmd->str[0] == '|' && !cmd->str[1]
 			|| cmd->str[0] == '|' && cmd->str[1] == '|' && !cmd->str[2]
 			|| cmd->str[0] == '&' && cmd->str[1] == '&' && !cmd->str[2]))
 		return (1);
-	else if (cmd->is_quoted == 0 && !cmd->next && \
+	else if (!cmd->is_quoted && !cmd->next && \
 			(cmd->str[0] == '<' && !cmd->str[1]
 			|| cmd->str[0] == '<' && cmd->str[1] == '<' && !cmd->str[2]
 			|| cmd->str[0] == '>' && !cmd->str[1]
@@ -108,7 +109,7 @@ int	arg_count(t_tlex *arg)
 
 t_token_type	define_type(t_word *cmd)
 {
-	if (cmd->is_quoted == 0 && !cmd->next)
+	if (!cmd->is_quoted && !cmd->next)
 	{
 		if (cmd->str[0] == '<' && !cmd->str[1])
 			return (token_stdin);
@@ -126,10 +127,26 @@ char	*join_tword(t_word	*cmd)
 {
 	char	*filename;
 	char	*tmp1;
+	t_word	*tmp;
 
-	filename = cmd->str;
-	while ()
-	;
+	tmp = cmd;
+	filename = tmp->str;
+	tmp = tmp->next;
+	while (tmp)
+	{
+		tmp1 = ft_strjoin(filename, tmp->str);
+		gfree(filename);
+		tmp = tmp->next;
+		if (!tmp)
+		{
+			filename = tmp1;
+			break ;
+		}
+		filename = ft_strjoin(tmp1, tmp->str);
+		gfree(tmp1);
+		tmp = tmp->next;
+	}
+	return (filename);
 }
 
 t_token	*newtk_delem(t_word *cmd, t_pars *pars)
@@ -140,11 +157,16 @@ t_token	*newtk_delem(t_word *cmd, t_pars *pars)
 	if (!new)
 		crash_exit();
 	new->type = define_type(cmd);
-	if (new->type == token_stdin && cmd->str[0] == '<' && !cmd->str[1])
+	if (new->type == token_stdin && cmd->str[0] == '<'
+		&& cmd->str[1] == '<' && !cmd->str[1])
 	{
+		if (!pars->tmp1->next)
+			return (0);
 		new->data = (t_stdin *)ft_calloc(1, sizeof(t_stdin));
+		if (!new->data)
+			crash_exit();
 		((t_stdin *)(new)->data)->filename = join_tword(pars->tmp1->next->cmd);
-		////////////////////////////////////////////////////////////////////////////
+		((t_stdin *)(new)->data)->limiter = join_tword(pars->tmp1->next->cmd);
 	}
 }
 
@@ -158,16 +180,19 @@ int	pars_arg_tk_cmd(t_token *new, t_cmd *token, t_pars *pars)
 		if (tw_is_delem(pars->tmp1->cmd) == 1)
 			break ;
 		else if (tw_is_delem(pars->tmp1->cmd) == 2)
-			token_add_back(&new, newtk_delem(pars->tmp1->cmd, pars));
+		{
+			if (!token_add_back(&new, newtk_delem(pars->tmp1->cmd, pars)))
+					return (0);
+		}
 		else
 		{
 			token->argv[i] = pars->tmp1->cmd;
 			i++;
+			pars->tmp1 = pars->tmp1->next;
 		}
-		pars->tmp1 = pars->tmp1->next;
 	}
 	token->argc = i;
-	return (i);
+	return (1);
 }
 
 int	tk_cmd(t_token *new, t_pars *pars)
