@@ -66,46 +66,27 @@ static pid_t	builtin_child(t_context *context, t_cmd *builtin)
 	return (builtin->pid);
 }
 
-static bool	is_builtin(t_cmd *cmd)
-{
-	bool	output;
-	char	*cmd_str;
 
-	cmd_str = parse_words(cmd->cmd);
-	if (!ft_strcmp(cmd_str, "cd") || !ft_strcmp(cmd_str, "echo")
-		|| !ft_strcmp(cmd_str, "export") || !ft_strcmp(cmd_str, "exit")
-		|| !ft_strcmp(cmd_str, "pwd") || !ft_strcmp(cmd_str, "unset")
-		|| !ft_strcmp(cmd_str, "env"))
-		output = true;
-	else
-		output = false;
-	gfree(cmd_str);
-	return (output);
-}
 
 pid_t	init_child(t_context *context, t_token *tokens)
 {
-	pid_t	*pid;
 	t_cmd	*cmd;
 
-	pid = 0;
+	cmd = (t_cmd *)tokens->data;
+	update_var(new_var("_",
+			parse_words(cmd->argv[cmd->argc - 1]), true, false));
+	cmd = find_cmd(cmd);
+	if (!cmd)
+	{
+		((t_cmd *)tokens->data)->pid = 0;
+		return (0);
+	}
 	cmd = (t_cmd *)tokens->data;
 	if (is_builtin(cmd))
-	{
-		pid = &cmd->pid;
 		builtin_child(context, cmd);
-		update_var(new_var("_",
-				parse_words(cmd->argv[cmd->argc - 1]), true, false));
-	}
 	else
-	{
-		cmd = (t_cmd *)tokens->data;
-		pid = &cmd->pid;
 		cmd_child(context, cmd);
-		update_var(new_var("_",
-				parse_words(cmd->argv[cmd->argc - 1]), true, false));
-	}
-	if (*pid < 0)
+	if (cmd->pid < 0)
 		crash_exit();
-	return (*pid);
+	return (cmd->pid);
 }

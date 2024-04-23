@@ -50,9 +50,10 @@ void	switch_fd(t_executor *executor, t_pipe *pipe);
 int		dup_fd(t_context *context);
 //	exit_signint:	exit all processes killing them with SIGINT
 void	exit_signint(t_executor *executor);
-//	exec_destroy:	free executor structure
-void	exec_destroy(t_executor *exec);
 //	exec_var_init:	initialize local variables for execution
 void	exec_var_init(t_executor *executor, t_token *tokens);
-
+//	is_builtin:	check if a command is a builtin
+bool	is_builtin(t_cmd *cmd);
+//	find_cmd:	find a command in the *cmd;
+t_cmd	*find_cmd(t_cmd *cmd);
 #endif
