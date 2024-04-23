@@ -42,6 +42,6 @@ void	delem_bonus(t_lex *lex, char *input, t_tlex **tlex);
 void	add_word_to_lex_str(t_lex *lex, char *input, t_tlex **tlex);
 int		words_lexing(t_lex *lex, char *input, t_tlex **tlex);
 int		exit_print(char *str);
-t_tlex	*free_exit(t_tlex **tlex);
+t_tlex	*free_exit_lexer(t_tlex **tlex);
 
 #endif

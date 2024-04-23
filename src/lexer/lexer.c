@@ -80,7 +80,7 @@ t_tlex	*lexer(char *input)
 			input[lex.i] == 34 || ft_isdelem(input, lex.i) == 1 || \
 			ft_isdelem(input, lex.i) == 2)
 			if (words_lexing(&lex, input, &tlex) == 1)
-				return (free_exit(&tlex));
+				return (free_exit_lexer(&tlex));
 	}
 	return (tlex);
 }

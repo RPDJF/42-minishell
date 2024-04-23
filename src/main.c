@@ -3,6 +3,7 @@
 #include "parsing/parsing.h"
 #include "lexer/lexer.h"
 #include "utils/exit_handler.h"
+#include "executor/executor.h"
 
 void	print_lex(t_tlex *lex)
 {
@@ -37,10 +38,9 @@ t_token	*tokenizer(char	*input)
 	if (!lex)
 		return (NULL);
 	print_lex(lex);
-	token = parsing(lex);
+	token = parsing(&lex);
 	if (!token)
 		return (NULL);
-	ft_printf("token addr: %p\n", token);
 	return (token);
 }
 
@@ -62,6 +62,7 @@ int	main(int argc, char **argv, char **envp)
 			gfree(input);
 			continue ;
 		}
+		executor(token);
 		gfree(input);
 	}
 	exit (0);

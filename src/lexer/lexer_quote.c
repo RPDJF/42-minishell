@@ -37,7 +37,7 @@ int	single_quote(t_lex *lex, char *input, t_tlex **tlex)
 	int		k;
 
 	k = 0;
-	if (impair_pair_char(input, 39) == 1)
+	if (impair_pair_char(input + lex->i, 39) == 1)
 		return (exit_print("minishell: error: bad single quote format."));
 	lex->i++;
 	lex->j = lex->i;
@@ -79,7 +79,7 @@ int	double_quote(t_lex *lex, char *input, t_tlex **tlex)
 	int		k;
 
 	k = 0;
-	if (impair_pair_char(input, 34) == 1)
+	if (impair_pair_char(input + lex->i, 34) == 1)
 		return (exit_print("minishell: error: bad double quote format."));
 	lex->i++;
 	lex->j = lex->i;

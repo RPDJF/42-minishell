@@ -32,6 +32,7 @@ void	tword_add_back(t_tlex **lst, t_word *neww)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = neww;
+		neww->prev = tmp;
 	}
 }
 

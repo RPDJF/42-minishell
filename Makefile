@@ -106,6 +106,8 @@ SRC +=	builtin/cd \
 		executor/exec_wexitstatus \
 		lexer/lexer_lst_add \
 		lexer/lexer_quote \
+		parsing/free_exit_token \
+		parsing/parsing_utils \
 		prompter/here_doc \
 		prompter/history \
 		utils/binary_finder \
