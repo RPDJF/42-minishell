@@ -2,15 +2,20 @@
 
 static int	stdin_redir(t_context *context, t_stdin *stdin)
 {
-	int	fd;
+	int		fd;
+	char	*filename;
+
+	filename = 0;
+	if (stdin->filename)
+		filename = parse_words(stdin->filename);
 
 	if (context->fd_in != STDIN_FILENO)
 		close(context->fd_in);
 	if (!stdin->is_heredoc)
 	{
-		fd = open(stdin->filename, O_RDONLY);
+		fd = open(filename, O_RDONLY);
 		context->fd_in = fd;
-		context->fd_in_path = stdin->filename;
+		context->fd_in_path = filename;
 	}
 	else
 	{
@@ -24,16 +29,18 @@ static int	stdin_redir(t_context *context, t_stdin *stdin)
 
 static int	stdout_redir(t_context *context, t_stdout *stdout)
 {
-	int	fd;
+	int		fd;
+	char	*filename;
 
+	filename = parse_words(stdout->filename);
 	if (context->fd_out != STDOUT_FILENO)
 		close(context->fd_out);
 	if (stdout->is_append)
-		fd = open(stdout->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
-		fd = open(stdout->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	context->fd_out = fd;
-	context->fd_out_path = stdout->filename;
+	context->fd_out_path = filename;
 	return (fd);
 }
 
