@@ -103,6 +103,8 @@ SRC +=	builtin/cd \
 		executor/exec_pipe \
 		executor/exec_redir \
 		executor/exec_signint \
+		executor/exec_utils \
+		executor/exec_var_init \
 		executor/exec_wexitstatus \
 		lexer/lexer_lst_add \
 		lexer/lexer_quote \
@@ -144,6 +146,8 @@ SHITTY_TOKENIZER_SRC +=	builtin/cd \
 						executor/exec_pipe \
 						executor/exec_redir \
 						executor/exec_signint \
+						executor/exec_utils \
+						executor/exec_var_init \
 						executor/exec_wexitstatus \
 						lexer/lexer_lst_add \
 						lexer/lexer_quote \

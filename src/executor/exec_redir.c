@@ -32,8 +32,6 @@ static int	stdout_redir(t_context *context, t_stdout *stdout)
 		fd = open(stdout->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 		fd = open(stdout->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-		return (fd);
 	context->fd_out = fd;
 	context->fd_out_path = stdout->filename;
 	return (fd);
