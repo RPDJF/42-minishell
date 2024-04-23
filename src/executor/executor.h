@@ -56,4 +56,6 @@ void	exec_var_init(t_executor *executor, t_token *tokens);
 bool	is_builtin(t_cmd *cmd);
 //	find_cmd:	find a command in the *cmd;
 t_cmd	*find_cmd(t_cmd *cmd);
+//	close_all_fd:	close all file descriptors in context
+void	close_all_fd(t_context *context);
 #endif

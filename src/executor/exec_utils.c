@@ -38,3 +38,15 @@ t_cmd	*find_cmd(t_cmd *cmd)
 		return (0);
 	return (cmd);
 }
+
+void	close_all_fd(t_context *context)
+{
+	while (context)
+	{
+		if (context->fd_in != STDIN_FILENO)
+			close(context->fd_in);
+		if (context->fd_out != STDOUT_FILENO)
+			close(context->fd_out);
+		context = context->next;
+	}
+}
