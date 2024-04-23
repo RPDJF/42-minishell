@@ -51,14 +51,14 @@ typedef struct s_cmd
 typedef struct s_stdout
 {
 	bool	is_append;
-	char	*filename;
+	t_word	*filename;
 }				t_stdout;
 
 typedef struct s_stdin
 {
 	bool	is_heredoc;
 	char	*limiter;
-	char	*filename;
+	t_word	*filename;
 }				t_stdin;
 
 typedef struct s_pipe
