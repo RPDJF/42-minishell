@@ -66,8 +66,6 @@ static pid_t	builtin_child(t_context *context, t_cmd *builtin)
 	return (builtin->pid);
 }
 
-
-
 pid_t	init_child(t_context *context, t_token *tokens)
 {
 	t_cmd	*cmd;
