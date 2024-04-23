@@ -1,5 +1,7 @@
 #include "minishell.h"
 #include "env/env.h"
+#include "prompter/prompt.h"
+#include "signals/signals.h"
 
 static char	*mini_gethostname(void)
 {
@@ -30,18 +32,55 @@ static char	*mini_gethostname(void)
 	return (output);
 }
 
-t_minishell	*init_minishell(int argc, char **argv, char **envp)
+//	TODO: remove debug mode when done
+
+static void	script_mode(void)
 {
 	t_minishell	*minishell;
+	struct stat	buf;
 
-	minishell = galloc(sizeof(t_minishell));
+	minishell = get_minishell();
+	if (minishell->argc <= 1 || !ft_strcmp(minishell->argv[1], "debug"))
+		return ;
+	if (!stat(minishell->argv[1], &buf) && !S_ISDIR(buf.st_mode)
+		&& !access(minishell->argv[1], R_OK))
+	{
+		dup2(open(minishell->argv[1], O_RDONLY), STDIN_FILENO);
+		minishell->is_script = true;
+	}
+	else
+		error_cmd(minishell->argv[1], true);
+}
+
+t_minishell	*init_minishell(int argc, char **argv, char **envp)
+{
+	static t_minishell	*minishell;
+
+	if (minishell)
+		return (minishell);
+	else if (!argc || !argv)
+		return (0);
+	minishell = ft_calloc(1, sizeof(t_minishell));
 	if (!minishell)
 		crash_exit();
 	minishell->hostname = mini_gethostname();
 	minishell->argc = argc;
 	minishell->argv = argv;
 	minishell->old_envp = envp;
-	minishell->mini_envp = init_minienvp(minishell);
+	minishell->mini_envp = init_minienvp();
 	minishell->envp = &var_to_tab;
+	minishell->is_interactive = true;
+	ms_load_history();
+	init_signals();
+	script_mode();
+	return (minishell);
+}
+
+t_minishell	*get_minishell(void)
+{
+	static t_minishell	*minishell;
+
+	if (!minishell)
+		minishell = init_minishell(0, 0, 0);
 	return (minishell);
 }

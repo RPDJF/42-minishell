@@ -3,6 +3,10 @@
 
 # include "../lexer/lexer.h"
 
-void	parsing(t_tlex **lex);
+t_token	*parsing(t_tlex *lex);
+
+typedef struct s_pars
+{
+}	t_pars;
 
 #endif

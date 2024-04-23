@@ -1,5 +1,5 @@
 #include "minishell.h"
-#include "prompt.h"
+#include "prompter/prompt.h"
 #include "parsing/parsing.h"
 #include "lexer/lexer.h"
 #include "utils/exit_handler.h"
@@ -18,7 +18,8 @@ void	print_lex(t_tlex *lex)
 			tmp2 = tmp1->cmd;
 			while (tmp2)
 			{
-				ft_printf("--->[%s:%d]", tmp2->str, tmp2->is_var);
+				ft_printf("--->[%s:%d:%d]", tmp2->str, \
+					tmp2->is_var, tmp2->is_quoted);
 				tmp2 = tmp2->next;
 			}
 			i++;
@@ -27,11 +28,27 @@ void	print_lex(t_tlex *lex)
 	}
 }
 
+t_token	*tokenizer(char	*input)
+{
+	t_tlex		*lex;
+	t_token		*token;
+
+	lex = lexer(input);
+	if (!lex)
+		return (NULL);
+	print_lex(lex);
+	token = parsing(lex);
+	if (!token)
+		return (NULL);
+	ft_printf("token addr: %p\n", token);
+	return (token);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	t_minishell	*minishell;
 	char		*input;
-	t_tlex		*lex;
+	t_minishell	*minishell;
+	t_token		*token;
 
 	minishell = init_minishell(argc, argv, envp);
 	while (true)
@@ -39,9 +56,12 @@ int	main(int argc, char **argv, char **envp)
 		input = prompt(minishell);
 		if (!input)
 			crash_exit();
-		lex = lexer(input);
-		print_lex(lex);
-		parsing(&lex);
+		token = tokenizer(input);
+		if (!token)
+		{
+			gfree(input);
+			continue ;
+		}
 		gfree(input);
 	}
 	exit (0);

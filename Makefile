@@ -69,29 +69,98 @@ export APP_HEADER
 CC = gcc
 CFLAGS = -lreadline -Wall -Wextra -Werror
 
+ifdef READLINE
+	CFLAGS += -L$(READLINE)/lib -I$(READLINE)/include
+endif
+
 BETTERFT_PATH = libs/betterft/
 BETTERFT_LIB = $(BETTERFT_PATH:%=%betterft.a)
 
 CFLAGS += $(BETTERFT_LIB)
 
-SRC = 	env/env \
+SRC = 	builtin/builtin \
+		env/env \
+		executor/executor \
 		lexer/lexer \
 		parsing/parsing \
+		prompter/prompt \
+		signals/signals \
 		main \
 		minishell \
-		prompt \
 
-SRC +=	env/env_add \
+SRC +=	builtin/cd \
+		builtin/echo \
+		builtin/envb \
+		builtin/exit \
+		builtin/export \
+		builtin/pwd \
+		builtin/unset \
+		env/env_add \
 		env/env_conv \
 		env/env_destroy \
 		env/env_get \
+		executor/exec_child \
+		executor/exec_pipe \
+		executor/exec_redir \
+		executor/exec_signint \
+		executor/exec_utils \
+		executor/exec_var_init \
+		executor/exec_wexitstatus \
 		lexer/lexer_lst_add \
 		lexer/lexer_quote \
-		utils/exit_handler \
+		prompter/here_doc \
+		prompter/history \
 		utils/binary_finder \
+		utils/exit_handler \
+		utils/expand_arr_words \
+		utils/expand_utils \
+		utils/expand_words \
+		lexer/lexer_bonus \
+		lexer/lexer_utils \
 		utils/strr_realloc \
-		utils/lexer_bonus \
-		utils/lexer_utils \
+	
+SHITTY_TOKENIZER_SRC = 	builtin/builtin \
+						env/env \
+						executor/executor \
+						lexer/lexer \
+						parsing/parsing \
+						prompter/prompt \
+						signals/signals \
+						main_shitty_tokenizer \
+						minishell \
+
+SHITTY_TOKENIZER_SRC +=	builtin/cd \
+						builtin/echo \
+						builtin/envb \
+						builtin/exit \
+						builtin/export \
+						builtin/pwd \
+						builtin/unset \
+						env/env_add \
+						env/env_conv \
+						env/env_destroy \
+						env/env_get \
+						executor/exec_child \
+						executor/exec_pipe \
+						executor/exec_redir \
+						executor/exec_signint \
+						executor/exec_utils \
+						executor/exec_var_init \
+						executor/exec_wexitstatus \
+						lexer/lexer_lst_add \
+						lexer/lexer_quote \
+						prompter/here_doc \
+						prompter/history \
+						utils/binary_finder \
+						utils/exit_handler \
+						utils/expand_arr_words \
+						utils/expand_utils \
+						utils/expand_words \
+						lexer/lexer_bonus \
+						lexer/lexer_utils \
+						utils/strr_realloc \
+
+CSHITTY_TOKENIZER = $(SHITTY_TOKENIZER_SRC:%=src/%.c)
 
 CFILES = $(SRC:%=src/%.c)
 
@@ -99,14 +168,24 @@ NAME = minishell
 
 all: $(NAME)
 
-debug: fclean $(CFILES) $(BETTERFT_LIB)
+debug: fclean $(CFILES)
+	@$(MAKE) $(BETTERFT_LIB) --no-print-directory
 	@echo "$$APP_HEADER"
+	@if [ `uname` = "Darwin" ]; then \
+		echo "\033[0;33mYou may need to install an readline library from brew"; \
+		echo "Default readline library on MacOS may not be compatible with Minishell"; \
+		echo "\nPlease run: brew install readline"; \
+		echo "Then set READLINE to the path of the newly installed readline library"; \
+		echo "\nExamples: export READLINE=/usr/local/Cellar/readline/8.2.10"; \
+		echo "          export READLINE=/opt/homebrew/Cellar/readline/8.2.10"; \
+		echo "          export READLINE=~/.brew/Cellar/readline/8.2.10\033[0m\n"; \
+	fi
 	@printf "\t🤖 Compiling $(NAME)...\r"
 	@$(CC) -g3 -pthread -fsanitize=thread $(CFILES) $(CFLAGS) -o $(NAME)
 	@printf "\33[2K"
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is compiled ✅"
 	@echo "\nThe programm was compiled with debug sanitizer set to address\nDo not forget to use \"leak -atExit -- $(NAME)\" in order to check for potential leaks.\nNote that it won't work with the debug version.\n\nFor better debug, you can use \"lldb $(name) <args>\" after using debug rule.\n\n"
-	@echo $(shell norminette)
+	@norminette ./ | grep -E "Error:|Error!" | sed -E 's/(Error!)/\x1b[31m\1\x1b[0m/g'
 
 clean: $(BETTERFT_PATH)Makefile
 	@$(MAKE) -C $(BETTERFT_PATH) fclean --no-print-directory
@@ -118,16 +197,16 @@ fclean: clean
 #	@echo "\t[INFO]\t[$(NAME)]\t$(BONUS_NAME) is fully deleted 🗑️"
 
 re: fclean
-	@make -C $(BETTERFT_PATH)
-	@make all
+	@$(MAKE) all --no-print-directory
 
 help:
 	@echo "$$HEADER"
-	@echo "all		-	Build $(NAME)"
-	@echo "clean		-	Clean temporary files"
-	@echo "fclean		-	Clean the whole build"
-	@echo "debug		-	Runs the program with g3 fsanitize=address"
-	@echo "$(NAME)	-	Build the $(NAME) with necessary libs"
+	@echo "all				-	Build $(NAME)"
+	@echo "clean				-	Clean temporary files"
+	@echo "fclean				-	Clean the whole build"
+	@echo "debug				-	Runs the program with g3 fsanitize=address"
+	@echo "$(NAME)			-	Build the $(NAME) with necessary libs"
+	@echo "$(BETTERFT_PATH:%=%betterft.a)	-	Build btterft.a lib"
 
 $(CFILES): header
 
@@ -138,8 +217,33 @@ $(CFILES): header
 
 $(NAME): $(CFILES) $(BETTERFT_LIB)
 	@echo "$$APP_HEADER"
+	@if [ `uname` = "Darwin" ]; then \
+		echo "\033[0;33mYou may need to install an readline library from brew"; \
+		echo "Default readline library on MacOS may not be compatible with Minishell"; \
+		echo "\nPlease run: brew install readline"; \
+		echo "Then set READLINE to the path of the newly installed readline library"; \
+		echo "\nExamples: export READLINE=/usr/local/Cellar/readline/8.2.10"; \
+		echo "          export READLINE=/opt/homebrew/Cellar/readline/8.2.10"; \
+		echo "          export READLINE=~/.brew/Cellar/readline/8.2.10\033[0m\n"; \
+	fi
 	@printf "\t🤖 Compiling $(NAME)...\r"
 	@$(CC) $(CFILES) $(CFLAGS) -o $(NAME)
+	@printf "\33[2K"
+	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is compiled ✅\n"
+
+SHITTY_TOKENIZER: $(CSHITTY_TOKENIZER) $(BETTERFT_LIB)
+	@echo "$$APP_HEADER"
+	@if [ `uname` = "Darwin" ]; then \
+		echo "\033[0;33mYou may need to install an readline library from brew"; \
+		echo "Default readline library on MacOS may not be compatible with Minishell"; \
+		echo "\nPlease run: brew install readline"; \
+		echo "Then set READLINE to the path of the newly installed readline library"; \
+		echo "\nExamples: export READLINE=/usr/local/Cellar/readline/8.2.10"; \
+		echo "          export READLINE=/opt/homebrew/Cellar/readline/8.2.10"; \
+		echo "          export READLINE=~/.brew/Cellar/readline/8.2.10\033[0m\n"; \
+	fi
+	@printf "\t🤖 Compiling $(NAME)...\r"
+	@$(CC) $(CSHITTY_TOKENIZER) $(CFLAGS) -o $(NAME) -g3 -fsanitize=address
 	@printf "\33[2K"
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is compiled ✅\n"
 
@@ -150,4 +254,4 @@ $(BETTERFT_LIB): $(BETTERFT_PATH)Makefile
 header:
 	@echo "$$HEADER"
 
-.PHONY = all clean fclean re header help
+.PHONY = all clean fclean re header help SHITTY_TOKENIZER

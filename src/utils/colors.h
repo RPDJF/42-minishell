@@ -1,15 +1,5 @@
-#ifndef PROMPT_H
-# define PROMPT_H
-
-# include "minishell.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-
-# ifdef __APPLE__
-#  define ENDLINE "$ "
-# else
-#  define ENDLINE "❥ "
-# endif
+#ifndef COLORS_H
+# define COLORS_H
 
 //	macros
 //		Colors definition
@@ -41,9 +31,5 @@
 # define C_BBLUE "\001\033\[44m\002"
 # define C_BMAGENTA "\001\033\[45m\002"
 # define C_BCYAN "\001\033\[46m\002"
-
-// Functions
-//	prompt: sends a prompt to the user and returns their input as char*
-char	*prompt(t_minishell *minishell);
 
 #endif

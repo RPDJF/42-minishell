@@ -2,15 +2,19 @@
 # define CD_H
 
 # include "../minishell.h"
+# include "../env/env.h"
 
 typedef struct s_cd
 {
 	int		argc;
 	char	**argv;
-	char	*path;
-	char	**context;
-	int		status;
-	int		(*exec)(const char *__path);
+	char	*pwd;
+	char	pwd_buff[PATH_MAX];
+	char	oldpwd[PATH_MAX];
+	int		(*exec)(struct s_cd *cd);
 }	t_cd;
+
+//	cd: change directory
+int	cd(int argc, char **argv);
 
 #endif

@@ -3,7 +3,7 @@
 
 # include "../minishell.h"
 
-# define OPTIONS "n"
+# define ECHO_OPTIONS "n"
 
 typedef struct s_echo
 {
@@ -12,5 +12,8 @@ typedef struct s_echo
 	char	**argv;
 	void	(*exec)(char *str, int fd);
 }	t_echo;
+
+//	echo: builtin echo command
+int	echo(int argc, char **argv);
 
 #endif

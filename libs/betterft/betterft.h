@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:19:26 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/13 23:26:27 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/04/19 18:19:02 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <stdio.h>
+# include <limits.h>
+# include <sys/stat.h>
+# include <signal.h>
+
+# ifndef PATH_MAX
+#  define PATH_MAX 4096
+# endif
 
 typedef struct s_list
 {
@@ -204,6 +211,10 @@ char		*ft_strrchr(const char *s, int c);
 //	'new' in the string 'src'.
 //	Returns a new dynamically allocated string.
 char		*ft_strreplace(char *src, char *old, char *new);
+//	ft_strreplace: Replaces first occurrence of the string 'old' with the string
+//	'new' in the string 'src'.
+//	Returns a new dynamically allocated string.
+char		*ft_strreplace_first(char *src, char *old, char *new);
 //	ft_strtrim: Returns a dynamically allocated string without characters from
 //	'set' at the beginning and end of 's1'.
 char		*ft_strtrim(const char *s1, const char *set);
