@@ -7,7 +7,7 @@
 
 //	Error codes
 //		Error messages
-# define IS_DIR "is a directory"
+# define IS_DIR "Is a directory"
 # define COMMAND_NOT_FOUND "command not found"
 
 //	secure_exit: exits the program with a specific exit code freeing all memory
