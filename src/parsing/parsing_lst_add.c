@@ -57,8 +57,7 @@ t_token	*end_newwtk_delem(t_word *cmd, t_pars *pars, t_token *neww)
 		((t_stdout *)(neww)->data)->filename = pars->tmp1->next->cmd;
 	}
 	else if (!end_newwtk_delem2(cmd, pars, neww))
-		return (exit_tk((char *[]){APP_NAME, "token", 0}, \
-				"syntax error near unexpected token `newwline'"));
+		return (NULL);
 	return (neww);
 }
 
@@ -83,8 +82,7 @@ t_token	*newwtk_delem(t_word *cmd, t_pars *pars)
 		((t_stdin *)(neww)->data)->is_heredoc = true;
 	}
 	else if (!end_newwtk_delem(cmd, pars, neww))
-		return (exit_tk((char *[]){APP_NAME, "token", 0}, \
-				"syntax error near unexpected token `newwline'"));
+		return (NULL);
 	pars->tmp1 = pars->tmp1->next->next;
 	return (neww);
 }

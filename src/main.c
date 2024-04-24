@@ -51,7 +51,7 @@ void	print_tokens(t_token *tokens)
 			printf("is_append: %d\n", cmd->is_append);
 			printf("filename: %s", cmd->filename->str);
 		}
-		printf("\n");
+		printf("\n[end token]\n");
 		tokens = tokens->next;
 	}
 }

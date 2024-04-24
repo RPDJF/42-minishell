@@ -44,6 +44,8 @@ int	tk_delem(t_token *neww, t_pars *pars)
 		{
 			neww->type = token_pipe;
 			neww->data = (t_pipe *)ft_calloc(1, sizeof(t_pipe));
+			if (!neww->data)
+				crash_exit();
 			pars->tmp1 = pars->tmp1->next;
 			return (1);
 		}
