@@ -10,7 +10,6 @@ typedef struct s_pars
 	int		i;
 	int		j;
 	t_tlex	*tmp1;
-	t_tlex	*tmp2;
 }	t_pars;
 
 void	free_cmd(t_cmd	*data);

@@ -23,7 +23,7 @@ int	var_quoted(t_word *cmd)
 	tmp = cmd;
 	while (tmp)
 	{
-		if (ft_strchr(tmp->str, '=') != NULL)
+		if (ft_strchr(tmp->str, '='))
 		{
 			if (tmp->is_quoted == 0 && prev_quoted(tmp->prev) == 1)
 				return (1);
@@ -40,12 +40,24 @@ int	tk_delem(t_token *neww, t_pars *pars)
 {
 	if (!pars->tmp1->cmd->is_quoted && !pars->tmp1->cmd->next)
 	{
-		if (pars->tmp1->cmd->str[0] == '|' && !pars->tmp1->cmd->str[1])
+		if (!ft_strcmp(pars->tmp1->cmd->str, "|"))
 		{
 			neww->type = token_pipe;
 			neww->data = (t_pipe *)ft_calloc(1, sizeof(t_pipe));
 			if (!neww->data)
 				crash_exit();
+			pars->tmp1 = pars->tmp1->next;
+			return (1);
+		}
+		else if (!ft_strcmp(pars->tmp1->cmd->str, "||"))
+		{
+			neww->type = token_and;
+			pars->tmp1 = pars->tmp1->next;
+			return (1);
+		}
+		else if (!ft_strcmp(pars->tmp1->cmd->str, "&&"))
+		{
+			neww->type = token_or;
 			pars->tmp1 = pars->tmp1->next;
 			return (1);
 		}
