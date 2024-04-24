@@ -13,8 +13,8 @@ char	*prompt_here_doc(char *delimiter)
 	char	*msg;
 
 	write (STDOUT_FILENO, "> ", 2);
-	line = ft_get_next_line(STDIN_FILENO);
-	if (!line)
+	line = ft_get_next_line(get_minishell()->dup_stdin);
+	if (!line && get_minishell()->sigint != SIGINT)
 	{
 		write(STDOUT_FILENO, "\n", 1);
 		msg = ft_strsjoin(3, "here-document delimited by end-of-file (wanted `",
@@ -25,7 +25,8 @@ char	*prompt_here_doc(char *delimiter)
 		gfree(msg);
 		return (0);
 	}
-	line[ft_strlen(line) - 1] = 0;
+	if (line)
+		line[ft_strlen(line) - 1] = 0;
 	return (line);
 }
 
@@ -38,6 +39,7 @@ int	here_doc(char *delimiter)
 		crash_exit();
 	get_minishell()->here_doc_fd[0] = pipe_fd[0];
 	get_minishell()->here_doc_fd[1] = pipe_fd[1];
+	get_minishell()->dup_stdin = dup(STDIN_FILENO);
 	line = prompt_here_doc(delimiter);
 	while (line && ft_strcmp(line, delimiter))
 	{
@@ -50,5 +52,6 @@ int	here_doc(char *delimiter)
 	close(pipe_fd[1]);
 	get_minishell()->here_doc_fd[0] = 0;
 	get_minishell()->here_doc_fd[1] = 0;
+	close (get_minishell()->dup_stdin);
 	return (pipe_fd[0]);
 }

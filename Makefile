@@ -98,6 +98,7 @@ SRC +=	builtin/cd \
 		env/env_add \
 		env/env_conv \
 		env/env_destroy \
+		env/env_exitcode \
 		env/env_get \
 		executor/exec_child \
 		executor/exec_pipe \
@@ -145,6 +146,7 @@ SHITTY_TOKENIZER_SRC +=	builtin/cd \
 						env/env_add \
 						env/env_conv \
 						env/env_destroy \
+						env/env_exitcode \
 						env/env_get \
 						executor/exec_child \
 						executor/exec_pipe \
@@ -155,6 +157,8 @@ SHITTY_TOKENIZER_SRC +=	builtin/cd \
 						executor/exec_wexitstatus \
 						lexer/lexer_lst_add \
 						lexer/lexer_quote \
+						parsing/free_exit_token \
+						parsing/parsing_utils \
 						prompter/here_doc \
 						prompter/history \
 						utils/binary_finder \

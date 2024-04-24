@@ -39,5 +39,7 @@ char	**var_to_tab(void);
 void	print_export(void);
 //	print_minienvp: print mini_envp
 void	print_minienvp(void);
+//	update_exitcode: update the exit code variable
+void	update_exitcode(int exitcode);
 
 #endif

@@ -45,15 +45,11 @@ static t_executor	*init_executor(t_token *tokens)
 
 static void	update_status_var(int status)
 {
-	char	*status_str;
 
 	if (get_minishell()->sigint != SIGINT)
-		status_str = ft_itoa(status);
+		update_exitcode(status);
 	else
-		status_str = ft_strdup("130");
-	if (!status_str)
-		crash_exit();
-	update_var(new_var("?", status_str, false, false));
+		update_exitcode(130);
 }
 
 static void	exec_token(t_executor *exec, t_context *context, t_token **tokens)
