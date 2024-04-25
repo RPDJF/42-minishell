@@ -88,7 +88,7 @@ t_token	*tokenizer(char	*input)
 	lex = lexer(input);
 	if (!lex)
 		return (NULL);
-	//print_lex(lex);
+	print_lex(lex);
 	token = parsing(&lex);
 	if (!token)
 		return (NULL);
