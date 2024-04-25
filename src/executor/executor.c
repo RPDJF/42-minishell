@@ -1,24 +1,8 @@
 #include "executor.h"
 
-static t_context	*init_context(t_executor *executor)
-{
-	t_context	*context;
-
-	context = ft_calloc(1, sizeof(t_context));
-	if (!context)
-		crash_exit();
-	context->has_pipe = &executor->has_pipe;
-	context->og_fd_in = &executor->og_fd_in;
-	context->og_fd_out = &executor->og_fd_out;
-	context->fd_in = STDIN_FILENO;
-	context->fd_out = STDOUT_FILENO;
-	return (context);
-}
-
 static t_executor	*init_executor(t_token *tokens)
 {
 	t_executor	*executor;
-	t_context	**context;
 
 	executor = galloc(sizeof(t_executor));
 	if (!executor)
@@ -31,29 +15,23 @@ static t_executor	*init_executor(t_token *tokens)
 		crash_exit();
 	executor->has_pipe = has_pipe(tokens);
 	executor->tokens = tokens;
-	context = &executor->context;
-	while (tokens)
-	{
-		*context = init_context(executor);
-		if (!*context)
-			crash_exit();
-		context = &(*context)->next;
-		tokens = tokens->next;
-	}
+	init_context(executor);
 	return (executor);
 }
 
 static void	update_status_var(int status)
 {
-
 	if (get_minishell()->sigint != SIGINT)
 		update_exitcode(status);
 	else
 		update_exitcode(130);
 }
 
-static void	exec_token(t_executor *exec, t_context *context, t_token **tokens)
+static void	exec_token(t_executor *exec, t_token **tokens)
 {
+	t_context	*context;
+
+	context = (*tokens)->context;
 	if ((*tokens)->type == token_pipe)
 	{
 		(*tokens) = (*tokens)->next;
@@ -61,7 +39,7 @@ static void	exec_token(t_executor *exec, t_context *context, t_token **tokens)
 	}
 	else if ((*tokens)->type == token_cmd)
 	{
-		init_child(context, *tokens);
+		init_child(*tokens);
 		if (context->fd_in != STDIN_FILENO)
 			close(context->fd_in);
 		if (context->fd_out != STDOUT_FILENO)
@@ -75,20 +53,11 @@ static void	exec_token(t_executor *exec, t_context *context, t_token **tokens)
 void	executor(t_token *tokens)
 {
 	t_executor	*executor;
-	t_context	*context;
 
 	executor = init_executor(tokens);
-	context = executor->context;
-	if (executor->has_pipe)
-		exec_pipe(executor, tokens);
-	exec_redir(executor, tokens);
 	get_minishell()->is_interactive = false;
 	while (get_minishell()->sigint != SIGINT && tokens)
-	{
-		if (tokens->type == token_pipe)
-			context = context->next;
-		exec_token(executor, context, &tokens);
-	}
+		exec_token(executor, &tokens);
 	if (get_minishell()->sigint == SIGINT)
 	{
 		exit_signint(executor);
