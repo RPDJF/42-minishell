@@ -11,7 +11,7 @@ static bool	is_valid_name(char *str)
 	return (true);
 }
 
-static char	*var_name(char *str)
+char	*var_name(char *str)
 {
 	char	*name;
 

@@ -8,6 +8,7 @@
 # define NOT_VALID_IDENTIFIER "not a valid identifier"
 
 //	export: builtin export command
-int	export_ms(int argc, char **argv);
+int		export_ms(int argc, char **argv);
+char	*var_name(char *str);
 
 #endif
