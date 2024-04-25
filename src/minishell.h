@@ -27,7 +27,7 @@ typedef enum e_token_type
 	token_stdout,
 	token_and,
 	token_or,
-	token_grp
+	token_subshell
 }				t_token_type;
 
 //	Token structure
@@ -60,6 +60,7 @@ typedef struct s_stdout
 typedef struct s_stdin
 {
 	bool	is_heredoc;
+	bool	is_quoted;
 	char	*limiter;
 	t_word	*filename;
 }				t_stdin;
@@ -73,7 +74,13 @@ typedef struct s_var_init
 {
 	char	*name;
 	t_word	*value;
-}	t_var_init;
+}				t_var_init;
+
+typedef struct s_subshell
+{
+	t_token	*subshell;
+	pid_t	pid;
+}				t_subshell;
 
 //	Var structure
 typedef struct s_var
