@@ -121,6 +121,10 @@ SRC +=	builtin/cd \
 		lexer/lexer_bonus \
 		lexer/lexer_utils \
 		utils/strr_realloc \
+		parsing/parsing_delem \
+		parsing/parsing_lst_add \
+		parsing/parsing_lst_add_more \
+
 	
 SHITTY_TOKENIZER_SRC = 	builtin/builtin \
 						env/env \
