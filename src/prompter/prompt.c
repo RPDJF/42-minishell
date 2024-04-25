@@ -96,7 +96,7 @@ char	*prompt(t_minishell *minishell)
 		rl_replace_line("", 0);
 		print_userinfo();
 		input = readline(strprompt);
-		minishell->sigint = 0;
+		get_minishell()->sigint = 0;
 		gfree(strprompt);
 		if (!input)
 			write(STDERR_FILENO, "exit\n", 5);

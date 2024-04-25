@@ -5,9 +5,10 @@ static int	close_here_doc_fd(void)
 	int	status;
 
 	status = 0;
-	if (get_minishell()->dup_stdin)
+	if (get_minishell()->dup_stdin != STDIN_FILENO)
 	{
 		close(get_minishell()->dup_stdin);
+		get_minishell()->dup_stdin = STDIN_FILENO;
 		status = 1;
 	}
 	if (get_minishell()->here_doc_fd[1])

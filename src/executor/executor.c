@@ -90,16 +90,14 @@ int	executor(t_token *tokens)
 	while (get_minishell()->sigint != SIGINT && tokens)
 		exec_token(executor, &tokens);
 	if (get_minishell()->sigint == SIGINT)
-	{
 		exit_signint(executor);
-		get_minishell()->sigint = 0;
-	}
 	else
 	{
 		status = wait_all_tokens(executor->tokens);
 		update_status_var(wait_all_tokens(executor->tokens));
 	}
-	close_all_fd(executor->context);
 	get_minishell()->is_interactive = true;
+	get_minishell()->sigint = 0;
+	close_all_fd(executor->context);
 	return (status);
 }

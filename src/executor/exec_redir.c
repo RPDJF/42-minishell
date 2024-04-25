@@ -18,7 +18,7 @@ static int	stdin_redir(t_context *context, t_stdin *stdin)
 	}
 	else
 	{
-		fd = here_doc(stdin->limiter);
+		fd = here_doc(stdin->limiter, stdin->is_quoted);
 		if (fd < 0)
 			return (fd);
 		context->fd_in = fd;
