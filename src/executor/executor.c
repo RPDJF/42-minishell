@@ -33,7 +33,10 @@ static void	and_or(t_executor *exec, t_token **tokens)
 	int				status;
 
 	cmd = find_last_cmd(exec, *tokens);
-	status = wait_token(cmd);
+	if (cmd)
+		status = wait_token(cmd);
+	else
+		status = 0;
 	if ((*tokens)->type == token_and)
 	{
 		if (status)
