@@ -2,7 +2,8 @@
 
 static bool	has_command(t_token *tokens)
 {
-	while (tokens && tokens->type != token_pipe)
+	while (tokens && tokens->type != token_pipe
+		&& tokens->type != token_and && tokens->type != token_or)
 	{
 		if (tokens->type == token_cmd)
 			return (true);
