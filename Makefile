@@ -109,8 +109,6 @@ SRC +=	builtin/cd \
 		executor/exec_wexitstatus \
 		lexer/lexer_lst_add \
 		lexer/lexer_quote \
-		parsing/free_exit_token \
-		parsing/parsing_utils \
 		prompter/here_doc \
 		prompter/history \
 		utils/binary_finder \
@@ -121,9 +119,14 @@ SRC +=	builtin/cd \
 		lexer/lexer_bonus \
 		lexer/lexer_utils \
 		utils/strr_realloc \
-		parsing/parsing_delem \
+		parsing/pars_quote_utils \
+		parsing/pars_t_cmd \
+		parsing/pars_t_delemiteur \
+		parsing/pars_t_var_init \
 		parsing/parsing_lst_add \
 		parsing/parsing_lst_add_more \
+		parsing/free_exit_token \
+		parsing/parsing_utils
 
 	
 SHITTY_TOKENIZER_SRC = 	builtin/builtin \
