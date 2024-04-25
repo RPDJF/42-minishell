@@ -7,8 +7,7 @@ static size_t	count_context(t_token *tokens)
 	count = 1;
 	while (tokens)
 	{
-		if (tokens->type == token_pipe
-			|| tokens->type == token_and || tokens->type == token_or)
+		if (tokens->type == token_pipe)
 			count++;
 		tokens = tokens->next;
 	}
