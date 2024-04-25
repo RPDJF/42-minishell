@@ -105,6 +105,7 @@ SRC +=	builtin/cd \
 		executor/exec_pipe \
 		executor/exec_redir \
 		executor/exec_signint \
+		executor/exec_subshell \
 		executor/exec_utils \
 		executor/exec_var_init \
 		executor/exec_wexitstatus \

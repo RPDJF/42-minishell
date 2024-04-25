@@ -73,14 +73,18 @@ static void	exec_token(t_executor *exec, t_token **tokens)
 		exec_var_init(exec, *tokens);
 	else if ((*tokens)->type == token_and || (*tokens)->type == token_or)
 		and_or(exec, tokens);
+	else if ((*tokens)->type == token_subshell)
+		init_subshell(*tokens);
 	if (*tokens)
 		(*tokens) = (*tokens)->next;
 }
 
-void	executor(t_token *tokens)
+int	executor(t_token *tokens)
 {
 	t_executor	*executor;
+	int			status;
 
+	status = 0;
 	executor = init_executor(tokens);
 	get_minishell()->is_interactive = false;
 	while (get_minishell()->sigint != SIGINT && tokens)
@@ -91,7 +95,11 @@ void	executor(t_token *tokens)
 		get_minishell()->sigint = 0;
 	}
 	else
-		update_status_var(wait_all_tokens(executor));
+	{
+		status = wait_all_tokens(executor->tokens);
+		update_status_var(wait_all_tokens(executor->tokens));
+	}
 	close_all_fd(executor->context);
 	get_minishell()->is_interactive = true;
+	return (status);
 }

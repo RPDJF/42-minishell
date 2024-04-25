@@ -11,40 +11,41 @@ static int	get_wexistatus(int status)
 
 int	wait_token(t_token *token)
 {
-	t_cmd	*cmd;
+	int	status;
 
-	cmd = token->data;
 	if (token->type == token_cmd)
 	{
-		if (cmd->pid)
+		if (((t_cmd *)token->data)->pid && !((t_cmd *)token->data)->status)
 		{
-			waitpid(cmd->pid, &cmd->status, 0);
-			cmd->status = get_wexistatus(cmd->status);
-			return (cmd->status);
+			waitpid(((t_cmd *)token->data)->pid, &status, 0);
+			((t_cmd *)token->data)->status = get_wexistatus(status);
+			return (((t_cmd *)token->data)->status);
 		}
-		return (cmd->status);
+		return (((t_cmd *)token->data)->status);
+	}
+	else if (token->type == token_subshell)
+	{
+		if (((t_subshell *)token->data)->pid
+			&& !((t_subshell *)token->data)->status)
+		{
+			waitpid(((t_subshell *)token->data)->pid, &status, 0);
+			((t_subshell *)token->data)->status = get_wexistatus(status);
+			return (((t_subshell *)token->data)->status);
+		}
+		return (((t_subshell *)token->data)->status);
 	}
 	return (0);
 }
 
-int	wait_all_tokens(t_executor *executor)
+int	wait_all_tokens(t_token *tokens)
 {
-	t_token	*tokens;
-	t_cmd	*cmd;
+	int	status;
 
-	tokens = executor->tokens;
+	status = 0;
 	while (tokens)
 	{
-		if (tokens->type == token_cmd)
-		{
-			cmd = tokens->data;
-			if (cmd->pid)
-			{
-				waitpid(cmd->pid, &cmd->status, 0);
-				cmd->status = get_wexistatus(cmd->status);
-			}
-		}
+		status = wait_token(tokens);
 		tokens = tokens->next;
 	}
-	return (cmd->status);
+	return (status);
 }
