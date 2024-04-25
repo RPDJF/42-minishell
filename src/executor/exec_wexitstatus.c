@@ -9,52 +9,42 @@ static int	get_wexistatus(int status)
 	return (status);
 }
 
-int	wait_last_token(t_executor *executor, t_token *tokens)
+int	wait_token(t_token *token)
 {
-	t_token	*head;
-	t_token	*last_pipe;
-	t_cmd	*last_cmd;
+	t_cmd	*cmd;
 
-	head = executor->tokens;
-	while (head != tokens)
+	cmd = token->data;
+	if (token->type == token_cmd)
 	{
-		if (head->type == token_pipe)
-			last_pipe = head;
-		head = head->next;
+		if (cmd->pid)
+		{
+			waitpid(cmd->pid, &cmd->status, 0);
+			cmd->status = get_wexistatus(cmd->status);
+			return (cmd->status);
+		}
+		return (cmd->status);
 	}
-	while (last_pipe && last_pipe->type != token_cmd)
-		last_pipe = last_pipe->next;
-	if (!last_pipe)
-		return (0);
-	last_cmd = last_pipe->data;
-	if (last_cmd->pid)
-	{
-		waitpid(last_cmd->pid, &last_cmd->status, 0);
-		return (get_wexistatus(last_cmd->status));
-	}
-	return (last_cmd->status);
+	return (0);
 }
 
-int	wait_tokens(t_executor *executor)
+int	wait_all_tokens(t_executor *executor)
 {
 	t_token	*tokens;
-	int		status;
+	t_cmd	*cmd;
 
 	tokens = executor->tokens;
-	status = 0;
 	while (tokens)
 	{
 		if (tokens->type == token_cmd)
 		{
-			if (((t_cmd *)tokens->data)->pid)
+			cmd = tokens->data;
+			if (cmd->pid)
 			{
-				waitpid(((t_cmd *)tokens->data)->pid, &status, 0);
-				status = get_wexistatus(status);
+				waitpid(cmd->pid, &cmd->status, 0);
+				cmd->status = get_wexistatus(cmd->status);
 			}
-			else
-				status = ((t_cmd *)tokens->data)->status;
 		}
 		tokens = tokens->next;
 	}
-	return (status);
+	return (cmd->status);
 }
