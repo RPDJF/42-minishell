@@ -37,6 +37,7 @@ static void	and_or(t_executor *exec, t_token **tokens)
 		status = wait_token(cmd);
 	else
 		status = 0;
+	update_exitcode(status);
 	if ((*tokens)->type == token_and)
 	{
 		if (status)
