@@ -51,13 +51,13 @@ int	tk_delem(t_token *neww, t_pars *pars)
 		}
 		else if (!ft_strcmp(pars->tmp1->cmd->str, "||"))
 		{
-			neww->type = token_and;
+			neww->type = token_or;
 			pars->tmp1 = pars->tmp1->next;
 			return (1);
 		}
 		else if (!ft_strcmp(pars->tmp1->cmd->str, "&&"))
 		{
-			neww->type = token_or;
+			neww->type = token_and;
 			pars->tmp1 = pars->tmp1->next;
 			return (1);
 		}
