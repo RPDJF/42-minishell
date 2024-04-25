@@ -7,7 +7,8 @@ static size_t	count_context(t_token *tokens)
 	count = 1;
 	while (tokens)
 	{
-		if (tokens->type == token_pipe)
+		if (tokens->type == token_pipe
+			|| tokens->type == token_and || tokens->type == token_or)
 			count++;
 		tokens = tokens->next;
 	}
@@ -42,10 +43,9 @@ static void	init_fd_dup(t_executor *executor)
 	{
 		type = tokens->type;
 		if (type == token_pipe)
-		{
 			exec_pipe(context, tokens);
+		if (type == token_pipe || type == token_and || type == token_or)
 			context = context->next;
-		}
 		else if (type == token_stdin || type == token_stdout)
 			exec_redir(context, tokens);
 		tokens->context = context;

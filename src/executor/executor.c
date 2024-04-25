@@ -27,6 +27,27 @@ static void	update_status_var(int status)
 		update_exitcode(130);
 }
 
+static void	and_or(t_executor *exec, t_token **tokens)
+{
+	t_token			*cmd;
+	int				status;
+
+	cmd = find_last_cmd(exec, *tokens);
+	status = wait_token(cmd);
+	if ((*tokens)->type == token_and)
+	{
+		if (status)
+			while (*tokens && (*tokens)->type != token_or)
+				*tokens = (*tokens)->next;
+	}
+	else if ((*tokens)->type == token_or)
+	{
+		if (!status)
+			while (*tokens && (*tokens)->type != token_and)
+				*tokens = (*tokens)->next;
+	}
+}
+
 static void	exec_token(t_executor *exec, t_token **tokens)
 {
 	t_context	*context;
@@ -47,7 +68,10 @@ static void	exec_token(t_executor *exec, t_token **tokens)
 	}
 	else if ((*tokens)->type == token_var)
 		exec_var_init(exec, *tokens);
-	(*tokens) = (*tokens)->next;
+	else if ((*tokens)->type == token_and || (*tokens)->type == token_or)
+		and_or(exec, tokens);
+	if (*tokens)
+		(*tokens) = (*tokens)->next;
 }
 
 void	executor(t_token *tokens)
@@ -64,7 +88,7 @@ void	executor(t_token *tokens)
 		get_minishell()->sigint = 0;
 	}
 	else
-		update_status_var(wait_tokens(executor));
+		update_status_var(wait_all_tokens(executor));
 	close_all_fd(executor->context);
 	get_minishell()->is_interactive = true;
 }

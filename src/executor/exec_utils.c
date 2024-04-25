@@ -17,6 +17,24 @@ bool	is_builtin(t_cmd *cmd)
 	return (output);
 }
 
+t_token	*find_last_cmd(t_executor *exec, t_token *token)
+{
+	t_token	*cmd;
+	t_token	*p;
+
+	cmd = 0;
+	p = exec->tokens;
+	while (p != token && p)
+	{
+		if (p->type == token_cmd
+			&& (((t_cmd *)p->data)->pid
+				|| ((t_cmd *)p->data)->status))
+			cmd = p;
+		p = p->next;
+	}
+	return (cmd);
+}
+
 t_cmd	*find_cmd(t_cmd *cmd)
 {
 	char	*cmd_str;

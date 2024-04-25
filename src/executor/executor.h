@@ -37,11 +37,11 @@ pid_t		init_child(t_token *tokens);
 void		exec_pipe(t_context *context, t_token *tokens);
 //	exec_redir:	handles redirections type tokens
 void		exec_redir(t_context *context, t_token *tokens);
-//	wait_tokens:	wait for tokens to finish executing
+//	wait_all_tokens:	wait for tokens to finish executing
 //	returns last process exit code
-int			wait_tokens(t_executor *executor);
-//	wait_last_token:	wait for the last token to finish executing
-int			wait_last_token(t_executor *executor, t_token *tokens);
+int			wait_all_tokens(t_executor *executor);
+//	wait_token:	wait for a token to finish executing
+int			wait_token(t_token *token);
 //	has_pipe:	check if a token list has a pipe token
 bool		has_pipe(t_token *tokens);
 //	switch_fd:	switch file descriptors
@@ -60,5 +60,7 @@ t_cmd		*find_cmd(t_cmd *cmd);
 void		close_all_fd(t_context *context);
 //	init_executor:	initialize executor struct
 t_context	*init_context(t_executor *executor);
+//	find_last_cmd:	find the last command in the executor
+t_token		*find_last_cmd(t_executor *exec, t_token *token);
 
 #endif
