@@ -3,6 +3,7 @@
 minishell
 test*.c
 test*.txt
+minishell_tester/
 
 # Prerequisites
 *.d
