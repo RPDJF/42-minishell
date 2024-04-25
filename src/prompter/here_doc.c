@@ -35,13 +35,10 @@ static char	*expand_str(char *str)
 	{
 		tmp = output;
 		output = expand_var(output, cursor);
-		printf("output: %s\n", output);
 		gfree(tmp);
 		cursor = ft_strchr(output, '$');
 		while (cursor && varlen(cursor) <= 1)
 			cursor = ft_strchr(cursor + 1, '$');
-		if (cursor)
-			printf("found another $: %s\n", cursor);
 	}
 	return (output);
 }
