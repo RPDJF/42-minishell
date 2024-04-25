@@ -22,9 +22,12 @@ void	error_msg(char **context, char *msg)
 	{
 		ft_putstr_fd(*context, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
+		if (!context[1] && !ft_strcmp(*context, "warning"))
+			ft_putstr_fd(C_YELLOW, STDERR_FILENO);
+		else if (!context[1])
+			ft_putstr_fd(C_RED, STDERR_FILENO);
 		context++;
 	}
-	ft_putstr_fd(C_RED, STDERR_FILENO);
 	ft_putendl_fd(msg, STDERR_FILENO);
 	ft_putstr_fd(C_RESET, STDERR_FILENO);
 }

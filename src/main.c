@@ -26,8 +26,8 @@ void	print_tokens(t_token *tokens)
 			token_type = "token_and";
 		else if (tokens->type == token_or)
 			token_type = "token_or";
-		else if (tokens->type == token_grp)
-			token_type = "token_grp";
+		else if (tokens->type == token_subshell)
+			token_type = "token_subshell";
 		printf("type: %s\n", token_type);
 		printf("next: %p\n", tokens->next);
 		if (tokens->type == token_cmd)

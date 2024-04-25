@@ -1,17 +1,5 @@
 #include "expand_words.h"
 
-static size_t	varlen(char *str)
-{
-	size_t	len;
-
-	len = 1;
-	if (str[1] == '?')
-		return (len + 1);
-	while (str[len] && (ft_isalnum(str[len]) || str[len] == '_'))
-		len++;
-	return (len);
-}
-
 static void	replace_word(t_word *word, char *var_name)
 {
 	t_var	*var;
@@ -49,6 +37,7 @@ static t_word	*expand_vars(t_word *words)
 				continue ;
 			var_name = ft_substr(cursor, 0, varlen(cursor));
 			replace_word(words, var_name);
+			gfree(var_name);
 			i = -1;
 		}
 		words = words->next;
@@ -73,6 +62,18 @@ static t_word	*expand_words(t_word *words)
 		gfree(str);
 	}
 	return (words);
+}
+
+size_t	varlen(char *str)
+{
+	size_t	len;
+
+	len = 1;
+	if (str[1] == '?')
+		return (len + 1);
+	while (str[len] && (ft_isalnum(str[len]) || str[len] == '_'))
+		len++;
+	return (len);
 }
 
 char	*parse_words(t_word *words)

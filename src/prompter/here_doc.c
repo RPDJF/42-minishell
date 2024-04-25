@@ -1,13 +1,66 @@
 #include "here_doc.h"
 
-static int	handle_sigint(int *pipe_fd)
+static char	*expand_var(char *str, char *cursor)
 {
-	close(pipe_fd[1]);
-	close(pipe_fd[0]);
+	char	*var;
+	char	*value;
+	char	*output;
+	size_t	len;
+
+	len = varlen(cursor);
+	var = ft_substr(str, cursor - str, len);
+	if (!var)
+		crash_exit();
+	value = get_var_value(var + 1);
+	if (!value)
+		crash_exit();
+	output = ft_strreplace_first(str, var, value);
+	if (!output)
+		crash_exit();
+	gfree(var);
+	return (output);
+}
+
+static char	*expand_str(char *str)
+{
+	char	*output;
+	char	*cursor;
+	char	*tmp;
+
+	output = str;
+	cursor = ft_strchr(output, '$');
+	while (cursor && varlen(cursor) <= 1)
+		cursor = ft_strchr(cursor + 1, '$');
+	while (cursor)
+	{
+		tmp = output;
+		output = expand_var(output, cursor);
+		printf("output: %s\n", output);
+		gfree(tmp);
+		cursor = ft_strchr(output, '$');
+		while (cursor && varlen(cursor) <= 1)
+			cursor = ft_strchr(cursor + 1, '$');
+		if (cursor)
+			printf("found another $: %s\n", cursor);
+	}
+	return (output);
+}
+
+int	reset_heredoc(bool close_fd)
+{
+	if (close_fd && get_minishell()->here_doc_fd[0] != 0)
+		close(get_minishell()->here_doc_fd[0]);
+	if (close_fd && get_minishell()->here_doc_fd[1] != 0)
+		close(get_minishell()->here_doc_fd[1]);
+	get_minishell()->here_doc_fd[0] = 0;
+	get_minishell()->here_doc_fd[1] = 0;
+	if (get_minishell()->dup_stdin != STDIN_FILENO)
+		close (get_minishell()->dup_stdin);
+	get_minishell()->dup_stdin = STDIN_FILENO;
 	return (-1);
 }
 
-char	*prompt_here_doc(char *delimiter)
+static char	*prompt_here_doc(char *delimiter)
 {
 	char	*line;
 	char	*msg;
@@ -30,7 +83,7 @@ char	*prompt_here_doc(char *delimiter)
 	return (line);
 }
 
-int	here_doc(char *delimiter)
+int	here_doc(char *delimiter, bool is_quoted)
 {
 	int		pipe_fd[2];
 	char	*line;
@@ -43,15 +96,15 @@ int	here_doc(char *delimiter)
 	line = prompt_here_doc(delimiter);
 	while (line && ft_strcmp(line, delimiter))
 	{
+		if (!is_quoted)
+			line = expand_str(line);
 		ft_putendl_fd(line, pipe_fd[1]);
 		free(line);
 		if (get_minishell()->sigint == SIGINT)
-			return (handle_sigint(pipe_fd));
+			return (reset_heredoc(true));
 		line = prompt_here_doc(delimiter);
 	}
 	close(pipe_fd[1]);
-	get_minishell()->here_doc_fd[0] = 0;
-	get_minishell()->here_doc_fd[1] = 0;
-	close (get_minishell()->dup_stdin);
+	reset_heredoc(false);
 	return (pipe_fd[0]);
 }

@@ -78,7 +78,8 @@ typedef struct s_var_init
 
 typedef struct s_subshell
 {
-	t_token	*subshell;
+	t_token	*token;
+	int		status;
 	pid_t	pid;
 }				t_subshell;
 

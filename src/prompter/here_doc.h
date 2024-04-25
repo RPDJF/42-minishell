@@ -7,7 +7,9 @@
 # include "../executor/executor.h"
 
 //	here_doc:	function that reads from stdin until a delimiter is found
+//	delimiter:	the string that will be used to stop reading
+//	is_quoted:	if the delimiter is quoted
 //	return:	fd of a pipe that contains the input read
-int	here_doc(char *delimiter);
+int	here_doc(char *delimiter, bool is_quoted);
 
 #endif
