@@ -100,6 +100,7 @@ SRC +=	builtin/cd \
 		env/env_destroy \
 		env/env_exitcode \
 		env/env_get \
+		executor/context \
 		executor/exec_child \
 		executor/exec_pipe \
 		executor/exec_redir \
@@ -127,53 +128,6 @@ SRC +=	builtin/cd \
 		parsing/parsing_lst_add_more \
 		parsing/free_exit_token \
 		parsing/parsing_utils
-
-	
-SHITTY_TOKENIZER_SRC = 	builtin/builtin \
-						env/env \
-						executor/executor \
-						lexer/lexer \
-						parsing/parsing \
-						prompter/prompt \
-						signals/signals \
-						main_shitty_tokenizer \
-						minishell \
-
-SHITTY_TOKENIZER_SRC +=	builtin/cd \
-						builtin/echo \
-						builtin/envb \
-						builtin/exit \
-						builtin/export \
-						builtin/pwd \
-						builtin/unset \
-						env/env_add \
-						env/env_conv \
-						env/env_destroy \
-						env/env_exitcode \
-						env/env_get \
-						executor/exec_child \
-						executor/exec_pipe \
-						executor/exec_redir \
-						executor/exec_signint \
-						executor/exec_utils \
-						executor/exec_var_init \
-						executor/exec_wexitstatus \
-						lexer/lexer_lst_add \
-						lexer/lexer_quote \
-						parsing/free_exit_token \
-						parsing/parsing_utils \
-						prompter/here_doc \
-						prompter/history \
-						utils/binary_finder \
-						utils/exit_handler \
-						utils/expand_arr_words \
-						utils/expand_utils \
-						utils/expand_words \
-						lexer/lexer_bonus \
-						lexer/lexer_utils \
-						utils/strr_realloc \
-
-CSHITTY_TOKENIZER = $(SHITTY_TOKENIZER_SRC:%=src/%.c)
 
 CFILES = $(SRC:%=src/%.c)
 
@@ -244,22 +198,6 @@ $(NAME): $(CFILES) $(BETTERFT_LIB)
 	@printf "\33[2K"
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is compiled ✅\n"
 
-SHITTY_TOKENIZER: $(CSHITTY_TOKENIZER) $(BETTERFT_LIB)
-	@echo "$$APP_HEADER"
-	@if [ `uname` = "Darwin" ]; then \
-		echo "\033[0;33mYou may need to install an readline library from brew"; \
-		echo "Default readline library on MacOS may not be compatible with Minishell"; \
-		echo "\nPlease run: brew install readline"; \
-		echo "Then set READLINE to the path of the newly installed readline library"; \
-		echo "\nExamples: export READLINE=/usr/local/Cellar/readline/8.2.10"; \
-		echo "          export READLINE=/opt/homebrew/Cellar/readline/8.2.10"; \
-		echo "          export READLINE=~/.brew/Cellar/readline/8.2.10\033[0m\n"; \
-	fi
-	@printf "\t🤖 Compiling $(NAME)...\r"
-	@$(CC) $(CSHITTY_TOKENIZER) $(CFLAGS) -o $(NAME) -g3 -fsanitize=address
-	@printf "\33[2K"
-	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is compiled ✅\n"
-
 $(BETTERFT_LIB): $(BETTERFT_PATH)Makefile
 	@echo "$$LIB_HEADER"
 	@make -C $(BETTERFT_PATH) all --no-print-directory
@@ -267,4 +205,4 @@ $(BETTERFT_LIB): $(BETTERFT_PATH)Makefile
 header:
 	@echo "$$HEADER"
 
-.PHONY = all clean fclean re header help SHITTY_TOKENIZER
+.PHONY = all clean fclean re header help

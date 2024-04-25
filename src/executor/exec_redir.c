@@ -8,7 +8,6 @@ static int	stdin_redir(t_context *context, t_stdin *stdin)
 	filename = 0;
 	if (stdin->filename)
 		filename = parse_words(stdin->filename);
-
 	if (context->fd_in != STDIN_FILENO)
 		close(context->fd_in);
 	if (!stdin->is_heredoc)
@@ -44,19 +43,10 @@ static int	stdout_redir(t_context *context, t_stdout *stdout)
 	return (fd);
 }
 
-void	exec_redir(t_executor *executor, t_token *tokens)
+void	exec_redir(t_context *context, t_token *tokens)
 {
-	t_context	*context;
-
-	context = executor->context;
-	while (tokens && context)
-	{
-		if (tokens->type == token_stdin)
-			context->fd_in = stdin_redir(context, (t_stdin *)tokens->data);
-		else if (tokens->type == token_stdout)
-			context->fd_out = stdout_redir(context, (t_stdout *)tokens->data);
-		else if (tokens->type == token_pipe)
-			context = context->next;
-		tokens = tokens->next;
-	}
+	if (tokens->type == token_stdin)
+		context->fd_in = stdin_redir(context, (t_stdin *)tokens->data);
+	else if (tokens->type == token_stdout)
+		context->fd_out = stdout_redir(context, (t_stdout *)tokens->data);
 }

@@ -66,7 +66,7 @@ static pid_t	builtin_child(t_context *context, t_cmd *builtin)
 	return (builtin->pid);
 }
 
-pid_t	init_child(t_context *context, t_token *tokens)
+pid_t	init_child(t_token *tokens)
 {
 	t_cmd	*cmd;
 
@@ -81,9 +81,9 @@ pid_t	init_child(t_context *context, t_token *tokens)
 	}
 	cmd = (t_cmd *)tokens->data;
 	if (is_builtin(cmd))
-		builtin_child(context, cmd);
+		builtin_child(tokens->context, cmd);
 	else
-		cmd_child(context, cmd);
+		cmd_child(tokens->context, cmd);
 	if (cmd->pid < 0)
 		crash_exit();
 	return (cmd->pid);
