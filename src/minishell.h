@@ -60,6 +60,7 @@ typedef struct s_stdout
 typedef struct s_stdin
 {
 	bool	is_heredoc;
+	bool	is_quoted;
 	char	*limiter;
 	t_word	*filename;
 }				t_stdin;
