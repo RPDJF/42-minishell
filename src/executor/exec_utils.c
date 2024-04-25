@@ -30,6 +30,10 @@ t_token	*find_last_cmd(t_executor *exec, t_token *token)
 			&& (((t_cmd *)p->data)->pid
 				|| ((t_cmd *)p->data)->status))
 			cmd = p;
+		if (p->type == token_subshell
+			&& (((t_subshell *)p->data)->pid
+				|| ((t_subshell *)p->data)->status))
+			cmd = p;
 		p = p->next;
 	}
 	return (cmd);
