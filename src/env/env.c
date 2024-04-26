@@ -57,11 +57,20 @@ static void	add_default_vars(void)
 	t_var	*var;
 	char	*value;
 
-	value = ft_itoa(0);
+	value = ft_strdup("0");
 	if (!value)
 		crash_exit();
 	var = new_var("?", value, false, false);
-	add_var(var);
+	update_var(var);
+	value = ft_strdup("1");
+	if (!value)
+		crash_exit();
+	if (!get_var("SHLVL"))
+		add_var(new_var("SHLVL", value, true, false));
+	if (!get_var("PWD"))
+		add_var(new_var("PWD", parse_var("PWD"), true, false));
+	if (!get_var("OLDPWD"))
+		add_var(new_var("OLDPWD", 0, true, false));
 }
 
 t_var	*new_env_var(char *env)

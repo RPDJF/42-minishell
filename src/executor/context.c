@@ -28,10 +28,11 @@ static t_context	*new_context(t_executor *executor)
 	context->fd_in = STDIN_FILENO;
 	context->fd_out = STDOUT_FILENO;
 	context->next = 0;
+	context->prev = 0;
 	return (context);
 }
 
-static void	init_fd_dup(t_executor *executor)
+static void	init_fd_dup(t_executor *executor, int *fd)
 {
 	t_token			*tokens;
 	t_context		*context;
@@ -41,19 +42,21 @@ static void	init_fd_dup(t_executor *executor)
 	tokens = executor->tokens;
 	while (tokens)
 	{
+		if (fd && tokens == executor->tokens)
+			context->fd_in = fd[0];
 		type = tokens->type;
 		if (type == token_pipe)
 			exec_pipe(context, tokens);
 		if (type == token_pipe || type == token_and || type == token_or)
 			context = context->next;
-		else if (type == token_stdin || type == token_stdout)
-			exec_redir(context, tokens);
+		else if (type == token_stdin)
+			exec_here_doc(context, tokens);
 		tokens->context = context;
 		tokens = tokens->next;
 	}
 }
 
-t_context	*init_context(t_executor *executor)
+t_context	*init_context(t_executor *executor, int *fd)
 {
 	t_context	*context;
 	size_t		count;
@@ -64,8 +67,9 @@ t_context	*init_context(t_executor *executor)
 	while (--count, count > 0)
 	{
 		context->next = new_context(executor);
+		context->next->prev = context;
 		context = context->next;
 	}
-	init_fd_dup(executor);
+	init_fd_dup(executor, fd);
 	return (executor->context);
 }

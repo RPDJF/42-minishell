@@ -1,32 +1,21 @@
 #include "executor.h"
 
-static int	stdin_redir(t_context *context, t_stdin *stdin)
+static void	stdin_redir(t_context *context, t_stdin *stdin)
 {
 	int		fd;
 	char	*filename;
 
-	filename = 0;
-	if (stdin->filename)
-		filename = parse_words(stdin->filename);
+	if (!stdin->filename)
+		return ;
+	filename = parse_words(stdin->filename);
 	if (context->fd_in != STDIN_FILENO)
 		close(context->fd_in);
-	if (!stdin->is_heredoc)
-	{
-		fd = open(filename, O_RDONLY);
-		context->fd_in = fd;
-		context->fd_in_path = filename;
-	}
-	else
-	{
-		fd = here_doc(stdin->limiter, stdin->is_quoted);
-		if (fd < 0)
-			return (fd);
-		context->fd_in = fd;
-	}
-	return (fd);
+	fd = open(filename, O_RDONLY);
+	context->fd_in = fd;
+	context->fd_in_path = filename;
 }
 
-static int	stdout_redir(t_context *context, t_stdout *stdout)
+static void	stdout_redir(t_context *context, t_stdout *stdout)
 {
 	int		fd;
 	char	*filename;
@@ -40,13 +29,25 @@ static int	stdout_redir(t_context *context, t_stdout *stdout)
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	context->fd_out = fd;
 	context->fd_out_path = filename;
-	return (fd);
 }
 
 void	exec_redir(t_context *context, t_token *tokens)
 {
-	if (tokens->type == token_stdin)
-		context->fd_in = stdin_redir(context, (t_stdin *)tokens->data);
-	else if (tokens->type == token_stdout)
-		context->fd_out = stdout_redir(context, (t_stdout *)tokens->data);
+	while (tokens && tokens->type != token_pipe
+		&& tokens->type != token_and && tokens->type != token_or)
+	{
+		if (tokens->type == token_stdin)
+			stdin_redir(context, (t_stdin *)tokens->data);
+		else if (tokens->type == token_stdout)
+			stdout_redir(context, (t_stdout *)tokens->data);
+		tokens = tokens->next;
+	}
+}
+
+void	exec_here_doc(t_context *context, t_token *tokens)
+{
+	if (tokens->type != token_stdin || !((t_stdin *)tokens->data)->is_heredoc)
+		return ;
+	context->fd_in = here_doc(((t_stdin *)tokens->data)->limiter,
+			((t_stdin *)tokens->data)->is_quoted);
 }

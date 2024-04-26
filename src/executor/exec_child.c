@@ -90,5 +90,9 @@ pid_t	init_child(t_token *tokens)
 		cmd_child(tokens->context, cmd);
 	if (cmd->pid < 0)
 		crash_exit();
+	if (tokens->context->fd_in != STDIN_FILENO)
+		close(tokens->context->fd_in);
+	if (tokens->context->fd_out != STDOUT_FILENO)
+		close(tokens->context->fd_out);
 	return (cmd->pid);
 }
