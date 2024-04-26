@@ -15,6 +15,12 @@ t_token	*token_new_end(t_token *neww, t_pars *pars)
 			return (NULL);
 		return (neww);
 	}
+	else if (is_subshell(pars->tmp1->cmd) == 1)
+	{
+		if (!tk_subshell(neww, pars))
+			return (NULL);
+		return (neww);
+	}
 	return (NULL);
 }
 

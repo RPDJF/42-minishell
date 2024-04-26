@@ -51,7 +51,9 @@ void	print_tokens(t_token *tokens)
 			printf("is_append: %d\n", cmd->is_append);
 			printf("filename: %s", cmd->filename->str);
 		}
-		printf("\n[end token]\n");
+		else if (tokens->type == token_subshell)
+			print_tokens(((t_subshell *)(tokens)->data)->token);
+		printf("\n\n[end token]\n\n\n");
 		tokens = tokens->next;
 	}
 }
@@ -88,11 +90,11 @@ t_token	*tokenizer(char	*input)
 	lex = lexer(input);
 	if (!lex)
 		return (NULL);
-	//print_lex(lex);
+	print_lex(lex);
 	token = parsing(&lex);
 	if (!token)
 		return (NULL);
-	//print_tokens(token);
+	print_tokens(token);
 	return (token);
 }
 

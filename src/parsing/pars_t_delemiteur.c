@@ -34,7 +34,9 @@ int	tw_is_delem(t_word *cmd)
 	if (!cmd->is_quoted && !cmd->next
 		&& ((cmd->str[0] == '|' && !cmd->str[1])
 			|| (cmd->str[0] == '|' && cmd->str[1] == '|' && !cmd->str[2])
-			|| (cmd->str[0] == '&' && cmd->str[1] == '&' && !cmd->str[2])))
+			|| (cmd->str[0] == '&' && cmd->str[1] == '&' && !cmd->str[2])
+			|| (cmd->str[0] == ')' && !cmd->is_quoted && !cmd->next
+				&& !cmd->prev)))
 		return (1);
 	else if (!cmd->is_quoted && !cmd->next
 		&& ((cmd->str[0] == '<' && !cmd->str[1])
