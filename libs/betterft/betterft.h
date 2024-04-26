@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:19:26 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/19 18:19:02 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/26 02:14:41 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_garbcol
 {
 	void				*content;
 	struct s_garbcol	*next;
-	struct s_garbcol	*previous;
 }					t_garbcol;
 
 //		GARBAGE COLLECTOR
