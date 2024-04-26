@@ -11,6 +11,7 @@ typedef struct s_context	t_context;
 typedef struct s_context
 {
 	t_context	*next;
+	t_context	*prev;
 	bool		*has_pipe;
 	int			*og_fd_in;
 	int			*og_fd_out;
@@ -37,6 +38,8 @@ pid_t		init_child(t_token *tokens);
 void		exec_pipe(t_context *context, t_token *tokens);
 //	exec_redir:	handles redirections type tokens
 void		exec_redir(t_context *context, t_token *tokens);
+//	exec_here_doc:	handles stdin here_doc type tokens
+void		exec_here_doc(t_context *context, t_token *tokens);
 //	wait_all_tokens:	wait for tokens to finish executing
 //	returns last process exit code
 int			wait_all_tokens(t_token *tokens);
