@@ -50,17 +50,14 @@ void	print_userinfo(void)
 static char	*get_prompt(void)
 {
 	char		*output;
-	char		*cwd;
+	char		cwd[PATH_MAX];
 	static char	*user;
 
-	cwd = getcwd(0, 0);
-	if (!cwd)
-		crash_exit();
+	getcwd(cwd, PATH_MAX);
 	if (!user)
 		user = get_var_value("USER");
 	output = ft_strsjoin(10, "└─", C_CYAN, "[", cwd, "]",
 			C_RESET, " [", get_var("?")->value, "]-", ENDLINE);
-	gfree(cwd);
 	if (!output)
 		crash_exit();
 	output = parse_prompt(output);
