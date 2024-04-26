@@ -3,9 +3,12 @@
 
 int	correct_syntax_var(char *str)
 {
+	if (*str && (ft_isdigit(*str) || !ft_isalpha(*str)))
+		return (0);
+	str++;
 	while (*str && *str != '=')
 	{
-		if (!ft_isalpha(*str) && *str != '_')
+		if (!ft_isalnum(*str) && *str != '_')
 			return (0);
 		str++;
 	}
