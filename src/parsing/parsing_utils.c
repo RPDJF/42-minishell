@@ -1,4 +1,5 @@
 #include "parsing.h"
+#include "../env/env.h"
 
 void	free_tword(t_word *cmd)
 {
@@ -59,9 +60,10 @@ int	arg_count(t_tlex *arg)
 	return (i);
 }
 
-void	*exit_tk(char **context, char *msg)
+void	*exit_tk(char **context, char *msg, int exitcode)
 {
 	error_msg(context, msg);
+	update_exitcode(exitcode);
 	return (NULL);
 }
 

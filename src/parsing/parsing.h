@@ -29,8 +29,8 @@ void			free_tword(t_word *cmd);
 char			*tw_strchr(t_word *cmd, int c);
 // Count the numbers of noeud of the t_tlex linked list
 int				arg_count(t_tlex *arg);
-// exit with "crash_exit()" function and returns a NULL;
-void			*exit_tk(char **context, char *msg);
+// return "NULL", use "error_msg()" and "update_exit_code()";
+void			*exit_tk(char **context, char *msg, int exitcode);
 // return (1) if in the prev noeud of the "t_word *cmd"
 // is_quoted==true, else return (0).
 bool			prev_quoted(t_word	*cmd);
@@ -76,7 +76,11 @@ bool			is_it_quoted(t_word *cmd);
 t_token_type	define_type(t_word *cmd);
 // check if the var str have a correct syntax (only alphanumeric caratere)
 int				correct_syntax_var(char *str);
+// check if the actuel t_word is a subshell.
 int				is_subshell(t_word *cmd);
+// creat subshell tokens.
 int				tk_subshell(t_token *neww, t_pars *pars);
+// Check the right syntaxe of the tokens with subshell.
+void			*check_syntax_subshell(t_token *token);
 
 #endif

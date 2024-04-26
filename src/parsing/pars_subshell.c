@@ -39,3 +39,51 @@ int	tk_subshell(t_token *subshl, t_pars *pars)
 	}
 	return (1);
 }
+
+void	*tk_type(t_token *token)
+{
+	char	*str;
+	char	*tmp;
+
+	str = NULL;
+	tmp = NULL;
+	if (token->type == token_cmd)
+		str = ft_strjoin("syntax error near unexpected token ",
+				join_tword(((t_cmd *)(token)->data)->cmd));
+	else if (token->type == token_subshell)
+		str = ft_strjoin("syntax error near unexpected token ",
+				"subshell");
+	else if (token->type == token_var)
+	{
+		str = ft_strjoin(\
+			"syntax error near unexpected token ", "Variable initialization");
+		gfree(tmp);
+	}
+	exit_tk((char *[]){APP_NAME, 0, 0}, str, 2);
+	gfree(str);
+	return (NULL);
+}
+
+void	*check_syntax_subshell(t_token *token)
+{
+	while (token && token->next)
+	{
+		if (token->type == token_subshell)
+		{
+			while (token->next)
+			{
+				token = token->next;
+				if (token && (token->type == token_cmd
+						|| token->type == token_subshell
+						|| token->type == token_var))
+					return (tk_type(token));
+				if (token && (token->type == token_pipe
+						|| token->type == token_and || token->type == token_or))
+					break ;
+			}
+		}
+		if (token && token->next)
+			token = token->next;
+	}
+	return (token);
+}

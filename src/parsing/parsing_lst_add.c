@@ -7,7 +7,7 @@ t_token	*end_newwtk_delem2(t_word *cmd, t_pars *pars, t_token *neww)
 	{
 		if (!pars->tmp1->next)
 			return (exit_tk((char *[]){APP_NAME, "token", 0}, \
-				"syntax error near unexpected token `newwline'"));
+				"syntax error near unexpected token `newwline'", 2));
 		neww->data = (t_stdout *)ft_calloc(1, sizeof(t_stdout));
 		if (!neww->data)
 			crash_exit();
@@ -24,7 +24,7 @@ t_token	*end_newwtk_delem(t_word *cmd, t_pars *pars, t_token *neww)
 	{
 		if (!pars->tmp1->next)
 			return (exit_tk((char *[]){APP_NAME, "token", 0}, \
-				"syntax error near unexpected token `newwline'"));
+				"syntax error near unexpected token `newwline'", 2));
 		neww->data = (t_stdin *)ft_calloc(1, sizeof(t_stdin));
 		if (!neww->data)
 			crash_exit();
@@ -34,7 +34,7 @@ t_token	*end_newwtk_delem(t_word *cmd, t_pars *pars, t_token *neww)
 	{
 		if (!pars->tmp1->next)
 			return (exit_tk((char *[]){APP_NAME, "token", 0}, \
-				"syntax error near unexpected token `newwline'"));
+				"syntax error near unexpected token `newwline'", 2));
 		neww->data = (t_stdout *)ft_calloc(1, sizeof(t_stdout));
 		if (!neww->data)
 			crash_exit();
@@ -58,7 +58,7 @@ t_token	*newwtk_delem(t_word *cmd, t_pars *pars)
 	{
 		if (!pars->tmp1->next)
 			return (exit_tk((char *[]){APP_NAME, "token", 0}, \
-					"syntax error near unexpected token `newwline'"));
+					"syntax error near unexpected token `newwline'", 2));
 		neww->data = (t_stdin *)ft_calloc(1, sizeof(t_stdin));
 		if (!neww->data)
 			crash_exit();
