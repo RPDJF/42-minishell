@@ -1,4 +1,5 @@
 #include "exit_handler.h"
+# include "../env/env.h"
 
 void	secure_exit(int exitcode)
 {
@@ -42,9 +43,14 @@ void	error_cmd(char *path, bool is_script)
 {
 	int			err;
 	struct stat	path_stat;
+	bool		has_path_var;
 
 	err = errno;
-	if (!is_script && !ft_strchr(path, '/'))
+	if (get_var("PATH") && get_var("PATH")->value && *get_var("PATH")->value)
+		has_path_var = true;
+	else
+		has_path_var = false;
+	if (err != EACCES && !is_script && !ft_strchr(path, '/') && has_path_var)
 		error_exit((char *[]){APP_NAME, path, 0}, COMMAND_NOT_FOUND, 127);
 	else if (stat(path, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
 		error_exit((char *[]){APP_NAME, path, 0}, IS_DIR, 126);

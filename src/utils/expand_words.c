@@ -12,7 +12,7 @@ static void	replace_word(t_word *word, char *var_name)
 		expand = var->value;
 	else
 		expand = "";
-	word->str = ft_strreplace(word->str, var_name, expand);
+	word->str = ft_strreplace_first(word->str, var_name, expand);
 	gfree(tmp);
 }
 
