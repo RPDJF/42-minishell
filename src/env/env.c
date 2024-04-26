@@ -45,9 +45,6 @@ static char	*parse_var(char *var_name)
 		output = addgarbage(getcwd(0, 0));
 	else if (!ft_strcmp(var_name, "SHELL"))
 		output = ft_strdup("/usr/local/bin/minishell");
-	else if (!ft_strcmp(var_name, "PATH"))
-		output = ft_strdup(
-				"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
 	else
 		output = ft_strdup(getenv(var_name));
 	if (!output)
@@ -57,14 +54,12 @@ static char	*parse_var(char *var_name)
 
 static void	add_default_vars(void)
 {
-	t_var	*var;
 	char	*value;
 
 	value = ft_strdup("0");
 	if (!value)
 		crash_exit();
-	var = new_var("?", value, false, false);
-	update_var(var);
+	update_var(new_var("?", value, false, false));
 	value = ft_strdup("1");
 	if (!value)
 		crash_exit();
@@ -77,7 +72,13 @@ static void	add_default_vars(void)
 	if (!get_var("SHELL"))
 		add_var(new_var("SHELL", parse_var("SHELL"), false, false));
 	if (!get_var("PATH"))
-		add_var(new_var("PATH", parse_var("PATH"), false, false));
+	{
+		value = ft_strdup(
+				"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+		if (!value)
+			crash_exit();
+		add_var(new_var("PATH", value, false, false));
+	}
 }
 
 t_var	*new_env_var(char *env)
