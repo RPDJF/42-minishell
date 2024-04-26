@@ -76,5 +76,7 @@ bool			is_it_quoted(t_word *cmd);
 t_token_type	define_type(t_word *cmd);
 // check if the var str have a correct syntax (only alphanumeric caratere)
 int				correct_syntax_var(char *str);
+int				is_subshell(t_word *cmd);
+int				tk_subshell(t_token *neww, t_pars *pars);
 
 #endif

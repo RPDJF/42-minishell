@@ -128,7 +128,8 @@ SRC +=	builtin/cd \
 		parsing/parsing_lst_add \
 		parsing/parsing_lst_add_more \
 		parsing/free_exit_token \
-		parsing/parsing_utils
+		parsing/parsing_utils \
+		parsing/pars_subshell
 
 CFILES = $(SRC:%=src/%.c)
 
