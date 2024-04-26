@@ -33,7 +33,7 @@ int				arg_count(t_tlex *arg);
 void			*exit_tk(char **context, char *msg);
 // return (1) if in the prev noeud of the "t_word *cmd"
 // is_quoted==true, else return (0).
-int				prev_quoted(t_word	*cmd);
+bool			prev_quoted(t_word	*cmd);
 // return (1) if the function found a varable assignement
 // "ex:a=b" and if the "is_quoted==0"
 // else return (0).
@@ -74,5 +74,7 @@ int				tk_delem(t_token *neww, t_pars *pars);
 bool			is_it_quoted(t_word *cmd);
 // return the type of the cmd
 t_token_type	define_type(t_word *cmd);
+// check if the var str have a correct syntax (only alphanumeric caratere)
+int				correct_syntax_var(char *str);
 
 #endif

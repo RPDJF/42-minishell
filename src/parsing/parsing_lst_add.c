@@ -64,7 +64,8 @@ t_token	*newwtk_delem(t_word *cmd, t_pars *pars)
 			crash_exit();
 		((t_stdin *)(neww)->data)->limiter = join_tword(pars->tmp1->next->cmd);
 		((t_stdin *)(neww)->data)->is_heredoc = true;
-		((t_stdin *)(neww)->data)->is_quoted = is_it_quoted(pars->tmp1->next->cmd);
+		((t_stdin *)(neww)->data)->is_quoted
+			= is_it_quoted(pars->tmp1->next->cmd);
 	}
 	else if (!end_newwtk_delem(cmd, pars, neww))
 		return (NULL);
