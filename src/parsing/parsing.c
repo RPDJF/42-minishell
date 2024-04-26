@@ -2,7 +2,8 @@
 
 t_token	*token_new_end(t_token *neww, t_pars *pars)
 {
-	if (tw_strchr(pars->tmp1->cmd, '=') && var_quoted(pars->tmp1->cmd))
+	if (tw_strchr(pars->tmp1->cmd, '=') && var_quoted(pars->tmp1->cmd)
+		&& correct_syntax_var(pars->tmp1->cmd->str))
 	{
 		if (!tk_is_var_init(neww, pars))
 			return (NULL);

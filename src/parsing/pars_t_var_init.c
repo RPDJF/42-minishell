@@ -1,6 +1,17 @@
 #include "parsing.h"
 #include "../builtin/export.h"
 
+int	correct_syntax_var(char *str)
+{
+	while (*str && *str != '=')
+	{
+		if (!ft_isalpha(*str) && *str != '_')
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
 t_word	*get_value_ofvar(char *str)
 {
 	t_word	*arg;

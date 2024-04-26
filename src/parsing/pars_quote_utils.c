@@ -1,19 +1,19 @@
 #include "parsing.h"
 
-int	prev_quoted(t_word	*cmd)
+bool	prev_quoted(t_word	*cmd)
 {
 	t_word	*tmp;
 
 	tmp = cmd;
 	if (!cmd)
-		return (1);
+		return (false);
 	while (tmp)
 	{
-		if (tmp->is_quoted == 1)
-			return (0);
+		if (tmp->is_quoted)
+			return (true);
 		tmp = tmp->prev;
 	}
-	return (1);
+	return (false);
 }
 
 int	var_quoted(t_word *cmd)
@@ -25,13 +25,17 @@ int	var_quoted(t_word *cmd)
 	{
 		if (ft_strchr(tmp->str, '='))
 		{
-			if (tmp->is_quoted == 0 && prev_quoted(tmp->prev) == 1)
-				return (1);
-			else if (tmp->is_quoted == 1)
+			if (tmp->is_quoted)
 				return (0);
+			else if (!tmp->is_quoted)
+			{
+				if (!prev_quoted(tmp->prev))
+					return (1);
+				else
+					return (0);
+			}
 		}
-		else
-			tmp = tmp->next;
+		tmp = tmp->next;
 	}
 	return (0);
 }
