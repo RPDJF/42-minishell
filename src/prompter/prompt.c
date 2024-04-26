@@ -72,12 +72,20 @@ static char	*get_prompt(void)
 char	*script_prompt(void)
 {
 	char		*input;
+	char		*trim;
 
 	while (true)
 	{
 		input = ft_get_next_line(STDIN_FILENO);
 		if (!input)
 			secure_exit(0);
+		trim = ft_strtrim(input, " \t\v\f\r\n");
+		if (*trim == '#' || !*trim)
+		{
+			gfree(input);
+			gfree(trim);
+			continue ;
+		}
 		return (input);
 	}
 }
