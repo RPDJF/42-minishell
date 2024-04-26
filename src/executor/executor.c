@@ -80,7 +80,10 @@ int	executor(t_token *tokens, int *fd)
 	executor = init_executor(tokens, fd);
 	get_minishell()->is_interactive = false;
 	while (get_minishell()->sigint != SIGINT && tokens)
+	{
+		exec_redir(tokens->context, tokens);
 		exec_token(executor, &tokens);
+	}
 	if (get_minishell()->sigint == SIGINT)
 		exit_signint(executor);
 	else
