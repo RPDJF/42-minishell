@@ -37,7 +37,7 @@ static char	*get_fulpath(char *binary)
 	while (path[++i])
 	{
 		tmp = build_path(path, binary, i);
-		if (access(tmp, F_OK) == 0)
+		if (access(tmp, X_OK) == 0)
 		{
 			ft_free_tab(path);
 			return (tmp);
@@ -58,20 +58,17 @@ char	*find_binary(char *binary)
 	if (!binary)
 		return (0);
 	else if (!*binary)
-	{
-		output = ft_strdup("");
-		if (!output)
-			crash_exit();
-		return (output);
-	}
+		return ("");
 	output = 0;
 	if (ft_strchr(binary, '/'))
-	{
-		output = ft_strdup(binary);
-		if (!output)
-			crash_exit();
-	}
+		return (binary);
+	else if (get_var("PATH")
+		&& get_var("PATH")->value && *get_var("PATH")->value)
+		return (get_fulpath(binary));
 	else
-		output = get_fulpath(binary);
+	{
+		access(binary, X_OK);
+		return (binary);
+	}
 	return (output);
 }
