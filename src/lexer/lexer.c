@@ -27,7 +27,8 @@ void	add_word_to_lex_str(t_lex *lex, char *input, t_tlex **tlex)
 int	end_words_lexing(t_lex *lex, char *input, t_tlex **tlex, \
 															t_tlex **new_tlex)
 {
-	if (!(*new_tlex)->cmd && ft_isdelem(input, lex->i) == 1)
+	if (!(*new_tlex)->cmd && (ft_isdelem(input, lex->i) == 1
+			|| ft_isdelem(input, lex->i) == 3))
 		delem(lex, input, new_tlex);
 	else if (!(*new_tlex)->cmd && ft_isdelem(input, lex->i) == 2)
 		delem_bonus(lex, input, new_tlex);
