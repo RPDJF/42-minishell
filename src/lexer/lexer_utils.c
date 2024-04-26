@@ -1,5 +1,6 @@
 #include "lexer.h"
 #include <unistd.h>
+#include "../env/env.h"
 
 int	ft_isdelem(char *str, int i)
 {
@@ -27,9 +28,10 @@ int	impair_pair_char(char *str, char c)
 	return (1);
 }
 
-int	exit_print(char *str)
+int	exit_print(char *str, int exitcode)
 {
-	ft_putendl_fd(str, STDOUT_FILENO);
+	error_msg((char *[]){APP_NAME, "lexer", 0}, str);
+	update_exitcode(exitcode);
 	return (1);
 }
 
