@@ -36,6 +36,8 @@ t_token	*token_new(t_pars *pars)
 	}
 	else
 	{
+		if (!tk_delem_syntax(pars->tmp1->cmd, true))
+			return (NULL);
 		neww = ft_calloc(1, sizeof(t_token));
 		if (!neww)
 			crash_exit();
@@ -63,7 +65,7 @@ t_token	*parsing(t_tlex **lex)
 		if (!neww)
 			return (free_exit_token(&token, lex));
 		token_add_back(&token, neww);
-		if (!check_syntax_subshell(token))
+		if (!check_syntax_subshell(token) || !(token_syntax(token)))
 			return (free_exit_token(&token, lex));
 	}
 	return (token);
