@@ -3,36 +3,19 @@
 #include "prompter/prompt.h"
 #include "signals/signals.h"
 
+//	TODO: remove debug mode when done
+
 static char	*mini_gethostname(void)
 {
-	const char	hostname[] = "/etc/hostname";
-	char		*output;
-	char		*tmp;
-	char		*line;
-	int			fd;
+	t_var	*hostname;
 
-	fd = open(hostname, O_RDONLY);
-	if (fd < 0)
+	hostname = get_var("NAME");
+	if (!hostname)
+		hostname = get_var("HOSTNAME");
+	if (!hostname)
 		return (0);
-	line = ft_get_next_line(fd);
-	output = ft_strdup("");
-	while (line)
-	{
-		if (output)
-			tmp = output;
-		output = ft_strjoin(output, line);
-		if (!output)
-			return (0);
-		if (tmp)
-			gfree(tmp);
-		gfree(line);
-		line = ft_get_next_line(fd);
-	}
-	output[ft_strlen(output) - 1] = 0;
-	return (output);
+	return (ft_strdup(hostname->value));
 }
-
-//	TODO: remove debug mode when done
 
 static void	script_mode(void)
 {
@@ -63,12 +46,12 @@ t_minishell	*init_minishell(int argc, char **argv, char **envp)
 	minishell = ft_calloc(1, sizeof(t_minishell));
 	if (!minishell)
 		crash_exit();
-	minishell->hostname = mini_gethostname();
 	minishell->argc = argc;
 	minishell->argv = argv;
 	minishell->old_envp = envp;
 	minishell->mini_envp = init_minienvp();
 	minishell->envp = &var_to_tab;
+	minishell->hostname = mini_gethostname();
 	minishell->is_interactive = true;
 	ms_load_history();
 	init_signals();
