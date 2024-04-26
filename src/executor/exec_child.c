@@ -33,9 +33,6 @@ static int	start_builtin(t_context *context, t_cmd *builtin)
 	char	*cmd;
 	char	**argv;
 
-	ft_putendl_fd(builtin->cmd->str, STDERR_FILENO);
-	printf("fd_in: %d\n", context->fd_in);
-	printf("fd_out: %d\n", context->fd_out);
 	cmd = parse_words(builtin->cmd);
 	argv = parse_words_arr(builtin->argv);
 	builtin->status
