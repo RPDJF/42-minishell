@@ -30,7 +30,7 @@ typedef struct s_executor
 }	t_executor;
 
 //	executor:	execute a list of tokens inside minishell
-int			executor(t_token *tokens);
+int			executor(t_token *tokens, int *fd);
 //	init_child:	init and execute a child from cmd or builtin token
 pid_t		init_child(t_token *tokens);
 //	exec_pipe:	handles pipe type tokens
@@ -59,7 +59,7 @@ t_cmd		*find_cmd(t_cmd *cmd);
 //	close_all_fd:	close all file descriptors in context
 void		close_all_fd(t_context *context);
 //	init_executor:	initialize executor struct
-t_context	*init_context(t_executor *executor);
+t_context	*init_context(t_executor *executor, int *fd);
 //	find_last_cmd:	find the last command in the executor
 t_token		*find_last_cmd(t_executor *exec, t_token *token);
 //	init_subshell:	initialize and execute a subshell

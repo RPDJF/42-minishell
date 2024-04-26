@@ -1,6 +1,6 @@
 #include "executor.h"
 
-static t_executor	*init_executor(t_token *tokens)
+static t_executor	*init_executor(t_token *tokens, int *fd)
 {
 	t_executor	*executor;
 
@@ -15,7 +15,7 @@ static t_executor	*init_executor(t_token *tokens)
 		crash_exit();
 	executor->has_pipe = has_pipe(tokens);
 	executor->tokens = tokens;
-	init_context(executor);
+	init_context(executor, fd);
 	return (executor);
 }
 
@@ -54,22 +54,13 @@ static void	and_or(t_executor *exec, t_token **tokens)
 
 static void	exec_token(t_executor *exec, t_token **tokens)
 {
-	t_context	*context;
-
-	context = (*tokens)->context;
 	if ((*tokens)->type == token_pipe)
 	{
 		(*tokens) = (*tokens)->next;
 		return ;
 	}
 	else if ((*tokens)->type == token_cmd)
-	{
 		init_child(*tokens);
-		if (context->fd_in != STDIN_FILENO)
-			close(context->fd_in);
-		if (context->fd_out != STDOUT_FILENO)
-			close(context->fd_out);
-	}
 	else if ((*tokens)->type == token_var)
 		exec_var_init(exec, *tokens);
 	else if ((*tokens)->type == token_and || (*tokens)->type == token_or)
@@ -80,13 +71,13 @@ static void	exec_token(t_executor *exec, t_token **tokens)
 		(*tokens) = (*tokens)->next;
 }
 
-int	executor(t_token *tokens)
+int	executor(t_token *tokens, int *fd)
 {
 	t_executor	*executor;
 	int			status;
 
 	status = 0;
-	executor = init_executor(tokens);
+	executor = init_executor(tokens, fd);
 	get_minishell()->is_interactive = false;
 	while (get_minishell()->sigint != SIGINT && tokens)
 		exec_token(executor, &tokens);

@@ -33,6 +33,9 @@ static int	start_builtin(t_context *context, t_cmd *builtin)
 	char	*cmd;
 	char	**argv;
 
+	ft_putendl_fd(builtin->cmd->str, STDERR_FILENO);
+	printf("fd_in: %d\n", context->fd_in);
+	printf("fd_out: %d\n", context->fd_out);
 	cmd = parse_words(builtin->cmd);
 	argv = parse_words_arr(builtin->argv);
 	builtin->status
@@ -90,5 +93,9 @@ pid_t	init_child(t_token *tokens)
 		cmd_child(tokens->context, cmd);
 	if (cmd->pid < 0)
 		crash_exit();
+	if (tokens->context->fd_in != STDIN_FILENO)
+		close(tokens->context->fd_in);
+	if (tokens->context->fd_out != STDOUT_FILENO)
+		close(tokens->context->fd_out);
 	return (cmd->pid);
 }
