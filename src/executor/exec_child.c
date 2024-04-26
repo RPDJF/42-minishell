@@ -10,6 +10,7 @@ static pid_t	cmd_child(t_context *context, t_cmd *cmd)
 	{
 		if (dup_fd(context))
 			secure_exit(1);
+		close_all_fd(context);
 		argv = parse_words_arr(cmd->argv);
 		path = parse_words(cmd->cmd);
 		path = find_binary(path);
@@ -53,6 +54,7 @@ static pid_t	builtin_child(t_context *context, t_cmd *builtin)
 		builtin->pid = fork();
 		if (builtin->pid == 0)
 		{
+			close_all_fd(context);
 			if (fd_status)
 				secure_exit(1);
 			builtin->status = start_builtin(context, builtin);
@@ -90,9 +92,11 @@ pid_t	init_child(t_token *tokens)
 		cmd_child(tokens->context, cmd);
 	if (cmd->pid < 0)
 		crash_exit();
-	if (tokens->context->fd_in != STDIN_FILENO)
+	if (tokens->context->fd_in != STDIN_FILENO
+		&& tokens->context->fd_in >= 0)
 		close(tokens->context->fd_in);
-	if (tokens->context->fd_out != STDOUT_FILENO)
+	if (tokens->context->fd_out != STDOUT_FILENO
+		&& tokens->context->fd_out >= 0)
 		close(tokens->context->fd_out);
 	return (cmd->pid);
 }
