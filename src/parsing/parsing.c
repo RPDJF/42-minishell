@@ -63,6 +63,8 @@ t_token	*parsing(t_tlex **lex)
 		if (!neww)
 			return (free_exit_token(&token, lex));
 		token_add_back(&token, neww);
+		if (!check_syntax_subshell(token))
+			return (free_exit_token(&token, lex));
 	}
 	return (token);
 }
