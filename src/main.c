@@ -51,17 +51,10 @@ void	print_tokens(t_token *tokens)
 			printf("is_append: %d\n", cmd->is_append);
 			printf("filename: %s", cmd->filename->str);
 		}
-		if (tokens->type == token_subshell)
-		{
-			while (tokens && tokens->type == token_subshell)
-			{
-				print_tokens(((t_subshell *)(tokens)->data)->token);
-				tokens = tokens->next;
-			}
-		}
+		else if (tokens->type == token_subshell)
+			print_tokens(((t_subshell *)(tokens)->data)->token);
 		printf("\n\n[end token]\n\n\n");
-		if (tokens)
-			tokens = tokens->next;
+		tokens = tokens->next;
 	}
 }
 
