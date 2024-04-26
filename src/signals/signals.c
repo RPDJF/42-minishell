@@ -39,6 +39,8 @@ static void	update_line(void)
 
 static void	signal_handler(int signum)
 {
+	if (signum == SIGQUIT)
+		return ;
 	get_minishell()->sigint = signum;
 	if (signum == SIGINT && get_minishell()->is_interactive)
 	{
@@ -51,4 +53,5 @@ static void	signal_handler(int signum)
 void	init_signals(void)
 {
 	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, signal_handler);
 }
