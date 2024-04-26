@@ -26,7 +26,8 @@ int	pars_arg_tk_cmd(t_token *neww, t_cmd *token, t_pars *pars)
 	i = 1;
 	while (pars->tmp1)
 	{
-		if (tw_is_delem(pars->tmp1->cmd) == 1)
+		if (tw_is_delem(pars->tmp1->cmd) == 1
+			|| !tk_delem_syntax(pars->tmp1->cmd, false))
 			break ;
 		else if (tw_is_delem(pars->tmp1->cmd) == 2)
 		{
