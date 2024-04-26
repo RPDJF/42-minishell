@@ -9,6 +9,8 @@ void	delem(t_lex *lex, char *input, t_tlex **tlex)
 	lex->j = lex->i;
 	while (ft_isdelem(input, lex->j) == 1)
 		lex->j++;
+	if (ft_isdelem(input, lex->i) == 3)
+		lex->j++;
 	word = ft_calloc((lex->j - lex->i) + 1, sizeof(char));
 	if (!word)
 		crash_exit();
