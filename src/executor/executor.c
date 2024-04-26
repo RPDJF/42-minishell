@@ -67,7 +67,11 @@ static void	exec_token(t_executor *exec, t_token **tokens)
 		and_or(exec, tokens);
 	else if ((*tokens)->type == token_subshell)
 		init_subshell(*tokens);
-	if (*tokens)
+	if (*tokens
+		&& !((*tokens)->type == token_stdin || (*tokens)->type == token_stdout))
+		(*tokens) = (*tokens)->next;
+	while ((*tokens)
+		&& ((*tokens)->type == token_stdin || (*tokens)->type == token_stdout))
 		(*tokens) = (*tokens)->next;
 }
 
