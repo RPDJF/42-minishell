@@ -43,7 +43,8 @@ int	arg_count(t_tlex *arg)
 	tmp = arg;
 	while (tmp)
 	{
-		if (tw_is_delem(tmp->cmd) == 1)
+		if (tw_is_delem(tmp->cmd) == 1
+			|| !tk_delem_syntax(tmp->cmd, false))
 			break ;
 		else if (tw_is_delem(tmp->cmd) == 2)
 		{

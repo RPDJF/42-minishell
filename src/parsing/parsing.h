@@ -82,5 +82,7 @@ int				is_subshell(t_word *cmd);
 int				tk_subshell(t_token *neww, t_pars *pars);
 // Check the right syntaxe of the tokens with subshell.
 void			*check_syntax_subshell(t_token *token);
+int				token_syntax(t_token *token);
+int				tk_delem_syntax(t_word *cmd, bool print);
 
 #endif
