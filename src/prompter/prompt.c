@@ -94,12 +94,13 @@ char	*prompt(t_minishell *minishell)
 		strprompt = get_prompt();
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		print_userinfo();
-		input = readline(strprompt);
+		//print_userinfo();
+		//input = readline(strprompt);
+		input = readline("minishell> ");
 		get_minishell()->sigint = 0;
 		gfree(strprompt);
-		if (!input)
-			write(STDERR_FILENO, "exit\n", 5);
+		/*if (!input)
+			write(STDERR_FILENO, "exit\n", 5);*/
 		if (!input)
 			secure_exit(0);
 		if (!*input || ft_isspace(*input))
