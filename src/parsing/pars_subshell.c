@@ -19,7 +19,6 @@ int	tk_subshell(t_token *subshl, t_pars *pars)
 {
 	t_token	*neww;
 
-	neww = NULL;
 	subshl->data = ft_calloc(1, sizeof(t_subshell));
 	subshl->type = token_subshell;
 	pars->tmp1 = pars->tmp1->next;
@@ -30,10 +29,13 @@ int	tk_subshell(t_token *subshl, t_pars *pars)
 			pars->tmp1 = pars->tmp1->next;
 			break ;
 		}
-		neww = token_new(pars);
-		if (!neww)
-			return (0);
-		token_add_back(&((t_subshell *)(subshl)->data)->token, neww);
+		else
+		{
+			neww = token_new(pars);
+			if (!neww)
+				return (0);
+			token_add_back(&((t_subshell *)(subshl)->data)->token, neww);
+		}
 	}
 	return (1);
 }
