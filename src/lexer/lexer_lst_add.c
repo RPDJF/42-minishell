@@ -40,7 +40,7 @@ t_word	*tword_new(char *cmd, bool var, bool is_quoted)
 {
 	t_word	*p;
 
-	p = calloc(1, sizeof(t_cmd));
+	p = ft_calloc(1, sizeof(t_cmd));
 	if (!p)
 		crash_exit();
 	p->str = cmd;
