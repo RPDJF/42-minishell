@@ -70,5 +70,6 @@ int	ms_load_history(void)
 		line = ft_get_next_line(history_fd);
 	}
 	close(history_fd);
+	gfree(filename);
 	return (0);
 }
