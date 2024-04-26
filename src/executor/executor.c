@@ -37,6 +37,7 @@ static void	and_or(t_executor *exec, t_token **tokens)
 		status = wait_token(cmd);
 	else
 		status = 0;
+	update_exitcode(status);
 	if ((*tokens)->type == token_and)
 	{
 		if (status)
@@ -94,7 +95,7 @@ int	executor(t_token *tokens)
 	else
 	{
 		status = wait_all_tokens(executor->tokens);
-		update_status_var(wait_all_tokens(executor->tokens));
+		update_status_var(status);
 	}
 	get_minishell()->is_interactive = true;
 	get_minishell()->sigint = 0;
