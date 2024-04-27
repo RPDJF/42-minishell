@@ -3,21 +3,22 @@
 static int	start_subshell(t_token *tokens)
 {
 	t_subshell	*subshell;
-	int			fd[2];
 
 	subshell = (t_subshell *)tokens->data;
-	fd[0] = tokens->context->fd_in;
-	fd[1] = tokens->context->fd_out;
-	dup2(fd[1], STDOUT_FILENO);
-	if (fd[1] != STDOUT_FILENO)
-		close(fd[1]);
-	while (tokens->context)
+	if (tokens->context->fd_in != STDIN_FILENO
+		&& tokens->context->fd_in >= 0)
 	{
-		if (tokens->context->fd_in != STDIN_FILENO)
-			close(tokens->context->fd_in);
-		tokens->context = tokens->context->next;
+		dup2(tokens->context->fd_in, STDIN_FILENO);
+		close(tokens->context->fd_in);
 	}
-	return (executor(subshell->token, fd));
+	if (tokens->context->fd_out != STDOUT_FILENO
+		&& tokens->context->fd_out >= 0)
+	{
+		dup2(tokens->context->fd_out, STDOUT_FILENO);
+		close(tokens->context->fd_out);
+	}
+	close_all_fd(tokens->context);
+	return (executor(subshell->token));
 }
 
 pid_t	init_subshell(t_token *tokens)
