@@ -91,10 +91,8 @@ int	executor(t_token *tokens)
 	if (get_minishell()->sigint == SIGINT)
 		exit_signint(executor);
 	else
-	{
 		status = wait_all_tokens(executor->tokens);
-		update_status_var(status);
-	}
+	update_status_var(status);
 	get_minishell()->is_interactive = true;
 	get_minishell()->sigint = 0;
 	close_all_fd(executor->context);
