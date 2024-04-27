@@ -73,7 +73,7 @@ char	*script_prompt(void)
 
 	while (true)
 	{
-		input = ft_get_next_line(STDIN_FILENO);
+		input = addgarbage(ft_get_next_line(STDIN_FILENO));
 		if (!input)
 			secure_exit(0);
 		trim = ft_strtrim(input, " \t\v\f\r\n");
@@ -100,7 +100,7 @@ char	*prompt(t_minishell *minishell)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		print_userinfo();
-		input = readline(strprompt);
+		input = addgarbage(readline(strprompt));
 		get_minishell()->sigint = 0;
 		gfree(strprompt);
 		if (!input)
