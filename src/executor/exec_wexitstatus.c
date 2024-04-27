@@ -13,6 +13,7 @@ int	wait_token(t_token *token)
 {
 	int	status;
 
+	status = 0;
 	if (token->type == token_cmd)
 	{
 		if (((t_cmd *)token->data)->pid && !((t_cmd *)token->data)->status)
