@@ -31,6 +31,9 @@ t_token	*token_new(t_pars *pars)
 	neww = NULL;
 	if (tw_is_delem(pars->tmp1->cmd) == 2)
 	{
+		if (pars->tmp1->next
+			&& !syntax_redirection(pars->tmp1->next->cmd))
+			return (NULL);
 		if (!token_add_back(&neww, newwtk_delem(pars->tmp1->cmd, pars)))
 			return (NULL);
 	}
