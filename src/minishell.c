@@ -21,6 +21,8 @@ static void	script_mode(void)
 	struct stat	buf;
 
 	minishell = get_minishell();
+	if (minishell->argc <= 1)
+		return ;
 	if (!stat(minishell->argv[1], &buf) && !S_ISDIR(buf.st_mode)
 		&& !access(minishell->argv[1], R_OK))
 	{
