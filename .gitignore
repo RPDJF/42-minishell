@@ -4,6 +4,7 @@ minishell
 test*.c
 test*.txt
 minishell_tester/
+heaptrack*
 
 # Prerequisites
 *.d

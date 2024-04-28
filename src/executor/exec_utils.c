@@ -63,12 +63,25 @@ t_cmd	*find_cmd(t_cmd *cmd)
 
 void	close_all_fd(t_context *context)
 {
+	t_context	*prev;
+
+	close(*context->og_fd_in);
+	close(*context->og_fd_out);
+	prev = context->prev;
 	while (context)
 	{
-		if (context->fd_in != STDIN_FILENO)
+		if (context->fd_in != STDIN_FILENO && context->fd_in >= 0)
 			close(context->fd_in);
-		if (context->fd_out != STDOUT_FILENO)
+		if (context->fd_out != STDOUT_FILENO && context->fd_out >= 0)
 			close(context->fd_out);
 		context = context->next;
+	}
+	while (prev)
+	{
+		if (prev->fd_in != STDIN_FILENO && prev->fd_in >= 0)
+			close(prev->fd_in);
+		if (prev->fd_out != STDOUT_FILENO && prev->fd_out >= 0)
+			close(prev->fd_out);
+		prev = prev->prev;
 	}
 }

@@ -1,6 +1,6 @@
 #include "executor.h"
 
-static t_executor	*init_executor(t_token *tokens, int *fd)
+static t_executor	*init_executor(t_token *tokens)
 {
 	t_executor	*executor;
 
@@ -15,7 +15,7 @@ static t_executor	*init_executor(t_token *tokens, int *fd)
 		crash_exit();
 	executor->has_pipe = has_pipe(tokens);
 	executor->tokens = tokens;
-	init_context(executor, fd);
+	init_context(executor);
 	return (executor);
 }
 
@@ -75,13 +75,13 @@ static void	exec_token(t_executor *exec, t_token **tokens)
 		(*tokens) = (*tokens)->next;
 }
 
-int	executor(t_token *tokens, int *fd)
+int	executor(t_token *tokens)
 {
 	t_executor	*executor;
 	int			status;
 
 	status = 0;
-	executor = init_executor(tokens, fd);
+	executor = init_executor(tokens);
 	get_minishell()->is_interactive = false;
 	while (get_minishell()->sigint != SIGINT && tokens)
 	{
@@ -91,10 +91,8 @@ int	executor(t_token *tokens, int *fd)
 	if (get_minishell()->sigint == SIGINT)
 		exit_signint(executor);
 	else
-	{
 		status = wait_all_tokens(executor->tokens);
-		update_status_var(status);
-	}
+	update_status_var(status);
 	get_minishell()->is_interactive = true;
 	get_minishell()->sigint = 0;
 	close_all_fd(executor->context);

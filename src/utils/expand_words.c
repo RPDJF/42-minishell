@@ -69,8 +69,8 @@ size_t	varlen(char *str)
 	size_t	len;
 
 	len = 1;
-	if (str[1] == '?')
-		return (len + 1);
+	if (str[1] == '?' || ft_isdigit(str[1]))
+		return (2);
 	while (str[len] && (ft_isalnum(str[len]) || str[len] == '_'))
 		len++;
 	return (len);

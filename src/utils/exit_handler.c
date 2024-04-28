@@ -4,6 +4,7 @@
 void	secure_exit(int exitcode)
 {
 	rl_clear_history();
+	cleargarbage();
 	exit(exitcode);
 }
 

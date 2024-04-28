@@ -116,7 +116,7 @@ int	main(int argc, char **argv, char **envp)
 			gfree(input);
 			continue ;
 		}
-		executor(token, 0);
+		executor(token);
 		gfree(input);
 	}
 	exit (0);

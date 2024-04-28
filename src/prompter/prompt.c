@@ -50,17 +50,14 @@ void	print_userinfo(void)
 static char	*get_prompt(void)
 {
 	char		*output;
-	char		*cwd;
+	char		cwd[PATH_MAX];
 	static char	*user;
 
-	cwd = getcwd(0, 0);
-	if (!cwd)
-		crash_exit();
+	getcwd(cwd, PATH_MAX);
 	if (!user)
 		user = get_var_value("USER");
 	output = ft_strsjoin(10, "└─", C_CYAN, "[", cwd, "]",
 			C_RESET, " [", get_var("?")->value, "]-", ENDLINE);
-	gfree(cwd);
 	if (!output)
 		crash_exit();
 	output = parse_prompt(output);
@@ -72,12 +69,20 @@ static char	*get_prompt(void)
 char	*script_prompt(void)
 {
 	char		*input;
+	char		*trim;
 
 	while (true)
 	{
-		input = ft_get_next_line(STDIN_FILENO);
+		input = addgarbage(ft_get_next_line(STDIN_FILENO));
 		if (!input)
 			secure_exit(0);
+		trim = ft_strtrim(input, " \t\v\f\r\n");
+		if (*trim == '#' || !*trim)
+		{
+			gfree(input);
+			gfree(trim);
+			continue ;
+		}
 		return (input);
 	}
 }
@@ -95,7 +100,7 @@ char	*prompt(t_minishell *minishell)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		print_userinfo();
-		input = readline(strprompt);
+		input = addgarbage(readline(strprompt));
 		get_minishell()->sigint = 0;
 		gfree(strprompt);
 		if (!input)

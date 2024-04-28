@@ -2,6 +2,8 @@
 
 static bool	is_valid_name(char *str)
 {
+	if (ft_isdigit(*str))
+		return (false);
 	while (*str)
 	{
 		if (!ft_isalnum(*str) && *str != '_')

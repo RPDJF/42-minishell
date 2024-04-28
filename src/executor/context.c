@@ -32,7 +32,7 @@ static t_context	*new_context(t_executor *executor)
 	return (context);
 }
 
-static void	init_fd_dup(t_executor *executor, int *fd)
+static void	init_fd_dup(t_executor *executor)
 {
 	t_token			*tokens;
 	t_context		*context;
@@ -42,8 +42,6 @@ static void	init_fd_dup(t_executor *executor, int *fd)
 	tokens = executor->tokens;
 	while (tokens)
 	{
-		if (fd && tokens == executor->tokens)
-			context->fd_in = fd[0];
 		type = tokens->type;
 		if (type == token_pipe)
 			exec_pipe(context, tokens);
@@ -56,7 +54,7 @@ static void	init_fd_dup(t_executor *executor, int *fd)
 	}
 }
 
-t_context	*init_context(t_executor *executor, int *fd)
+t_context	*init_context(t_executor *executor)
 {
 	t_context	*context;
 	size_t		count;
@@ -70,6 +68,6 @@ t_context	*init_context(t_executor *executor, int *fd)
 		context->next->prev = context;
 		context = context->next;
 	}
-	init_fd_dup(executor, fd);
+	init_fd_dup(executor);
 	return (executor->context);
 }

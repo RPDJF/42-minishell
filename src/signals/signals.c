@@ -23,14 +23,11 @@ static int	close_here_doc_fd(void)
 		get_minishell()->here_doc_fd[0] = 0;
 		status = 1;
 	}
-	if (status)
-		write(STDOUT_FILENO, "\n", 1);
 	return (status);
 }
 
 static void	update_line(void)
 {
-	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	print_userinfo();
@@ -40,6 +37,7 @@ static void	update_line(void)
 static void	signal_handler(int signum)
 {
 	get_minishell()->sigint = signum;
+	write(1, "\n", 1);
 	if (signum == SIGINT && get_minishell()->is_interactive)
 	{
 		if (!close_here_doc_fd())
@@ -51,4 +49,5 @@ static void	signal_handler(int signum)
 void	init_signals(void)
 {
 	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

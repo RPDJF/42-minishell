@@ -3,8 +3,6 @@
 #include "prompter/prompt.h"
 #include "signals/signals.h"
 
-//	TODO: remove debug mode when done
-
 static char	*mini_gethostname(void)
 {
 	t_var	*hostname;
@@ -23,7 +21,7 @@ static void	script_mode(void)
 	struct stat	buf;
 
 	minishell = get_minishell();
-	if (minishell->argc <= 1 || !ft_strcmp(minishell->argv[1], "debug"))
+	if (minishell->argc <= 1)
 		return ;
 	if (!stat(minishell->argv[1], &buf) && !S_ISDIR(buf.st_mode)
 		&& !access(minishell->argv[1], R_OK))

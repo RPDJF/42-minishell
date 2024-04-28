@@ -13,6 +13,7 @@ int	wait_token(t_token *token)
 {
 	int	status;
 
+	status = 0;
 	if (token->type == token_cmd)
 	{
 		if (((t_cmd *)token->data)->pid && !((t_cmd *)token->data)->status)
@@ -46,7 +47,7 @@ int	wait_all_tokens(t_token *tokens)
 	{
 		if (tokens->type == token_cmd || tokens->type == token_subshell
 			|| tokens->type == token_var)
-		status = wait_token(tokens);
+			status = wait_token(tokens);
 		tokens = tokens->next;
 	}
 	return (status);
