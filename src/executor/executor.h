@@ -65,5 +65,7 @@ t_context	*init_context(t_executor *executor);
 t_token		*find_last_cmd(t_executor *exec, t_token *token);
 //	init_subshell:	initialize and execute a subshell
 pid_t		init_subshell(t_token *tokens);
+//	parse_cmd_var:	parse command if is variable call
+t_word		**parse_cmd_var(t_cmd *cmd);
 
 #endif

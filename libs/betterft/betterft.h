@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:19:26 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/26 02:14:41 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/04/29 23:25:50 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,8 @@ char		*ft_strtrim(const char *s1, const char *set);
 //	ft_substr: Returns a dynamically allocated substring of 's' starting from
 //	'start' and having a length of 'len'.
 char		*ft_substr(char const *s, unsigned int start, size_t len);
+//	ft_tablen: Returns the number of strings in the null-terminated array 'tab'
+size_t		ft_tablen(char **tab);
 //	ft_tolower: Converts the given uppercase character 'c' to its lowercase
 //	equivalent.
 int			ft_tolower(int c);

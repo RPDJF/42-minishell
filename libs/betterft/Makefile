@@ -43,6 +43,7 @@ FILES = ft_atoi \
 		ft_strreplace_first \
 		ft_strtrim \
 		ft_substr \
+		ft_tablen \
 		ft_tolower \
 		ft_toupper \
 		ft_lstadd \

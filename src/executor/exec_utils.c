@@ -43,6 +43,7 @@ t_cmd	*find_cmd(t_cmd *cmd)
 {
 	char	*cmd_str;
 
+	parse_cmd_var(cmd);
 	cmd_str = parse_words(cmd->cmd);
 	while (cmd->cmd && cmd->cmd->is_var && !*cmd_str)
 	{
