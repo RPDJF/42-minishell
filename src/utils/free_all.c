@@ -17,10 +17,10 @@ void	free_all(t_token **token, t_tlex **lex, char **input)
 	while ((*token))
 	{
 		if ((*token)->type == token_stdin)
-			free(((t_stdin *)(*token)->data)->limiter);
+			gfree(((t_stdin *)(*token)->data)->limiter);
 		else if ((*token)->type == token_var)
-			free(((t_var_init *)(*token)->data)->name);
-		free((*token)->data);
+			gfree(((t_var_init *)(*token)->data)->name);
+		gfree((*token)->data);
 		tmp2 = *token;
 		*token = (*token)->next;
 		gfree(tmp2);
