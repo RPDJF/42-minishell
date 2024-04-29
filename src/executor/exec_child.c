@@ -38,7 +38,6 @@ static int	start_builtin(t_context *context, t_cmd *builtin)
 	argv = parse_words_arr(builtin->argv);
 	builtin->status
 		= builtin_exec(cmd, builtin->argc, argv, *context->has_pipe);
-	gfree(cmd);
 	ft_free_tab(argv);
 	return (builtin->status);
 }
