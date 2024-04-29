@@ -36,9 +36,11 @@ void	exec_redir(t_context *context, t_token *tokens)
 	while (tokens && tokens->type != token_pipe
 		&& tokens->type != token_and && tokens->type != token_or)
 	{
-		if (tokens->type == token_stdin && context->fd_in >= 0)
+		if (tokens->type == token_stdin
+			&& context->fd_out >= 0 && context->fd_in >= 0)
 			stdin_redir(context, (t_stdin *)tokens->data);
-		else if (tokens->type == token_stdout && context->fd_out >= 0 && context->fd_in >= 0)
+		else if (tokens->type == token_stdout
+			&& context->fd_out >= 0 && context->fd_in >= 0)
 			stdout_redir(context, (t_stdout *)tokens->data);
 		tokens = tokens->next;
 	}

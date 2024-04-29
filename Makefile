@@ -101,6 +101,7 @@ SRC +=	builtin/cd \
 		env/env_exitcode \
 		env/env_get \
 		executor/context \
+		executor/exec_child_utils \
 		executor/exec_child \
 		executor/exec_pipe \
 		executor/exec_redir \

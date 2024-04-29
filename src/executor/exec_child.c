@@ -38,6 +38,7 @@ static int	start_builtin(t_context *context, t_cmd *builtin)
 	argv = parse_words_arr(builtin->argv);
 	builtin->status
 		= builtin_exec(cmd, builtin->argc, argv, *context->has_pipe);
+	gfree(cmd);
 	ft_free_tab(argv);
 	return (builtin->status);
 }
@@ -76,9 +77,9 @@ pid_t	init_child(t_token *tokens)
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)tokens->data;
+	cmd = find_cmd(cmd);
 	update_var(new_var("_",
 			parse_words(cmd->argv[cmd->argc - 1]), true, false));
-	cmd = find_cmd(cmd);
 	if (!cmd)
 	{
 		((t_cmd *)tokens->data)->pid = 0;
