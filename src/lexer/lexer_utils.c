@@ -49,11 +49,11 @@ t_tlex	*free_exit_lexer(t_tlex **tlex)
 		while (tmp2)
 		{
 			if (tmp2->str)
-				free(tmp2->str);
+				gfree(tmp2->str);
 			tmp3 = tmp2;
 			tmp2 = tmp2->next;
 			if (tmp3)
-				free(tmp3);
+				gfree(tmp3);
 		}
 		tmp1 = tmp1->next;
 	}
