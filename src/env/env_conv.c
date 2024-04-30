@@ -11,7 +11,7 @@ char	**var_to_tab(void)
 	i = 0;
 	while (var)
 	{
-		if (var->is_env)
+		if (var->value && var->is_env)
 		{
 			tab = ft_reallocf(tab, i * sizeof(char *),
 					(i + 1) * sizeof(char *));
