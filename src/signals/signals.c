@@ -40,13 +40,16 @@ static void	update_line(void)
 
 static void	signal_handler(int signum)
 {
-	get_minishell()->sigint = signum;
-	write(1, "\n", 1);
-	if (signum == SIGINT && get_minishell()->is_interactive)
+	if (get_minishell()->is_interactive)
 	{
-		if (!close_here_doc_fd())
-			update_line();
-		update_exitcode(130);
+		get_minishell()->sigint = signum;
+		write(1, "\n", 1);
+		if (signum == SIGINT)
+		{
+			if (!close_here_doc_fd())
+				update_line();
+			update_exitcode(130);
+		}
 	}
 }
 
