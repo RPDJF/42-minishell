@@ -35,6 +35,7 @@ char	**parse_words_arr(t_word **words)
 	size_t	count;
 	size_t	i;
 
+	(void)get_files;
 	count = words_arr_len(words);
 	arr = galloc(sizeof(char *) * (count + 1));
 	if (!arr)
