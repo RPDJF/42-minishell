@@ -25,7 +25,10 @@ t_var	*update_var(t_var *var)
 	duplicate = get_var(var->name);
 	if (duplicate)
 	{
-		gfree(duplicate->value);
+		if (var->value)
+			gfree(duplicate->value);
+		else
+			var->value = duplicate->value;
 		duplicate->value = var->value;
 		if (var->is_env)
 			duplicate->is_env = true;

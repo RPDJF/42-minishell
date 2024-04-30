@@ -28,21 +28,28 @@ static int	close_here_doc_fd(void)
 
 static void	update_line(void)
 {
+	static size_t	userinfo_len;
+
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	print_userinfo();
+	if (!userinfo_len)
+		userinfo_len = ft_strlen(get_userinfo());
+	write(STDOUT_FILENO, get_userinfo(), userinfo_len);
 	rl_redisplay();
 }
 
 static void	signal_handler(int signum)
 {
-	get_minishell()->sigint = signum;
-	write(1, "\n", 1);
-	if (signum == SIGINT && get_minishell()->is_interactive)
+	if (get_minishell()->is_interactive)
 	{
-		if (!close_here_doc_fd())
-			update_line();
-		update_exitcode(130);
+		get_minishell()->sigint = signum;
+		write(1, "\n", 1);
+		if (signum == SIGINT)
+		{
+			if (!close_here_doc_fd())
+				update_line();
+			update_exitcode(130);
+		}
 	}
 }
 

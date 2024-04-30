@@ -18,11 +18,10 @@ static char	*parse_prompt(char *prompt)
 	return (prompt);
 }
 
-void	print_userinfo(void)
+char	*get_userinfo(void)
 {
 	static char		*userinfo;
 	t_var			*user;
-	static size_t	bytes;
 
 	if (!userinfo)
 	{
@@ -42,9 +41,8 @@ void	print_userinfo(void)
 					get_var("SHLVL")->value, "]\n");
 		if (!userinfo)
 			crash_exit();
-		bytes = ft_strlen(userinfo);
 	}
-	write(STDOUT_FILENO, userinfo, bytes);
+	return (userinfo);
 }
 
 static char	*get_prompt(void)
@@ -56,7 +54,7 @@ static char	*get_prompt(void)
 	getcwd(cwd, PATH_MAX);
 	if (!user)
 		user = get_var_value("USER");
-	output = ft_strsjoin(10, "└─", C_CYAN, "[", cwd, "]",
+	output = ft_strsjoin(11, get_userinfo(), "└─", C_CYAN, "[", cwd, "]",
 			C_RESET, " [", get_var("?")->value, "]-", ENDLINE);
 	if (!output)
 		crash_exit();
@@ -99,7 +97,6 @@ char	*prompt(t_minishell *minishell)
 		strprompt = get_prompt();
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		print_userinfo();
 		input = addgarbage(readline(strprompt));
 		get_minishell()->sigint = 0;
 		gfree(strprompt);

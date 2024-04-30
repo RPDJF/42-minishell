@@ -14,7 +14,7 @@
 // Functions
 //	prompt: sends a prompt to the user and returns their input as char*
 char	*prompt(t_minishell *minishell);
-//	print_userinfo:	prints the first line of the prompt containing the user info
-void	print_userinfo(void);
+//	get_userinfo:	get user info for prompt
+char	*get_userinfo(void);
 
 #endif
