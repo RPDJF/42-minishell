@@ -41,14 +41,7 @@ char	**parse_words_arr(t_word **words)
 		crash_exit();
 	i = -1;
 	while (i++, words[i])
-	{
 		arr[i] = parse_words(words[i]);
-		char **tmp = get_files();
-		for (int j = 0; tmp[j]; j++)
-		{
-			ft_putendl_fd(tmp[j], STDERR_FILENO);
-		}
-	}
 	arr[i] = 0;
 	return (arr);
 }
