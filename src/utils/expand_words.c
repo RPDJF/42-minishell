@@ -51,6 +51,8 @@ static t_word	*expand_words(t_word *words)
 	char	*home;
 
 	words = expand_vars(words);
+	if (!words)
+		return (0);
 	if (*words->str == '~' && !words->is_quoted && (
 			(words->str[1] == '/')
 			|| (!words->str[1] && !words->next)))
@@ -84,6 +86,8 @@ char	*parse_words(t_word *words)
 	char	*tmp;
 
 	words = expand_words(words);
+	if (!words)
+		return (0);
 	head = words;
 	len = words_strlen(words);
 	output = ft_calloc(len, sizeof(char));
