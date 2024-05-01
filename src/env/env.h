@@ -41,5 +41,7 @@ void	print_export(void);
 void	print_minienvp(void);
 //	update_exitcode: update the exit code variable
 void	update_exitcode(int exitcode);
+//	update_dash: update the dash variable
+void	update_dash(char *value);
 
 #endif

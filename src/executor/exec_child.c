@@ -76,12 +76,12 @@ pid_t	init_child(t_token *tokens)
 {
 	t_cmd	*cmd;
 
-	cmd = (t_cmd *)tokens->data;
-	cmd = find_cmd(cmd);
-	update_var(new_var("_",
-			parse_words(cmd->argv[cmd->argc - 1]), true, false));
+	cmd = find_cmd((t_cmd *)tokens->data);
+	if (cmd)
+		update_dash(parse_words(cmd->argv[cmd->argc - 1]));
 	if (!cmd)
 	{
+		update_dash(parse_words(0));
 		((t_cmd *)tokens->data)->pid = 0;
 		return (0);
 	}
