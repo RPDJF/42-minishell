@@ -96,7 +96,7 @@ int	here_doc(char *delimiter, bool is_quoted)
 		if (!is_quoted)
 			line = expand_str(line);
 		ft_putendl_fd(line, pipe_fd[1]);
-		free(line);
+		gfree(line);
 		if (get_minishell()->sigint == SIGINT)
 			return (reset_heredoc(true));
 		line = prompt_here_doc(delimiter);

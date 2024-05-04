@@ -98,8 +98,8 @@ SRC +=	builtin/cd \
 		env/env_add \
 		env/env_conv \
 		env/env_destroy \
-		env/env_exitcode \
 		env/env_get \
+		env/env_update \
 		executor/context \
 		executor/exec_child_utils \
 		executor/exec_child \
