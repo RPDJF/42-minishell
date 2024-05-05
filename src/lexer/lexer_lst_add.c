@@ -1,5 +1,21 @@
 #include "lexer.h"
 
+static char	*req_wildcard(char *str, bool is_quoted)
+{
+	char	*cursor;
+
+	if (!is_quoted || !str)
+		return (str);
+	cursor = str;
+	while (*cursor)
+	{
+		if (*cursor == '*')
+			*cursor = 5;
+		cursor++;
+	}
+	return (str);
+}
+
 void	tlex_add_back(t_tlex **lst, t_tlex *neww)
 {
 	t_tlex	*tmp;
@@ -43,7 +59,7 @@ t_word	*tword_new(char *cmd, bool var, bool is_quoted)
 	p = ft_calloc(1, sizeof(t_cmd));
 	if (!p)
 		crash_exit();
-	p->str = cmd;
+	p->str = req_wildcard(cmd, is_quoted);
 	p->is_var = var;
 	p->is_quoted = is_quoted;
 	p->next = NULL;
