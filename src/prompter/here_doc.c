@@ -67,8 +67,9 @@ static char	*prompt_here_doc(char *delimiter)
 	if (!line && get_minishell()->sigint != SIGINT)
 	{
 		write(STDOUT_FILENO, "\n", 1);
-		msg = ft_strsjoin(3, "here-document delimited by end-of-file (wanted `",
-				delimiter, "')");
+		msg = ft_arrjoin((char *[])
+			{"here-document delimited by end-of-file (wanted `",
+				delimiter, "')", 0});
 		if (!msg)
 			crash_exit();
 		error_msg((char *[]){APP_NAME, "warning", 0}, msg);

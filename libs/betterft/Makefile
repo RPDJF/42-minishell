@@ -41,6 +41,7 @@ FILES = ft_atoi \
 		ft_strrchr \
 		ft_strreplace \
 		ft_strreplace_first \
+		ft_strstr \
 		ft_strtrim \
 		ft_substr \
 		ft_tablen \
@@ -74,6 +75,7 @@ FILES = ft_atoi \
 		ft_memtostr \
 		ft_max \
 		ft_min \
+		ft_arrjoin \
 		ft_absol \
 		ft_free_tab \
 		garbage_collector \
