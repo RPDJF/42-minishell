@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:19:26 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/06 16:02:53 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:14:00 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,9 @@ void		*ft_memset(void *s, int c, size_t n);
 //	ft_memsuperclear: Frees references in the 'm' array and clears the memory
 //	itself for a total size of 'size'.
 void		ft_memsuperclear(void **m, size_t size);
+//	ft_arrjoin: Concatenates all strings in the null-terminated array 'array'
+//	into a new dynamically allocated string.
+char		*ft_arrjoin(char **array);
 //	ft_absol: Returns the absolute value of the integer 'nb'.
 int			ft_absol(int nb);
 //	ft_max: Returns the largest integer value between 'nb1' and 'nb2'.
