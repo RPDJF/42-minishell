@@ -41,6 +41,7 @@ FILES = ft_atoi \
 		ft_strrchr \
 		ft_strreplace \
 		ft_strreplace_first \
+		ft_strstr \
 		ft_strtrim \
 		ft_substr \
 		ft_tablen \

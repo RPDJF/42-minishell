@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:19:26 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/04/30 15:53:24 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:02:53 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,10 @@ char		*ft_strreplace(char *src, char *old, char *new);
 //	'new' in the string 'src'.
 //	Returns a new dynamically allocated string.
 char		*ft_strreplace_first(char *src, char *old, char *new);
+//	ft_strstr: Searches for the first occurrence of the string 'needle' in the
+//	string 'haystack'.
+//	Returns a pointer to the first character of the found substring, or NULL
+char		*ft_strstr(const char *haystack, const char *needle);
 //	ft_strtrim: Returns a dynamically allocated string without characters from
 //	'set' at the beginning and end of 's1'.
 char		*ft_strtrim(const char *s1, const char *set);

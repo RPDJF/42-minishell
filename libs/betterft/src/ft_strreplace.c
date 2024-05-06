@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 13:19:49 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/01/23 02:31:39 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:01:39 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,32 +18,36 @@ static size_t	count_replaces(char *src, char *old)
 	char	*tmp;
 
 	count = -1;
-	tmp = ft_strnstr(src, old, ft_strlen(src));
+	tmp = ft_strstr(src, old);
 	while (count++, tmp && *tmp)
-		tmp = ft_strnstr(tmp + 1, old, ft_strlen(tmp + 1));
+		tmp = ft_strstr(tmp + 1, old);
 	return (count);
 }
 
 static void	fill_str(char *src, char *old, char *new, char *output)
 {
-	char	*tmp;
-	int		count;
-	size_t	size;
+	char	*needle;
+	size_t	i;
+	size_t	j;
 
-	size = 0;
-	count = count_replaces(src, old);
-	tmp = ft_strnstr(src, old, ft_strlen(src));
-	while (count--, count >= 0)
+	i = 0;
+	j = 0;
+	while (src[i])
 	{
-		ft_strlcpy(output + size, src, tmp - src + 1);
-		size += tmp - src;
-		src += tmp - src;
-		ft_strlcpy(output + size, new, ft_strlen(new) + 1);
-		size += ft_strlen(new);
-		src += ft_strlen(old);
-		tmp = ft_strnstr(tmp + 1, old, ft_strlen(tmp + 1));
+		needle = ft_strstr(src + i, old);
+		if (src + i == needle)
+		{
+			ft_strncat(output, new, ft_strlen(new));
+			i += ft_strlen(old);
+			j += ft_strlen(new);
+		}
+		else
+		{
+			output[j] = src[i];
+			i++;
+			j++;
+		}
 	}
-	ft_strlcpy(output + size, src, tmp - src + 1);
 }
 
 char	*ft_strreplace(char *src, char *old, char *new)
