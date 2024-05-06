@@ -11,7 +11,7 @@ static char	*parse_prompt(char *prompt)
 	if (*home)
 	{
 		tmp = prompt;
-		prompt = ft_strreplace(prompt, home, "~");
+		prompt = ft_strreplace_first(prompt, home, "~");
 		gfree(tmp);
 	}
 	gfree(home);
@@ -85,6 +85,23 @@ char	*script_prompt(void)
 	}
 }
 
+bool	is_valid_input(char *input)
+{
+	if (!*input)
+	{
+		gfree(input);
+		return (false);
+	}
+	while (*input)
+	{
+		if (!ft_isspace(*input))
+			return (true);
+		input++;
+	}
+	gfree(input);
+	return (false);
+}
+
 char	*prompt(t_minishell *minishell)
 {
 	char		*input;
@@ -104,8 +121,8 @@ char	*prompt(t_minishell *minishell)
 			write(STDERR_FILENO, "exit\n", 5);
 		if (!input)
 			secure_exit(0);
-		if (!*input || ft_isspace(*input))
-			return (input);
+		if (!is_valid_input(input))
+			continue ;
 		add_history(input);
 		ms_write_history(input);
 		return (input);
