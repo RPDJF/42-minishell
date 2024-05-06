@@ -27,8 +27,8 @@ static char	*get_prompt(void)
 	getcwd(cwd, PATH_MAX);
 	if (!user)
 		user = get_var_value("USER");
-	output = ft_strsjoin(11, get_userinfo(), "└─", C_CYAN, "[", cwd, "]",
-			C_RESET, " [", get_var("?")->value, "]-", ENDLINE);
+	output = ft_arrjoin((char *[]){get_userinfo(), "└─", C_CYAN, "[", cwd, "]",
+			C_RESET, " [", get_var("?")->value, "]-", ENDLINE, 0});
 	if (!output)
 		crash_exit();
 	output = parse_prompt(output);

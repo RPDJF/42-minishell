@@ -16,8 +16,8 @@ static int	shlvl_parse(char *shlvl)
 		if (!errmsg)
 			crash_exit();
 		tmp = errmsg;
-		errmsg = ft_strsjoin(3,
-				"shell level (", errmsg, ") too high, resetting to 1");
+		errmsg = ft_arrjoin((char *[]){"shell level (", errmsg,
+				") too high, resetting to 1", 0});
 		if (!errmsg)
 			crash_exit();
 		gfree(tmp);

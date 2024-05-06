@@ -20,7 +20,7 @@ char	*build_path(char **path, char *binary, int i)
 	if (strrchr(path[i], '/') && !*(strrchr(path[i], '/') + 1))
 		output = ft_strjoin(path[i], binary);
 	else
-		output = ft_strsjoin(3, path[i], "/", binary);
+		output = ft_arrjoin((char *[]){path[i], "/", binary, 0});
 	if (!output)
 		crash_exit();
 	return (output);

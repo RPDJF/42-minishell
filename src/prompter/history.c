@@ -12,7 +12,7 @@ static char	*get_history_filename(void)
 		return (0);
 	}
 	if (*(ft_strrchr(home, '/') + 1))
-		filename = ft_strsjoin(3, home, "/", MINISHELL_HISTORY);
+		filename = ft_arrjoin((char *[]){home, "/", MINISHELL_HISTORY, 0});
 	else
 		filename = ft_strjoin(home, MINISHELL_HISTORY);
 	if (!filename)
