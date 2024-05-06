@@ -18,33 +18,6 @@ static char	*parse_prompt(char *prompt)
 	return (prompt);
 }
 
-char	*get_userinfo(void)
-{
-	static char		*userinfo;
-	t_var			*user;
-
-	if (!userinfo)
-	{
-		user = get_var("USER");
-		if (get_minishell()->hostname && user && user->value && *user->value)
-			userinfo = ft_strsjoin(11, "\n┌─", C_MAGENTA, "[",
-					get_var("USER")->value, " @ ",
-					get_minishell()->hostname, "]", C_RESET, " [SHLVL ",
-					get_var("SHLVL")->value, "]\n");
-		else if (user && user->value && *user->value)
-			userinfo = ft_strsjoin(9, "\n┌─", C_MAGENTA, "[",
-					get_var("USER")->value, "]", C_RESET, " [SHLVL ",
-					get_var("SHLVL")->value, "]\n");
-		else
-			userinfo = ft_strsjoin(11, "\n┌─", C_MAGENTA, "[",
-					APP_NAME, "-", VERSION, "]", C_RESET, " [SHLVL ",
-					get_var("SHLVL")->value, "]\n");
-		if (!userinfo)
-			crash_exit();
-	}
-	return (userinfo);
-}
-
 static char	*get_prompt(void)
 {
 	char		*output;
@@ -64,7 +37,7 @@ static char	*get_prompt(void)
 	return (output);
 }
 
-char	*script_prompt(void)
+static char	*script_prompt(void)
 {
 	char		*input;
 	char		*trim;
