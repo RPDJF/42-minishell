@@ -2,19 +2,25 @@
 
 static char	*parse_prompt(char *prompt)
 {
-	char	*home;
+	t_var	*home;
 	char	*tmp;
+	char	*tmp2;
 
 	if (!prompt)
 		return (0);
-	home = get_var_value("HOME");
-	if (*home)
+	home = get_var("HOME");
+	if (home && home->value && *home->value)
 	{
 		tmp = prompt;
-		prompt = ft_strreplace_first(prompt, home, "~");
+		tmp2 = ft_strjoin("└─"C_CYAN"[", home->value);
+		if (!tmp2)
+			crash_exit();
+		prompt = ft_strreplace_first(prompt, tmp2, "└─"C_CYAN"[~");
+		if (!prompt)
+			crash_exit();
+		gfree(tmp2);
 		gfree(tmp);
 	}
-	gfree(home);
 	return (prompt);
 }
 
