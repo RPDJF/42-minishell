@@ -12,6 +12,7 @@ static void	stdin_redir(t_context *context, t_stdin *stdin)
 		close(context->fd_in);
 	fd = open(filename, O_RDONLY);
 	context->fd_in = fd;
+	context->err_fd = errno;
 	context->fd_in_path = filename;
 }
 
@@ -28,6 +29,7 @@ static void	stdout_redir(t_context *context, t_stdout *stdout)
 	else
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	context->fd_out = fd;
+	context->err_fd = errno;
 	context->fd_out_path = filename;
 }
 
