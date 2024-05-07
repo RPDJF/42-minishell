@@ -3,6 +3,10 @@
 
 # include "../minishell.h"
 
+//	Macros
+# define DEFAULT_PATH "/usr/local/bin:/usr/local/sbin:\
+/usr/bin:/usr/sbin:/bin:/sbin:."
+
 //	new_var: create a new variable
 //	return: t_var pointer to the new variable
 t_var	*new_var(char *name, char *value, bool is_env, bool is_name_alloc);

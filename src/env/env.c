@@ -30,21 +30,24 @@ static int	shlvl_parse(char *shlvl)
 
 static char	*parse_var(char *var_name)
 {
-	char	*env;
 	char	*output;
 
 	if (!ft_strcmp(var_name, "SHLVL"))
 	{
-		env = getenv("SHLVL");
-		if (!env)
+		if (!getenv("SHLVL"))
 			output = ft_strdup("1");
 		else
-			output = ft_itoa(shlvl_parse(env));
+			output = ft_itoa(shlvl_parse(getenv("SHLVL")));
 	}
 	else if (!ft_strcmp(var_name, "PWD"))
 		output = addgarbage(getcwd(0, 0));
 	else if (!ft_strcmp(var_name, "SHELL"))
-		output = ft_strdup("/usr/local/bin/minishell");
+	{
+		if (!getenv("SHELL"))
+			output = ft_strdup("/usr/local/bin/minishell");
+		else
+			output = ft_strdup(getenv("SHELL"));
+	}
 	else
 		output = ft_strdup(getenv(var_name));
 	if (!output)
@@ -56,11 +59,8 @@ static void	add_default_vars(void)
 {
 	char	*value;
 
-	value = ft_strdup("0");
-	if (!value)
-		crash_exit();
-	update_var(new_var("?", value, false, false));
-	value = ft_strdup("1");
+	update_exitcode(0);
+	value = ft_itoa(1);
 	if (!value)
 		crash_exit();
 	if (!get_var("SHLVL"))
@@ -71,14 +71,16 @@ static void	add_default_vars(void)
 		add_var(new_var("OLDPWD", 0, true, false));
 	if (!get_var("SHELL"))
 		add_var(new_var("SHELL", parse_var("SHELL"), false, false));
+	value = ft_strdup(APP_NAME);
+	if (!value)
+		crash_exit();
+	if (!get_var("_"))
+		add_var(new_var("_", value, true, false));
+	value = ft_strdup(DEFAULT_PATH);
+	if (!value)
+		crash_exit();
 	if (!get_var("PATH"))
-	{
-		value = ft_strdup(
-				"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
-		if (!value)
-			crash_exit();
 		add_var(new_var("PATH", value, false, false));
-	}
 }
 
 t_var	*new_env_var(char *env)
