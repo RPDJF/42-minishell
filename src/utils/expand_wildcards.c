@@ -92,7 +92,7 @@ char	**pars_wildcard(char *str)
 	char	**tmp;
 	int		i;
 
-	i = 1;
+	i = -1;
 	tmp = NULL;
 	arg = get_files();
 	replace_wildcard(arg, 1);
