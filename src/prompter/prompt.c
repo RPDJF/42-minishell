@@ -11,38 +11,11 @@ static char	*parse_prompt(char *prompt)
 	if (*home)
 	{
 		tmp = prompt;
-		prompt = ft_strreplace(prompt, home, "~");
+		prompt = ft_strreplace_first(prompt, home, "~");
 		gfree(tmp);
 	}
 	gfree(home);
 	return (prompt);
-}
-
-char	*get_userinfo(void)
-{
-	static char		*userinfo;
-	t_var			*user;
-
-	if (!userinfo)
-	{
-		user = get_var("USER");
-		if (get_minishell()->hostname && user && user->value && *user->value)
-			userinfo = ft_strsjoin(11, "\n┌─", C_MAGENTA, "[",
-					get_var("USER")->value, " @ ",
-					get_minishell()->hostname, "]", C_RESET, " [SHLVL ",
-					get_var("SHLVL")->value, "]\n");
-		else if (user && user->value && *user->value)
-			userinfo = ft_strsjoin(9, "\n┌─", C_MAGENTA, "[",
-					get_var("USER")->value, "]", C_RESET, " [SHLVL ",
-					get_var("SHLVL")->value, "]\n");
-		else
-			userinfo = ft_strsjoin(11, "\n┌─", C_MAGENTA, "[",
-					APP_NAME, "-", VERSION, "]", C_RESET, " [SHLVL ",
-					get_var("SHLVL")->value, "]\n");
-		if (!userinfo)
-			crash_exit();
-	}
-	return (userinfo);
 }
 
 static char	*get_prompt(void)
@@ -54,8 +27,8 @@ static char	*get_prompt(void)
 	getcwd(cwd, PATH_MAX);
 	if (!user)
 		user = get_var_value("USER");
-	output = ft_strsjoin(11, get_userinfo(), "└─", C_CYAN, "[", cwd, "]",
-			C_RESET, " [", get_var("?")->value, "]-", ENDLINE);
+	output = ft_arrjoin((char *[]){get_userinfo(), "└─", C_CYAN, "[", cwd, "]",
+			C_RESET, " [", get_var("?")->value, "]-", ENDLINE, 0});
 	if (!output)
 		crash_exit();
 	output = parse_prompt(output);
@@ -64,7 +37,7 @@ static char	*get_prompt(void)
 	return (output);
 }
 
-char	*script_prompt(void)
+static char	*script_prompt(void)
 {
 	char		*input;
 	char		*trim;
@@ -83,6 +56,23 @@ char	*script_prompt(void)
 		}
 		return (input);
 	}
+}
+
+bool	is_valid_input(char *input)
+{
+	if (!*input)
+	{
+		gfree(input);
+		return (false);
+	}
+	while (*input)
+	{
+		if (!ft_isspace(*input))
+			return (true);
+		input++;
+	}
+	gfree(input);
+	return (false);
 }
 
 char	*prompt(t_minishell *minishell)
@@ -104,8 +94,8 @@ char	*prompt(t_minishell *minishell)
 			write(STDERR_FILENO, "exit\n", 5);
 		if (!input)
 			secure_exit(0);
-		if (!*input || ft_isspace(*input))
-			return (input);
+		if (!is_valid_input(input))
+			continue ;
 		add_history(input);
 		ms_write_history(input);
 		return (input);

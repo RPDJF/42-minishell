@@ -12,7 +12,7 @@ static pid_t	cmd_child(t_context *context, t_cmd *cmd)
 			secure_exit(1);
 		close_all_fd(context);
 		argv = parse_words_arr(cmd->argv);
-		path = parse_words(cmd->cmd);
+		path = argv[0];
 		path = find_binary(path);
 		if (!strchr(path, '/'))
 			error_cmd(path, false);

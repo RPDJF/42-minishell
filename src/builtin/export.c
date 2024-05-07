@@ -53,7 +53,7 @@ static int	fn(char *str)
 	name = var_name(str);
 	if (!name || !is_valid_name(name))
 	{
-		str = ft_strsjoin(3, "`", str, "'");
+		str = ft_arrjoin((char *[]){"'", str, "'", 0});
 		if (!str)
 			crash_exit();
 		error_msg((char *[]){APP_NAME, "export", str, 0}, NOT_VALID_IDENTIFIER);

@@ -17,7 +17,7 @@ char	**var_to_tab(void)
 					(i + 1) * sizeof(char *));
 			if (!tab)
 				crash_exit();
-			tab[i] = ft_strsjoin(3, var->name, "=", var->value);
+			tab[i] = ft_arrjoin((char *[]){var->name, "=", var->value, 0});
 			i++;
 		}
 		var = var->next;

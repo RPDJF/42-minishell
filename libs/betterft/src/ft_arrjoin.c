@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_arrjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 10:04:30 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/03 21:49:58 by rude-jes         ###   ########.fr       */
+/*   Created: 2024/05/06 16:10:07 by rude-jes          #+#    #+#             */
+/*   Updated: 2024/05/06 16:13:13 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../betterft.h"
 
-char	*ft_strjoin(const char *s1, const char *s2)
+char	*ft_arrjoin(char **array)
 {
-	char	*s3;
-	size_t	s1_len;
-	size_t	s2_len;
+	char	*output;
+	char	*tmp;
 
-	if (!s1 && s2)
-		return (ft_strdup(s2));
-	else if (s1 && !s2)
-		return (ft_strdup(s1));
-	else if (!s1 || !s2)
+	if (!array || !*array)
 		return (0);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	s3 = (char *)galloc((s1_len + s2_len + 1) * sizeof(char));
-	if (!s3)
+	output = ft_strdup(*array);
+	if (!output)
 		return (0);
-	ft_memcpy(s3, s1, s1_len);
-	ft_memcpy((s3 + s1_len), s2, s2_len);
-	s3[s1_len + s2_len] = 0;
-	return (s3);
+	array++;
+	while (*array)
+	{
+		tmp = output;
+		output = ft_strjoin(output, *array);
+		gfree(tmp);
+		if (!output)
+			return (0);
+		array++;
+	}
+	return (output);
 }
