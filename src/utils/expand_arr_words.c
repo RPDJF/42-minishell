@@ -68,7 +68,7 @@ int	to_next_wildcard(char *arg, char *str, int *i, int *j)
 	if (str[*j] == '*')
 	{
 		while (str[*j] == '*')
-			*j += 1;
+			(*j)++;
 		while (arg[*i] && arg[*i] != str[*j])
 			(*i)++;
 	}
@@ -119,6 +119,15 @@ int	is_wildcard(char *arg, char *str)
 	return (0);
 }
 
+int	only_wildcard(char *str)
+{
+	while (*str == '*')
+		str++;
+	if (!*str)
+		return (1);
+	return (0);
+}
+
 char	**pars_wildcard(char *str)
 {
 	char	**arg;
@@ -131,7 +140,7 @@ char	**pars_wildcard(char *str)
 	replace_wildcard(arg, 1);
 	while (arg[i])
 	{
-		if (is_wildcard(arg[i], str))
+		if (is_wildcard(arg[i], str) || only_wildcard(str))
 		{
 			if (str[0] == '*' && !str[1] && arg[i][0] == '.' && i++)
 				continue ;
