@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strreplace_first.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 13:19:49 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/06 15:53:12 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:53:20 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	*ft_strreplace_first(char *src, char *old, char *new)
 	char	*output;
 	size_t	size;
 
+	if (!ft_strstr(src, old))
+		return (ft_strdup(src));
 	size = ((ft_strlen(src) + (ft_strlen(new) - ft_strlen(old))) + 1);
 	output = galloc(size);
 	if (!output)

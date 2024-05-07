@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strreplace.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 13:19:49 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/06 16:01:39 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:54:00 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ char	*ft_strreplace(char *src, char *old, char *new)
 	int		count;
 	size_t	size;
 
+	if (!ft_strstr(src, old))
+		return (ft_strdup(src));
 	count = count_replaces(src, old);
 	if (!count)
 		return (ft_strdup(src));
