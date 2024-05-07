@@ -29,30 +29,6 @@ static char	**get_files(void)
 	return (files);
 }
 
-int	to_next_wildcard(char *arg, char *str, int *i, int *j)
-{
-	if (str[*j] == '*')
-	{
-		while (str[*j] == '*')
-			*j += 1;
-		while (arg[*i] && arg[*i] != str[*j])
-			*i += 1;
-	}
-	else if (*i > 0)
-		while (arg[*i] && arg[*i] != str[*j])
-			*i += 1;
-	if (arg[*i] != str[*j] || !arg[*i])
-		return (0);
-	while (arg[*i] && str[*j] && arg[*i] == str[*j])
-	{
-		*i += 1;
-		*j += 1;
-		if (str[*j] == '*')
-			return (1);
-	}
-	return (1);
-}
-
 int	is_last_wildcard(char *str)
 {
 	if (*str == '*')
@@ -62,6 +38,54 @@ int	is_last_wildcard(char *str)
 		if (*str == '*')
 			return (0);
 		str++;
+	}
+	return (1);
+}
+
+void	replace_wildcard(char **str, bool rpls)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (str && str[++i])
+	{
+		j = -1;
+		while (str[i][++j])
+		{
+			if (str[i][j] == '*' && rpls)
+				str[i][j] = 5;
+			if (str[i][j] == 5 && !rpls)
+				str[i][j] = '*';
+		}
+	}
+}
+
+int	to_next_wildcard(char *arg, char *str, int *i, int *j)
+{
+	if (*j == 0 && str[*j] == '*')
+		(*i)++;
+	if (str[*j] == '*')
+	{
+		while (str[*j] == '*')
+			*j += 1;
+		while (arg[*i] && arg[*i] != str[*j])
+			(*i)++;
+	}
+	else if (*i > 0)
+		while (arg[*i] && arg[*i] != str[*j])
+			(*i)++;
+	if (arg[*i] != str[*j] || !arg[*i])
+		return (0);
+	while (arg[*i] && str[*j] && arg[*i] == str[*j])
+	{
+		(*i)++;
+		(*j)++;
+		while (str[*j] && str[*j + 1] && str[*j + 1] == '*'
+			&& !is_last_wildcard(str + *j))
+			(*j)++;
+		if (str[*j] == '*')
+			return (1);
 	}
 	return (1);
 }
@@ -104,6 +128,7 @@ char	**pars_wildcard(char *str)
 	i = 2;
 	tmp = NULL;
 	arg = get_files();
+	replace_wildcard(arg, 1);
 	while (arg[i])
 	{
 		if (is_wildcard(arg[i], str))
@@ -115,6 +140,7 @@ char	**pars_wildcard(char *str)
 		i++;
 	}
 	ft_free_tab(arg);
+	replace_wildcard(tmp, 0);
 	return (tmp);
 }
 
@@ -137,27 +163,10 @@ void	realloc_arr(char ***arr, char **wld, size_t *i)
 		*i += 1;
 }
 
-char	**wildcard_quoted(t_word *cmd)
-{
-	char	**is_quoted;
-
-	is_quoted = NULL;
-	while (cmd)
-	{
-		if (cmd->is_quoted == true)
-			is_quoted = strr_realloc(is_quoted, "1");
-		if (cmd->is_quoted == false)
-			is_quoted = strr_realloc(is_quoted, "0");
-		cmd = cmd->next;
-	}
-	return (is_quoted);
-}
-
 char	**parse_words_arr(t_word **words)
 {
 	char	**arr;
 	char	**wld;
-	char	**is_quoted;
 	size_t	j;
 	size_t	i;
 
@@ -166,7 +175,6 @@ char	**parse_words_arr(t_word **words)
 	i = -1;
 	while (i++, words[++j])
 	{
-		is_quoted = wildcard_quoted(words[j]);
 		arr = strr_realloc(arr, parse_words(words[j]));
 		if (ft_strchr(arr[i], '*'))
 		{
@@ -174,8 +182,7 @@ char	**parse_words_arr(t_word **words)
 			if (wld)
 				realloc_arr(&arr, wld, &i);
 		}
-		if (is_quoted && *is_quoted)
-			ft_free_tab(is_quoted);
 	}
+	replace_wildcard(arr, 0);
 	return (arr);
 }
