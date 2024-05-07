@@ -1,4 +1,5 @@
 #include "expand_words.h"
+#include <stdio.h>
 
 static char	**get_files(void)
 {
@@ -49,8 +50,7 @@ int	to_next_wildcard(char *arg, char *str, int *i, int *j)
 	{
 		(*i)++;
 		(*j)++;
-		while (str[*j] && str[*j + 1] && str[*j + 1] == '*'
-			&& !is_last_wildcard(str + *j))
+		while (str[*j] && str[*j + 1] && str[*j + 1] == '*')
 			(*j)++;
 		if (str[*j] == '*')
 			return (1);
@@ -60,19 +60,19 @@ int	to_next_wildcard(char *arg, char *str, int *i, int *j)
 
 int	is_wildcard(char *arg, char *str)
 {
-	int	i;
 	int	j;
+	int	i;
 
 	i = 0;
 	j = 0;
+	if (only_wildcard(str) && arg[0] == '.')
+		return (0);
 	while (str[j])
 	{
 		if (!is_last_wildcard(str + j))
-		{
 			if (!to_next_wildcard(arg, str, &i, &j))
 				return (0);
-		}
-		else if (is_last_wildcard(str + j))
+		if (is_last_wildcard(str + j))
 		{
 			j = ft_strlen(str) + 1;
 			i = ft_strlen(arg) + 1;
@@ -80,8 +80,7 @@ int	is_wildcard(char *arg, char *str)
 				;
 			if (str[j] == '*')
 				return (1);
-			else
-				return (0);
+			return (0);
 		}
 	}
 	return (0);
@@ -93,21 +92,13 @@ char	**pars_wildcard(char *str)
 	char	**tmp;
 	int		i;
 
-	i = 2;
+	i = 1;
 	tmp = NULL;
 	arg = get_files();
 	replace_wildcard(arg, 1);
-	while (arg[i])
-	{
-		if (is_wildcard(arg[i], str) || only_wildcard(str))
-		{
-			if (str[0] == '*' && !str[1] && arg[i][0] == '.' && i++)
-				continue ;
+	while (arg[++i])
+		if (is_wildcard(arg[i], str))
 			tmp = strr_realloc(tmp, arg[i]);
-		}
-		i++;
-	}
-	ft_free_tab(arg);
 	replace_wildcard(tmp, 0);
 	return (tmp);
 }
@@ -120,6 +111,7 @@ char	**parse_words_arr(t_word **words)
 	size_t	i;
 
 	arr = NULL;
+	wld = NULL;
 	j = -1;
 	i = -1;
 	while (i++, words[++j])

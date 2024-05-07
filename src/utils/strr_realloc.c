@@ -1,4 +1,5 @@
 #include "../lexer/lexer.h"
+#include "exit_handler.h"
 
 char	**strr_realloc(char **str, char *neww)
 {
@@ -12,13 +13,16 @@ char	**strr_realloc(char **str, char *neww)
 		while (str[i] != NULL)
 			i++;
 	tab = ft_calloc(i + 2, sizeof(char *));
+	if (!tab)
+		crash_exit();
 	while (i > 0 && j < i)
 	{
-		tab[j] = ft_strdup(str[j]);
+		tab[j] = str[j];
 		j++;
 	}
 	tab[j] = ft_strdup(neww);
-	if (str && *str)
-		ft_free_tab(str);
+	if (!tab[j])
+		crash_exit();
+	gfree(str);
 	return (tab);
 }
