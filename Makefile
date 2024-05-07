@@ -117,7 +117,8 @@ SRC +=	builtin/cd \
 		prompter/history \
 		utils/binary_finder \
 		utils/exit_handler \
-		utils/expand_arr_words \
+		utils/expand_wildcards \
+		utils/expand_wildcards_utils \
 		utils/expand_utils \
 		utils/expand_words \
 		lexer/lexer_bonus \

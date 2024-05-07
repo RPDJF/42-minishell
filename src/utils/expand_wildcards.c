@@ -29,38 +29,6 @@ static char	**get_files(void)
 	return (files);
 }
 
-int	is_last_wildcard(char *str)
-{
-	if (*str == '*')
-		str++;
-	while (*str)
-	{
-		if (*str == '*')
-			return (0);
-		str++;
-	}
-	return (1);
-}
-
-void	replace_wildcard(char **str, bool rpls)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (str && str[++i])
-	{
-		j = -1;
-		while (str[i][++j])
-		{
-			if (str[i][j] == '*' && rpls)
-				str[i][j] = 5;
-			if (str[i][j] == 5 && !rpls)
-				str[i][j] = '*';
-		}
-	}
-}
-
 int	to_next_wildcard(char *arg, char *str, int *i, int *j)
 {
 	if (*j == 0 && str[*j] == '*')
@@ -119,15 +87,6 @@ int	is_wildcard(char *arg, char *str)
 	return (0);
 }
 
-int	only_wildcard(char *str)
-{
-	while (*str == '*')
-		str++;
-	if (!*str)
-		return (1);
-	return (0);
-}
-
 char	**pars_wildcard(char *str)
 {
 	char	**arg;
@@ -151,25 +110,6 @@ char	**pars_wildcard(char *str)
 	ft_free_tab(arg);
 	replace_wildcard(tmp, 0);
 	return (tmp);
-}
-
-void	realloc_arr(char ***arr, char **wld, size_t *i)
-{
-	int	j;
-
-	j = 0;
-	if (!*arr[0])
-		return ;
-	gfree(arr[0][*i]);
-	arr[0][*i] = NULL;
-	while (wld && wld[j])
-	{
-		*arr = strr_realloc(*arr, wld[j]);
-		gfree(wld[j]);
-		j++;
-	}
-	while (arr[0][*i + 1])
-		*i += 1;
 }
 
 char	**parse_words_arr(t_word **words)
