@@ -30,7 +30,7 @@ pid_t	init_subshell(t_token *tokens)
 	if (subshell->pid < 0)
 		crash_exit();
 	if (subshell->pid == 0)
-		exit(start_subshell(tokens));
+		secure_exit(start_subshell(tokens));
 	if (tokens->context->fd_in != STDIN_FILENO)
 		close(tokens->context->fd_in);
 	if (tokens->context->fd_out != STDOUT_FILENO)

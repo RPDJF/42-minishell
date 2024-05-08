@@ -51,9 +51,10 @@ t_minishell	*init_minishell(int argc, char **argv, char **envp)
 	minishell->envp = &var_to_tab;
 	minishell->hostname = mini_gethostname();
 	minishell->is_interactive = true;
-	ms_load_history();
 	init_signals();
 	script_mode();
+	if (!minishell->is_script)
+		ms_load_history();
 	return (minishell);
 }
 

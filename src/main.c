@@ -15,17 +15,11 @@ int	main(int argc, char **argv, char **envp)
 		input = prompt(init_minishell(argc, argv, envp));
 		lex = lexer(input);
 		if (!lex)
-		{
-			gfree(input);
 			continue ;
-		}
 		token = parsing(&lex);
 		if (!token)
-		{
-			gfree(input);
 			continue ;
-		}
 		executor(token);
-		free_all(&token, &lex, &input);
+		free_all(&token, &lex);
 	}
 }

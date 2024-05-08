@@ -83,5 +83,6 @@ t_tlex	*lexer(char *input)
 			if (words_lexing(&lex, input, &tlex) == 1)
 				return (free_exit_lexer(&tlex));
 	}
+	gfree(input);
 	return (tlex);
 }

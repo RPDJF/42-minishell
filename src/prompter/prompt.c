@@ -50,16 +50,12 @@ static char	*script_prompt(void)
 
 	while (true)
 	{
-		input = addgarbage(ft_get_next_line(STDIN_FILENO));
+		input = ft_get_next_line(STDIN_FILENO);
 		if (!input)
 			secure_exit(0);
 		trim = ft_strtrim(input, " \t\v\f\r\n");
 		if (*trim == '#' || !*trim)
-		{
-			gfree(input);
-			gfree(trim);
 			continue ;
-		}
 		return (input);
 	}
 }
