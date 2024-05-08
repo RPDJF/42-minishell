@@ -81,11 +81,11 @@ CFLAGS += $(BETTERFT_LIB)
 SRC = 	builtin/builtin \
 		env/env \
 		executor/executor \
+		expand/expand \
 		lexer/lexer \
 		parsing/parsing \
 		prompter/prompt \
 		signals/signals \
-		utils/expand \
 		main \
 		minishell \
 
@@ -118,10 +118,10 @@ SRC +=	builtin/cd \
 		prompter/history \
 		utils/binary_finder \
 		utils/exit_handler \
-		utils/expand_wildcards \
-		utils/expand_wildcards_utils \
-		utils/expand_utils \
-		utils/expand_words \
+		expand/expand_wildcards \
+		expand/expand_wildcards_utils \
+		expand/expand_utils \
+		expand/expand_words \
 		lexer/lexer_bonus \
 		lexer/lexer_utils \
 		utils/strr_realloc \

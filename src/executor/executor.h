@@ -3,7 +3,7 @@
 
 # include "../minishell.h"
 # include "../builtin/builtin.h"
-# include "../utils/expand_words.h"
+# include "../expand/expand_words.h"
 # include "../utils/binary_finder.h"
 # include "../prompter/here_doc.h"
 
