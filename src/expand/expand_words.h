@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_words.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:15 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 16:39:03 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/09 01:06:08 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ char	**pars_wildcard(char *str);
 int		is_last_wildcard(char *str);
 //	replace all the occurence of * quoted with ascii 5.
 void	replace_wildcard(char **str, bool rpls);
-//	return 1 if is only wilcard in the string str, else return 0.
-int		only_wildcard(char *str);
 //	realloc char **arr with char **wld.
 void	realloc_arr(char ***arr, char **wld, size_t *i);
 //	get files in the current directory,

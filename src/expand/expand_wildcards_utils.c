@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_wildcards_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:05 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 16:26:06 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/09 01:03:51 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,6 @@ void	replace_wildcard(char **str, bool rpls)
 	}
 }
 
-int	only_wildcard(char *str)
-{
-	while (*str == '*')
-		str++;
-	if (!*str)
-		return (1);
-	return (0);
-}
-
 void	realloc_arr(char ***arr, char **wld, size_t *i)
 {
 	int	j;
@@ -72,31 +63,40 @@ void	realloc_arr(char ***arr, char **wld, size_t *i)
 		*i += 1;
 }
 
-char	**get_files(void)
+static DIR	*get_entry(void)
 {
-	char			pwd[PATH_MAX];
 	DIR				*dir;
-	struct dirent	*entry;
-	char			**files;
-	int				i;
+	char			pwd[PATH_MAX];
 
 	getcwd(pwd, PATH_MAX);
 	dir = opendir(pwd);
+	return (dir);
+}
+
+char	**get_files(void)
+{
+	DIR				*dir;
+	struct dirent	*entry;
+	char			**arr;
+	int				i;
+
+	dir = get_entry();
+	if (!dir)
+		return (NULL);
 	i = -1;
 	entry = readdir(dir);
+	arr = 0;
 	while (++i, entry)
 	{
-		files = ft_reallocf(files, i * sizeof(char *),
-				(i + 1) * sizeof(char *));
-		files[i] = ft_strdup(entry->d_name);
-		if (!files || !files[i])
+		arr = ft_reallocf(arr, i * sizeof(char *), (i + 2) * sizeof(char *));
+		if (!arr)
+			crash_exit();
+		arr[i] = ft_strdup(entry->d_name);
+		if (!arr[i])
 			crash_exit();
 		entry = readdir(dir);
 	}
 	closedir(dir);
-	files = ft_reallocf(files, i * sizeof(char *), (i + 1) * sizeof(char *));
-	if (!files)
-		crash_exit();
-	files[i] = 0;
-	return (files);
+	arr[i] = 0;
+	return (arr);
 }

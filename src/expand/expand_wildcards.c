@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_wildcards.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:01 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 16:26:02 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/09 01:09:13 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,15 @@ static int	finish_wildcard(char *arg, char *str, int *i, int *j)
 	return (0);
 }
 
+static int	only_wildcard(char *str)
+{
+	while (*str == '*')
+		str++;
+	if (!*str)
+		return (1);
+	return (0);
+}
+
 static int	is_wildcard(char *arg, char *str, int i, int j)
 {
 	if ((only_wildcard(str) && arg[0] == '.') || ((arg[0] == '.')
@@ -86,7 +95,7 @@ char	**pars_wildcard(char *str)
 	tmp = NULL;
 	arg = get_files();
 	replace_wildcard(arg, 1);
-	while (arg[++i])
+	while (arg && arg[++i])
 		if (is_wildcard(arg[i], str, 0, 0))
 			tmp = strr_realloc(tmp, arg[i]);
 	replace_wildcard(tmp, 0);
