@@ -8,6 +8,9 @@
 # 🚀 42 Minishell 🚀
 Ahoy, fellow code sailors! Welcome to my GitHub harbor, where the epic tales of the 42 Minishell project unfold. Dive into the coding seas, but remember, face the challenges alone before setting sail with my solutions, savvy?
 
+![ezgif-1-65c8d3ee4c](https://github.com/RPDJF/42-minishell/assets/86334233/f80d9824-61e5-41d5-85d9-5a4503a295bc)
+
+
 ## What's Minishell, Anyway?
 Minishell is a project that invites you to a symphony of shell scripting. It's like conducting an orchestra of commands—a true coding performance! 🎻🔍
 
