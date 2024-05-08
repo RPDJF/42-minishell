@@ -126,7 +126,6 @@ SRC +=	builtin/cd \
 		lexer/lexer_utils \
 		utils/strr_realloc \
 		utils/free_all \
-		utils/print_tokens \
 		parsing/pars_quote_utils \
 		parsing/pars_t_cmd \
 		parsing/pars_t_delemiteur \
