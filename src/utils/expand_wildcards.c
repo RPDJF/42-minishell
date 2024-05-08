@@ -1,39 +1,8 @@
 #include "expand_words.h"
 #include <stdio.h>
 
-static char	**get_files(void)
-{
-	char			pwd[PATH_MAX];
-	DIR				*dir;
-	struct dirent	*entry;
-	char			**files;
-	int				i;
-
-	getcwd(pwd, PATH_MAX);
-	dir = opendir(pwd);
-	i = -1;
-	entry = readdir(dir);
-	while (++i, entry)
-	{
-		files = ft_reallocf(files, i * sizeof(char *),
-				(i + 1) * sizeof(char *));
-		files[i] = ft_strdup(entry->d_name);
-		if (!files || !files[i])
-			crash_exit();
-		entry = readdir(dir);
-	}
-	closedir(dir);
-	files = ft_reallocf(files, i * sizeof(char *), (i + 1) * sizeof(char *));
-	if (!files)
-		crash_exit();
-	files[i] = 0;
-	return (files);
-}
-
 int	to_next_wildcard(char *arg, char *str, int *i, int *j)
 {
-	if (*j == 0 && str[*j] == '*')
-		(*i)++;
 	if (str[*j] == '*')
 	{
 		while (str[*j] == '*')
@@ -50,38 +19,48 @@ int	to_next_wildcard(char *arg, char *str, int *i, int *j)
 	{
 		(*i)++;
 		(*j)++;
-		while (str[*j] && str[*j + 1] && str[*j + 1] == '*')
-			(*j)++;
 		if (str[*j] == '*')
+		{
+			while (str[*j] && str[*j + 1] && str[*j + 1] == '*')
+				(*j)++;
 			return (1);
+		}
 	}
 	return (1);
 }
 
-int	is_wildcard(char *arg, char *str)
+int	finish_wildcard(char *arg, char *str, int *i, int *j)
 {
-	int	j;
-	int	i;
+	int	k;
+	int	l;
 
-	i = 0;
-	j = 0;
-	if (only_wildcard(str) && arg[0] == '.')
+	l = ft_strlen(str);
+	k = ft_strlen(arg);
+	while (k >= *i && l > *j && arg[k] == str[l])
+	{
+		l--;
+		k--;
+	}
+	if (str[l] == '*')
+		return (1);
+	return (0);
+}
+
+int	is_wildcard(char *arg, char *str, int i, int j)
+{
+	if ((only_wildcard(str) && arg[0] == '.') || ((arg[0] == '.')
+			&& str[0] != '.') || (arg[0] == '.' && !arg[1])
+		|| (arg[0] == '.' && arg[1] == '.' && !arg[2]))
 		return (0);
+	if (only_wildcard(str))
+		return (1);
 	while (str[j])
 	{
 		if (!is_last_wildcard(str + j))
 			if (!to_next_wildcard(arg, str, &i, &j))
 				return (0);
 		if (is_last_wildcard(str + j))
-		{
-			j = ft_strlen(str) + 1;
-			i = ft_strlen(arg) + 1;
-			while (i >= 0 && arg[--i] == str[--j])
-				;
-			if (str[j] == '*')
-				return (1);
-			return (0);
-		}
+			return (finish_wildcard(arg, str, &i, &j));
 	}
 	return (0);
 }
@@ -97,7 +76,7 @@ char	**pars_wildcard(char *str)
 	arg = get_files();
 	replace_wildcard(arg, 1);
 	while (arg[++i])
-		if (is_wildcard(arg[i], str))
+		if (is_wildcard(arg[i], str, 0, 0))
 			tmp = strr_realloc(tmp, arg[i]);
 	replace_wildcard(tmp, 0);
 	return (tmp);

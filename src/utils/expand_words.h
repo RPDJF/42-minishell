@@ -24,5 +24,6 @@ int		is_last_wildcard(char *str);
 void	replace_wildcard(char **str, bool rpls);
 int		only_wildcard(char *str);
 void	realloc_arr(char ***arr, char **wld, size_t *i);
+char	**get_files(void);
 
 #endif
