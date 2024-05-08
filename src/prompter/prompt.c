@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:18 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:26:18 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/08 17:53:17 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,12 @@ char	*prompt(t_minishell *minishell)
 		strprompt = get_prompt();
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		input = addgarbage(readline(strprompt));
+		//input = addgarbage(readline(strprompt));
+		input = addgarbage(readline("mini> "));
 		get_minishell()->sigint = 0;
 		gfree(strprompt);
-		if (!input)
-			write(STDERR_FILENO, "exit\n", 5);
+		/*if (!input)
+			write(STDERR_FILENO, "exit\n", 5);*/
 		if (!input)
 			secure_exit(0);
 		if (!is_valid_input(input))

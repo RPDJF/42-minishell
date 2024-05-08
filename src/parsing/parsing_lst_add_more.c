@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_lst_add_more.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:27:02 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 17:49:59 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/08 18:06:54 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ int	pars_arg_tk_cmd(t_token *neww, t_cmd *token, t_pars *pars)
 		if (tw_is_delem(pars->tmp1->cmd) == 1
 			|| !tk_delem_syntax(pars->tmp1->cmd, false))
 			break ;
-		if (pars->tmp1->next && !syntax_redirection(pars->tmp1->next->cmd))
-			return (0);
 		else if (tw_is_delem(pars->tmp1->cmd) == 2)
 		{
 			if (!token_add_back(&neww, newwtk_delem(pars->tmp1->cmd, pars)))
