@@ -25,6 +25,8 @@ char	*parse_words_line(t_word *words)
 	char	**arr;
 	char	*str;
 
+	if (!words)
+		return (0);
 	head = galloc(sizeof(t_word *) * 2);
 	head[0] = words;
 	head[1] = 0;
