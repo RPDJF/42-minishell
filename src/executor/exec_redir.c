@@ -1,10 +1,10 @@
 #include "executor.h"
 
-static void	update_err_fd(t_context *context, char *msg)
+static void	update_err_fd(t_context *context, char *msg, char *path)
 {
-	context->err_fd = ft_strdup(msg);
-	if (!context->err_fd)
-		crash_exit();
+	error_msg((char *[]){APP_NAME, path, 0}, msg);
+	update_exitcode(1);
+	context->err_fd = 0;
 }
 
 static void	stdin_redir(t_context *context, t_stdin *stdin)
@@ -19,15 +19,15 @@ static void	stdin_redir(t_context *context, t_stdin *stdin)
 	{
 		gfree(filename);
 		context->fd_in_path = join_words(stdin->filename);
-		update_err_fd(context, "ambiguous redirect");
+		update_err_fd(context, "ambiguous redirect", context->fd_in_path);
 		context->fd_in = -1;
 		return ;
 	}
 	fd = open(filename, O_RDONLY);
 	context->fd_in = fd;
-	if (context->fd_in < 0)
-		update_err_fd(context, strerror(errno));
 	context->fd_in_path = filename;
+	if (context->fd_in < 0)
+		update_err_fd(context, strerror(errno), context->fd_in_path);
 }
 
 static void	stdout_redir(t_context *context, t_stdout *stdout)
@@ -40,7 +40,7 @@ static void	stdout_redir(t_context *context, t_stdout *stdout)
 	{
 		gfree(filename);
 		context->fd_out_path = join_words(stdout->filename);
-		update_err_fd(context, "ambiguous redirect");
+		update_err_fd(context, "ambiguous redirect", context->fd_out_path);
 		context->fd_out = -1;
 		return ;
 	}
@@ -49,9 +49,9 @@ static void	stdout_redir(t_context *context, t_stdout *stdout)
 	else
 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	context->fd_out = fd;
-	if (context->fd_out < 0)
-		update_err_fd(context, strerror(errno));
 	context->fd_out_path = filename;
+	if (context->fd_out < 0)
+		update_err_fd(context, strerror(errno), context->fd_out_path);
 }
 
 void	exec_redir(t_context *context, t_token *tokens)

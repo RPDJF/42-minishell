@@ -84,7 +84,7 @@ int				tk_subshell(t_token *neww, t_pars *pars);
 void			*check_syntax_subshell(t_token *token);
 int				token_syntax(t_token *token);
 int				tk_delem_syntax(t_word *cmd, bool print);
-int				syntax_redirection(t_word *cmd, t_word *prev);
+int				syntax_redirection(t_word *cmd);
 void			free_all(t_token **token, t_tlex **lex);
 
 #endif

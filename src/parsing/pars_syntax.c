@@ -1,18 +1,6 @@
 #include "parsing.h"
 
-int	wildcards_syntax(t_word *cmd, t_word *prev)
-{
-	if (prev->str[0] == '<' && prev->str[1] == '<' && !prev->str[2])
-		return (1);
-	if (cmd->str[0] == '*' && !cmd->str[1])
-	{
-		exit_tk((char *[]){APP_NAME, "*", 0}, "ambiguous redirect", 2);
-		return (0);
-	}
-	return (1);
-}
-
-int	syntax_redirection(t_word *cmd, t_word *prev)
+int	syntax_redirection(t_word *cmd)
 {
 	char	*tmp1;
 	char	*tmp2;
@@ -21,7 +9,7 @@ int	syntax_redirection(t_word *cmd, t_word *prev)
 	tmp2 = NULL;
 	if (!cmd->is_quoted && !cmd->next)
 	{
-		if (!tk_delem_syntax(cmd, 1) || !wildcards_syntax(cmd, prev))
+		if (!tk_delem_syntax(cmd, 1))
 			return (0);
 		if (tw_is_delem(cmd) > 0)
 		{
