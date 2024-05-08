@@ -141,8 +141,11 @@ SRC +=	builtin/cd \
 CFILES = $(SRC:%=src/%.c)
 
 NAME = minishell
+NAME_BONUS = minishell_bonus
 
 all: $(NAME)
+
+bonus: $(NAME_BONUS)
 
 debug: fclean $(CFILES)
 	@$(MAKE) $(BETTERFT_LIB) --no-print-directory
@@ -168,9 +171,9 @@ clean: $(BETTERFT_PATH)Makefile
 
 fclean: clean
 	@rm -f $(NAME)
-	@rm -f $(BONUS_NAME)
+	@rm -f $(NAME_BONUS)
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is fully deleted 🗑️"
-#	@echo "\t[INFO]\t[$(NAME)]\t$(BONUS_NAME) is fully deleted 🗑️"
+	@echo "\t[INFO]\t[$(NAME)]\t$(NAME_BONUS) is fully deleted 🗑️"
 
 re: fclean
 	@$(MAKE) all --no-print-directory
@@ -206,6 +209,22 @@ $(NAME): $(CFILES) $(BETTERFT_LIB)
 	@$(CC) $(CFILES) $(CFLAGS) -o $(NAME)
 	@printf "\33[2K"
 	@echo "\t[INFO]\t[$(NAME)]\t$(NAME) is compiled ✅\n"
+
+$(NAME_BONUS): $(CFILES) $(BETTERFT_LIB)
+	@echo "$$APP_HEADER"
+	@if [ `uname` = "Darwin" ]; then \
+		echo "\033[0;33mYou may need to install an readline library from brew"; \
+		echo "Default readline library on MacOS may not be compatible with Minishell"; \
+		echo "\nPlease run: brew install readline"; \
+		echo "Then set READLINE to the path of the newly installed readline library"; \
+		echo "\nExamples: export READLINE=/usr/local/Cellar/readline/8.2.10"; \
+		echo "          export READLINE=/opt/homebrew/Cellar/readline/8.2.10"; \
+		echo "          export READLINE=~/.brew/Cellar/readline/8.2.10\033[0m\n"; \
+	fi
+	@printf "\t🤖 Compiling $(NAME_BONUS)...\r"
+	@$(CC) $(CFILES) $(CFLAGS) -o $(NAME_BONUS)
+	@printf "\33[2K"
+	@echo "\t[INFO]\t[$(NAME_BONUS)]\t$(NAME_BONUS) is compiled ✅\n"
 
 $(BETTERFT_LIB): $(BETTERFT_PATH)Makefile
 	@echo "$$LIB_HEADER"
