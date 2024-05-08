@@ -1,11 +1,10 @@
 #include "../parsing/parsing.h"
 
-void	free_all(t_token **token, t_tlex **lex, char **input)
+void	free_all(t_token **token, t_tlex **lex)
 {
 	t_tlex	*tmp1;
 	t_token	*tmp2;
 
-	gfree(*input);
 	while (*lex)
 	{
 		if ((*lex)->cmd)
