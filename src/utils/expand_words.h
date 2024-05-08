@@ -8,6 +8,11 @@
 char	*parse_words(t_word *words);
 //	parse_words_arr: parse words ** into a char ** array
 char	**parse_words_arr(t_word **words);
+//	expand_words_line: expand words into a single char * and expand variables
+//	if *, files are expanded and separated by FS (28)
+char	*parse_words_line(t_word *words);
+//	join_words:	join words into a single char * without expanding them
+char	*join_words(t_word *words);
 //	words_arr_len:	get the length of a t_word ** array
 size_t	words_arr_len(t_word **words);
 //	words_strlen:	get the length of a string of t_word * list

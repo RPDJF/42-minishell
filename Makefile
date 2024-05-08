@@ -85,6 +85,7 @@ SRC = 	builtin/builtin \
 		parsing/parsing \
 		prompter/prompt \
 		signals/signals \
+		utils/expand \
 		main \
 		minishell \
 

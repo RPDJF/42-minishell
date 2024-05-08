@@ -19,7 +19,7 @@ typedef struct s_context
 	char		*fd_in_path;
 	int			fd_out;
 	char		*fd_out_path;
-	int			err_fd;
+	char		*err_fd;
 }	t_context;
 
 typedef struct s_executor

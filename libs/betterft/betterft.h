@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:19:26 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/06 16:14:00 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/08 01:52:27 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,10 @@ char		*ft_strdup(const char *src);
 //	ft_striteri: Applies the function 'f' to each character of the string 's'
 //	along with its index.
 char		ft_striteri(char *s, void (*f)(unsigned int, char *));
+//	ft_strsepjoin: Concatenates all strings in the null-terminated array 'arr'
+//	into a new dynamically allocated string, separated by the character 'sep'.
+//	Returns the resulting string in a new memory allocation.
+char		*ft_strsepjoin(char **arr, char sep);
 //	ft_strjoin: Concatenates two strings 's1' and 's2' into a new dynamically
 //	allocated string.
 char		*ft_strjoin(const char *s1, const char *s2);
