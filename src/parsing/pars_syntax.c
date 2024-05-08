@@ -6,14 +6,14 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:42 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 18:29:56 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:48:14 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include <stdio.h>
 
-int	syntax_redirection(t_word *cmd)
+int	syntax_redirection(t_word *cmd, bool print)
 {
 	char	*tmp1;
 	char	*tmp2;
@@ -26,11 +26,15 @@ int	syntax_redirection(t_word *cmd)
 			return (0);
 		if (tw_is_delem(cmd) > 0)
 		{
-			tmp1 = ft_strjoin("syntax error near unexpected token `", cmd->str);
-			tmp2 = ft_strjoin(tmp1, "'");
-			gfree(tmp1);
-			exit_tk((char *[]){APP_NAME, 0}, tmp2, 2);
-			gfree(tmp2);
+			if (print)
+			{
+				tmp1 = ft_strjoin("syntax error near unexpected token `", \
+					cmd->str);
+				tmp2 = ft_strjoin(tmp1, "'");
+				gfree(tmp1);
+				exit_tk((char *[]){APP_NAME, 0}, tmp2, 2);
+				gfree(tmp2);
+			}
 			return (0);
 		}
 	}
@@ -108,42 +112,13 @@ int	tk_delem_syntax(t_word *cmd, bool print)
 	return (1);
 }
 
-int	end_syntax(t_token *token)
-{
-	char	*tmp;
-
-	tmp = NULL;
-	if (token->type == token_stdin || token->type == token_stdout)
-	{
-		if (tw_is_delem(((t_stdin *)token->data)->filename) > 0)
-		{
-			tmp = ft_strjoin("syntax error near unexpected token ", \
-				((t_stdin *)token->data)->filename->str);
-			exit_tk((char *[]){APP_NAME, 0}, \
-				tmp, 2);
-				return (0);
-		}
-		if (tw_is_delem(((t_stdout *)token->data)->filename) > 0)
-		{
-			tmp = ft_strjoin("syntax error near unexpected token ", \
-				((t_stdout *)token->data)->filename->str);
-			exit_tk((char *[]){APP_NAME, 0}, \
-				tmp, 2);
-				return (0);
-		}
-	}
-	return (1);
-}
-
 int	syntax_at_end(t_token *token)
 {
 	while (token)
 	{
 		if ((token->type == token_or && !token->next)
 			|| (token->type == token_and && !token->next)
-			|| (token->type == token_pipe && !token->next)
-			|| (token->type == token_stdin)
-			|| token->type == token_stdout)
+			|| (token->type == token_pipe && !token->next))
 		{
 			if (token->type == token_or && !token->next)
 				exit_tk((char *[]){APP_NAME, 0}, \
@@ -154,10 +129,6 @@ int	syntax_at_end(t_token *token)
 			else if (token->type == token_pipe && !token->next)
 				exit_tk((char *[]){APP_NAME, 0}, \
 				"syntax error near unexpected token `|'", 2);
-				else if (token->type == token_stdin
-					|| token->type == token_stdout)
-					if (!end_syntax(token))
-						return (0);
 			return (0);
 		}
 		token = token->next;

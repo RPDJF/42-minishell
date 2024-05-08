@@ -6,7 +6,7 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:53 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 17:43:09 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/08 18:48:54 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_token	*token_new(t_pars *pars)
 	if (tw_is_delem(pars->tmp1->cmd) == 2)
 	{
 		if (pars->tmp1->next
-			&& !syntax_redirection(pars->tmp1->next->cmd))
+			&& !syntax_redirection(pars->tmp1->next->cmd, true))
 			return (NULL);
 		if (!token_add_back(&neww, newwtk_delem(pars->tmp1->cmd, pars)))
 			return (NULL);
