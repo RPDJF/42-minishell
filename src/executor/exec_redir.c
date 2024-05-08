@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:21 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:25:22 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/08 17:30:59 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	stdin_redir(t_context *context, t_stdin *stdin)
 	int		fd;
 	char	*filename;
 
-	if (!stdin->filename)
+	if (!stdin->filename || stdin->is_heredoc)
 		return ;
 	filename = parse_words_line(stdin->filename);
 	if (ft_strchr(filename, 28))
@@ -74,7 +74,8 @@ void	exec_redir(t_context *context, t_token *tokens)
 		if (tokens->type == token_stdin
 			&& context->fd_out >= 0 && context->fd_in >= 0)
 		{
-			if (context->fd_in != STDIN_FILENO)
+			if (context->fd_in != STDIN_FILENO
+				&& !((t_stdin *)tokens->data)->is_heredoc)
 				close(context->fd_in);
 			stdin_redir(context, (t_stdin *)tokens->data);
 		}
