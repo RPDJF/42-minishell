@@ -6,11 +6,12 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:53 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 16:26:54 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/08 17:43:09 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include <stdio.h>
 
 t_token	*token_new_end(t_token *neww, t_pars *pars)
 {
@@ -83,5 +84,7 @@ t_token	*parsing(t_tlex **lex)
 		if (!check_syntax_subshell(token) || !(token_syntax(token)))
 			return (free_exit_token(&token, lex));
 	}
+	if (!syntax_at_end(token))
+		return (free_exit_token(&token, lex));
 	return (token);
 }

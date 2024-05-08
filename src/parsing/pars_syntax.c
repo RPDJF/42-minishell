@@ -6,11 +6,12 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:42 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 16:26:42 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/08 17:17:37 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include <stdio.h>
 
 int	syntax_redirection(t_word *cmd)
 {
@@ -103,6 +104,30 @@ int	tk_delem_syntax(t_word *cmd, bool print)
 			gfree(tmp);
 		}
 		return (0);
+	}
+	return (1);
+}
+
+int	syntax_at_end(t_token *token)
+{
+	while (token)
+	{
+		if ((token->type == token_or && !token->next)
+			|| (token->type == token_and && !token->next)
+			|| (token->type == token_pipe && !token->next))
+		{
+			if (token->type == token_or && !token->next)
+				exit_tk((char *[]){APP_NAME, 0}, \
+				"syntax error near unexpected token `||'", 2);
+			else if (token->type == token_and && !token->next)
+				exit_tk((char *[]){APP_NAME, 0}, \
+				"syntax error near unexpected token `&&'", 2);
+			else if (token->type == token_pipe && !token->next)
+				exit_tk((char *[]){APP_NAME, 0}, \
+				"syntax error near unexpected token `|'", 2);
+			return (0);
+		}
+		token = token->next;
 	}
 	return (1);
 }

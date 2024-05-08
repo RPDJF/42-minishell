@@ -6,7 +6,7 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:55 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 16:34:49 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/08 17:08:13 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ int				token_syntax(t_token *token);
 int				tk_delem_syntax(t_word *cmd, bool print);
 int				syntax_redirection(t_word *cmd);
 void			free_all(t_token **token, t_tlex **lex);
+int				syntax_at_end(t_token *token);
 
 #endif
