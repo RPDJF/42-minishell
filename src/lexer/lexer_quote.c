@@ -6,7 +6,7 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:32 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 16:26:32 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/08 19:38:35 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ int	single_quote(t_lex *lex, char *input, t_tlex **tlex)
 			k++;
 		lex->j++;
 	}
-	if (lex->j == lex->i && lex->i++)
-		return (0);
 	word = ft_calloc(k + 1, sizeof(char));
 	if (!word)
 		crash_exit();
@@ -90,7 +88,7 @@ int	double_quote(t_lex *lex, char *input, t_tlex **tlex)
 	char	*word;
 	int		k;
 
-	k = 0;
+	k = 1;
 	if (impair_pair_char(input + lex->i, 34) == 1)
 		return (exit_print("bad double quote format.", 2));
 	lex->i++;
@@ -103,8 +101,6 @@ int	double_quote(t_lex *lex, char *input, t_tlex **tlex)
 			k++;
 		lex->j++;
 	}
-	if (lex->j == lex->i && lex->i++)
-		return (0);
 	word = ft_calloc(k + 1, sizeof(char));
 	if (!word)
 		crash_exit();

@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:27:02 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 18:06:54 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/08 18:47:09 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	pars_arg_tk_cmd(t_token *neww, t_cmd *token, t_pars *pars)
 	while (pars->tmp1)
 	{
 		if (tw_is_delem(pars->tmp1->cmd) == 1
-			|| !tk_delem_syntax(pars->tmp1->cmd, false))
+			|| !tk_delem_syntax(pars->tmp1->cmd, false)
+			|| !syntax_redirection(pars->tmp1->cmd, false))
 			break ;
 		else if (tw_is_delem(pars->tmp1->cmd) == 2)
 		{
