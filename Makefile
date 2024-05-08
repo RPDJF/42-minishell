@@ -124,6 +124,7 @@ SRC +=	builtin/cd \
 		expand/expand_words \
 		lexer/lexer_bonus \
 		lexer/lexer_utils \
+		signals/signals_utils \
 		utils/strr_realloc \
 		utils/free_all \
 		parsing/pars_quote_utils \

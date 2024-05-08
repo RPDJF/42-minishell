@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:41 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:25:42 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/08 20:29:30 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	executor(t_token *tokens)
 
 	status = 0;
 	executor = init_executor(tokens);
-	get_minishell()->is_interactive = false;
+	set_interactive(false);
 	while (get_minishell()->sigint != SIGINT && tokens)
 	{
 		exec_redir(tokens->context, tokens);
@@ -105,8 +105,9 @@ int	executor(t_token *tokens)
 	else
 		status = wait_all_tokens(executor->tokens);
 	update_status_var(status);
-	get_minishell()->is_interactive = true;
+	set_interactive(true);
 	get_minishell()->sigint = 0;
+	get_minishell()->cur_pid = 0;
 	close_all_fd(executor->context);
 	return (status);
 }

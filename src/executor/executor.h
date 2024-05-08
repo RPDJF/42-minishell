@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:44 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:25:45 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/08 20:31:16 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "../expand/expand_words.h"
 # include "../utils/binary_finder.h"
 # include "../prompter/here_doc.h"
+# include "../signals/signals.h"
 
 typedef struct s_context	t_context;
 typedef struct s_context

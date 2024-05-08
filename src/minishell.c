@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:28:12 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:28:14 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/08 20:37:04 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ t_minishell	*init_minishell(int argc, char **argv, char **envp)
 	minishell->mini_envp = init_minienvp();
 	minishell->envp = &var_to_tab;
 	minishell->hostname = mini_gethostname();
-	minishell->is_interactive = true;
 	init_signals();
 	script_mode();
 	if (!minishell->is_script)

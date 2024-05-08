@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:28:16 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:28:17 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/08 19:36:32 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ typedef struct s_minishell
 	int		sigint;
 	int		here_doc_fd[2];
 	int		dup_stdin;
+	pid_t	cur_pid;
 }				t_minishell;
 
 //	init_minishell: init a new minishell instance

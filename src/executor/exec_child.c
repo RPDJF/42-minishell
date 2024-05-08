@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:15 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:25:15 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/08 19:41:16 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,25 @@ static pid_t	builtin_child(t_context *context, t_cmd *builtin)
 	return (builtin->pid);
 }
 
+static void	exec_child(t_cmd *cmd, t_token *tokens)
+{
+	t_minishell	*minishell;
+
+	minishell = get_minishell();
+	if (is_builtin(cmd))
+		minishell->cur_pid = builtin_child(tokens->context, cmd);
+	else
+		minishell->cur_pid = cmd_child(tokens->context, cmd);
+	if (cmd->pid < 0)
+		crash_exit();
+	if (tokens->context->fd_in != STDIN_FILENO
+		&& tokens->context->fd_in >= 0)
+		close(tokens->context->fd_in);
+	if (tokens->context->fd_out != STDOUT_FILENO
+		&& tokens->context->fd_out >= 0)
+		close(tokens->context->fd_out);
+}
+
 pid_t	init_child(t_token *tokens)
 {
 	t_cmd	*cmd;
@@ -98,17 +117,6 @@ pid_t	init_child(t_token *tokens)
 		return (0);
 	}
 	cmd = (t_cmd *)tokens->data;
-	if (is_builtin(cmd))
-		builtin_child(tokens->context, cmd);
-	else
-		cmd_child(tokens->context, cmd);
-	if (cmd->pid < 0)
-		crash_exit();
-	if (tokens->context->fd_in != STDIN_FILENO
-		&& tokens->context->fd_in >= 0)
-		close(tokens->context->fd_in);
-	if (tokens->context->fd_out != STDOUT_FILENO
-		&& tokens->context->fd_out >= 0)
-		close(tokens->context->fd_out);
+	exec_child(cmd, tokens);
 	return (cmd->pid);
 }
