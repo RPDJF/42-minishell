@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_words.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/08 16:26:10 by ilyanar           #+#    #+#             */
+/*   Updated: 2024/05/08 16:26:11 by ilyanar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expand_words.h"
 
 static void	replace_word(t_word *word, char *var_name)
@@ -45,7 +57,7 @@ static t_word	*expand_vars(t_word *words)
 	return (head);
 }
 
-static t_word	*expand_words(t_word *words)
+t_word	*expand_words(t_word *words)
 {
 	char	*str;
 	char	*home;
@@ -76,32 +88,4 @@ size_t	varlen(char *str)
 	while (str[len] && (ft_isalnum(str[len]) || str[len] == '_'))
 		len++;
 	return (len);
-}
-
-char	*parse_words(t_word *words)
-{
-	char	*output;
-	t_word	*head;
-	size_t	len;
-	char	*tmp;
-
-	words = expand_words(words);
-	if (!words)
-		return (0);
-	head = words;
-	len = words_strlen(words);
-	output = ft_calloc(len, sizeof(char));
-	if (!output)
-		crash_exit();
-	while (head)
-	{
-		tmp = output;
-		output = ft_strjoin(output, head->str);
-		if (!output)
-			crash_exit();
-		if (*tmp)
-			gfree(tmp);
-		head = head->next;
-	}
-	return (output);
 }

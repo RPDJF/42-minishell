@@ -1,7 +1,18 @@
-#include "expand_words.h"
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_wildcards.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/08 16:26:01 by ilyanar           #+#    #+#             */
+/*   Updated: 2024/05/08 16:26:02 by ilyanar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	to_next_wildcard(char *arg, char *str, int *i, int *j)
+#include "expand_words.h"
+
+static int	to_next_wildcard(char *arg, char *str, int *i, int *j)
 {
 	if (str[*j] == '*')
 	{
@@ -29,7 +40,7 @@ int	to_next_wildcard(char *arg, char *str, int *i, int *j)
 	return (1);
 }
 
-int	finish_wildcard(char *arg, char *str, int *i, int *j)
+static int	finish_wildcard(char *arg, char *str, int *i, int *j)
 {
 	int	k;
 	int	l;
@@ -46,7 +57,7 @@ int	finish_wildcard(char *arg, char *str, int *i, int *j)
 	return (0);
 }
 
-int	is_wildcard(char *arg, char *str, int i, int j)
+static int	is_wildcard(char *arg, char *str, int i, int j)
 {
 	if ((only_wildcard(str) && arg[0] == '.') || ((arg[0] == '.')
 			&& str[0] != '.') || (arg[0] == '.' && !arg[1])
@@ -80,29 +91,4 @@ char	**pars_wildcard(char *str)
 			tmp = strr_realloc(tmp, arg[i]);
 	replace_wildcard(tmp, 0);
 	return (tmp);
-}
-
-char	**parse_words_arr(t_word **words)
-{
-	char	**arr;
-	char	**wld;
-	size_t	j;
-	size_t	i;
-
-	arr = NULL;
-	wld = NULL;
-	j = -1;
-	i = -1;
-	while (i++, words[++j])
-	{
-		arr = strr_realloc(arr, parse_words(words[j]));
-		if (ft_strchr(arr[i], '*'))
-		{
-			wld = pars_wildcard(arr[i]);
-			if (wld)
-				realloc_arr(&arr, wld, &i);
-		}
-	}
-	replace_wildcard(arr, 0);
-	return (arr);
 }

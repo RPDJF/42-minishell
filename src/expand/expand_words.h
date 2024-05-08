@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_words.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/08 16:25:15 by ilyanar           #+#    #+#             */
+/*   Updated: 2024/05/08 16:25:17 by ilyanar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EXPAND_WORDS_H
 # define EXPAND_WORDS_H
 
@@ -19,7 +31,9 @@ size_t	words_arr_len(t_word **words);
 size_t	words_strlen(t_word *words);
 //	varlen:	get the length of a variable name
 size_t	varlen(char *str);
+t_word	*expand_words(t_word *words);
 // fonctions for wildcards
+char	**pars_wildcard(char *str);
 int		is_last_wildcard(char *str);
 void	replace_wildcard(char **str, bool rpls);
 int		only_wildcard(char *str);
