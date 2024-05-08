@@ -30,6 +30,7 @@ FILES = ft_atoi \
 		ft_strdup \
 		ft_striteri \
 		ft_strjoin \
+		ft_strsepjoin \
 		ft_strsjoin \
 		ft_strlcat \
 		ft_strlcpy \
