@@ -6,7 +6,7 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:15 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 16:25:17 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/08 16:39:03 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,20 @@ size_t	words_arr_len(t_word **words);
 size_t	words_strlen(t_word *words);
 //	varlen:	get the length of a variable name
 size_t	varlen(char *str);
+//	expand the variable 
 t_word	*expand_words(t_word *words);
-// fonctions for wildcards
+//	fonctions for wildcards
+//	begining of the parsing of wildcards
 char	**pars_wildcard(char *str);
+//	return 1 if is the last wildcard, else return 0.
 int		is_last_wildcard(char *str);
+//	replace all the occurence of * quoted with ascii 5.
 void	replace_wildcard(char **str, bool rpls);
+//	return 1 if is only wilcard in the string str, else return 0.
 int		only_wildcard(char *str);
+//	realloc char **arr with char **wld.
 void	realloc_arr(char ***arr, char **wld, size_t *i);
+//	get files in the current directory,
 char	**get_files(void);
 
 #endif

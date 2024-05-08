@@ -6,7 +6,7 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:25 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 16:26:26 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/08 16:42:38 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,19 @@ void	tlex_add_back(t_tlex **lst, t_tlex *neww);
 void	tword_add_back(t_tlex **lst, t_word *neww);
 // Return 1 if the actuel <str[i]> is a delimiter. else return 0.
 int		ft_isdelem(char *str, int i);
+//	return 1 if the numbers of char c is pair, else return 0.
 int		impair_pair_char(char *str, char c);
+//	the part of the lexer for creating token delem.
 void	delem(t_lex *lex, char *input, t_tlex **tlex);
+//	the part of the lexer for creating token delem_bonus.
 void	delem_bonus(t_lex *lex, char *input, t_tlex **tlex);
+//	add current word if is it's not a token.
 void	add_word_to_lex_str(t_lex *lex, char *input, t_tlex **tlex);
+//	lex the word alone.
 int		words_lexing(t_lex *lex, char *input, t_tlex **tlex);
+//	exit and free all token.
 int		exit_print(char *str, int exitcode);
+//	free exit ALL the lexer.
 t_tlex	*free_exit_lexer(t_tlex **tlex);
 
 #endif
