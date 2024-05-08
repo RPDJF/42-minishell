@@ -40,9 +40,14 @@ int	wait_token(t_token *token)
 
 int	wait_all_tokens(t_token *tokens)
 {
-	int	status;
+	t_var	*exit;
+	int		status;
 
-	status = 0;
+	exit = get_var("?");
+	if (exit && exit->value)
+		status = ft_atoi(exit->value);
+	else
+		status = 0;
 	while (tokens)
 	{
 		if (tokens->type == token_cmd || tokens->type == token_subshell

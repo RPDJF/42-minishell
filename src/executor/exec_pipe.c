@@ -12,18 +12,8 @@ int	dup_fd(t_context *context)
 		dup2(context->fd_out, STDOUT_FILENO);
 		close(context->fd_out);
 	}
-	if (context->fd_in < 0)
-	{
-		error_msg((char *[]){APP_NAME,
-			context->fd_in_path, 0}, context->err_fd);
+	if (context->fd_in < 0 || context->fd_out < 0)
 		return (-1);
-	}
-	if (context->fd_out < 0)
-	{
-		error_msg((char *[]){APP_NAME,
-			context->fd_out_path, 0}, context->err_fd);
-		return (-1);
-	}
 	return (0);
 }
 
