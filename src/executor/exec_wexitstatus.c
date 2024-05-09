@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:38 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/09 15:55:51 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/09 16:32:55 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ int	wait_token(t_token *token)
 		{
 			waitpid(((t_cmd *)token->data)->pid, &status, 0);
 			((t_cmd *)token->data)->status = get_wexistatus(status);
-			return (((t_cmd *)token->data)->status);
 		}
+		else if (!((t_cmd *)token->data)->pid)
+			update_exitcode(((t_cmd *)token->data)->status);
 		return (((t_cmd *)token->data)->status);
 	}
 	else if (token->type == token_subshell)
