@@ -6,11 +6,18 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:24 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/09 15:56:08 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/09 16:02:32 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
+
+static void	write_raw(int _sigint)
+{
+	if (_sigint == SIGQUIT)
+		ft_putstr_fd("Quit: 3", STDERR_FILENO);
+	write(STDERR_FILENO, "\n", 1);
+}
 
 void	exit_signint(t_executor *executor, int _sigint)
 {
@@ -37,4 +44,5 @@ void	exit_signint(t_executor *executor, int _sigint)
 			close(context->fd_out);
 		context = context->next;
 	}
+	write_raw(_sigint);
 }
