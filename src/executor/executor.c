@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:41 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/09 16:00:24 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/09 17:26:29 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	executor(t_token *tokens)
 	set_interactive(false);
 	while (get_minishell()->sigint == 0 && tokens)
 	{
+		if (tokens->context->prev)
+			close (tokens->context->prev->fd_out);
 		exec_redir(tokens->context, tokens);
 		exec_token(executor, &tokens);
 	}
