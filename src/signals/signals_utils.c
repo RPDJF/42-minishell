@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 20:37:21 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 21:12:07 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:28:50 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ static void	update_line(void)
 
 void	handle_sigint(void)
 {
-	if (get_minishell()->is_interactive)
+	if (!get_minishell()->is_interactive)
+		get_minishell()->sigint = SIGINT;
+	if (isatty(STDIN_FILENO) && get_minishell()->is_interactive)
 	{
 		get_minishell()->sigint = SIGINT;
 		write(1, "\n", 1);
@@ -60,20 +62,15 @@ void	handle_sigint(void)
 			update_line();
 		update_exitcode(130);
 	}
-	else
-		write(1, "\n", 1);
 }
 
 void	handle_sigquit(void)
 {
-	if (get_minishell()->is_interactive)
+	bool	is_interactive;
+
+	is_interactive = get_minishell()->is_interactive;
+	if (!is_interactive)
+		get_minishell()->sigint = SIGQUIT;
+	if (isatty(STDIN_FILENO) && is_interactive)
 		rl_redisplay();
-	else
-	{
-		if (get_minishell()->cur_pid)
-		{
-			kill(get_minishell()->cur_pid, SIGQUIT);
-			printf("Quit: %d\n", SIGQUIT);
-		}
-	}
 }

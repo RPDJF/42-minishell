@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:44 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 20:31:16 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:53:52 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct s_executor
 
 //	executor:	execute a list of tokens inside minishell
 int			executor(t_token *tokens);
+//	get_exitcode:	get the exit code of the last process
+int			get_exitcode(void);
 //	init_child:	init and execute a child from cmd or builtin token
 pid_t		init_child(t_token *tokens);
 //	exec_pipe:	handles pipe type tokens
@@ -64,7 +66,7 @@ bool		has_pipe(t_token *tokens);
 //	dup_fd:	duplicate file descriptors to STDIN_FILENO and STDOUT_FILENO
 int			dup_fd(t_context *context);
 //	exit_signint:	exit all processes killing them with SIGINT
-void		exit_signint(t_executor *executor);
+void		exit_signint(t_executor *executor, int _sigint);
 //	exec_var_init:	initialize local variables for execution
 void		exec_var_init(t_executor *executor, t_token *tokens);
 //	is_builtin:	check if a command is a builtin

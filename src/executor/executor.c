@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:41 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 20:29:30 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:56:29 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,6 @@ static t_executor	*init_executor(t_token *tokens)
 	executor->tokens = tokens;
 	init_context(executor);
 	return (executor);
-}
-
-static void	update_status_var(int status)
-{
-	if (get_minishell()->sigint != SIGINT)
-		update_exitcode(status);
-	else
-		update_exitcode(130);
 }
 
 static void	and_or(t_executor *exec, t_token **tokens)
@@ -90,24 +82,21 @@ static void	exec_token(t_executor *exec, t_token **tokens)
 int	executor(t_token *tokens)
 {
 	t_executor	*executor;
-	int			status;
 
-	status = 0;
 	executor = init_executor(tokens);
 	set_interactive(false);
-	while (get_minishell()->sigint != SIGINT && tokens)
+	while (get_minishell()->sigint == 0 && tokens)
 	{
 		exec_redir(tokens->context, tokens);
 		exec_token(executor, &tokens);
 	}
 	if (get_minishell()->sigint == SIGINT)
-		exit_signint(executor);
+		exit_signint(executor, get_minishell()->sigint);
 	else
-		status = wait_all_tokens(executor->tokens);
-	update_status_var(status);
+		wait_all_tokens(executor->tokens);
 	set_interactive(true);
 	get_minishell()->sigint = 0;
 	get_minishell()->cur_pid = 0;
 	close_all_fd(executor->context);
-	return (status);
+	return (get_exitcode());
 }
