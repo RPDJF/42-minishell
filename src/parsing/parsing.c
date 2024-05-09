@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:53 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 18:48:54 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/09 18:05:56 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ t_token	*parsing(t_tlex **lex)
 			return (free_exit_token(&token, lex));
 		token_add_back(&token, neww);
 		if (!check_syntax_subshell(token) || !(token_syntax(token)))
-			return (free_exit_token(&token, lex));
+			return (NULL);
 	}
 	if (!syntax_at_end(token))
-		return (free_exit_token(&token, lex));
+		return (NULL);
 	return (token);
 }

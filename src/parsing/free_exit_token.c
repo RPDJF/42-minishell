@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_exit_token.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:36 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 16:26:37 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/09 18:08:11 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_token	*free_exit_token(t_token **token, t_tlex **lex)
 	t_token	*tmp1;
 	t_token	*tmp2;
 
-	free_exit_lexer(lex);
+	(void)lex;
 	tmp1 = *token;
 	while (tmp1)
 	{
