@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:27:02 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/09 17:13:07 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/09 17:20:16 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_token	**token_add_back(t_token **token, t_token *newww)
 int	syntax_redir_delem(t_tlex *word)
 {
 	if (word->next)
-		if (tw_is_delem(word->next->cmd) == 1)
+		if (tw_is_delem(word->cmd) == 2 && tw_is_delem(word->next->cmd) == 1)
 			return (0);
 	return (1);
 }
