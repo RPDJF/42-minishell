@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:24:00 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:24:01 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/09 13:40:29 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,19 @@ static int	fn(t_cd *cd)
 		gfree(cd);
 		return (1);
 	}
+	new_pwd = (char *)addgarbage(getcwd(0, 0));
+	if (!new_pwd)
+	{
+		chdir(cd->oldpwd);
+		error_msg((char *[]){APP_NAME, "cd", cd->pwd, 0}, strerror(EACCES));
+		gfree(new_pwd);
+		gfree(cd);
+		return (1);
+	}
 	new_oldpwd = ft_strdup(cd->oldpwd);
 	if (!new_oldpwd)
 		crash_exit();
 	update_var(new_var("OLDPWD", new_oldpwd, true, false));
-	new_pwd = (char *)addgarbage(getcwd(0, 0));
-	if (!new_pwd)
-		crash_exit();
 	update_var(new_var("PWD", new_pwd, true, false));
 	gfree(cd);
 	return (0);
