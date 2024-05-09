@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:01 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/09 01:09:13 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 01:27:19 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@ static int	to_next_wildcard(char *arg, char *str, int *i, int *j)
 		while (arg[*i] && arg[*i] != str[*j])
 			(*i)++;
 	}
-	else if (*i > 0)
-		while (arg[*i] && arg[*i] != str[*j])
-			(*i)++;
 	if (arg[*i] != str[*j] || !arg[*i])
 		return (0);
 	while (arg[*i] && str[*j] && arg[*i] == str[*j])
