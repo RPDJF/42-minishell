@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:53 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/09 18:05:56 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/09 18:30:05 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,12 @@ t_token	*parsing(t_tlex **lex)
 	{
 		neww = token_new(&pars);
 		if (!neww)
-			return (free_exit_token(&token, lex));
+			return (NULL);
 		token_add_back(&token, neww);
-		if (!check_syntax_subshell(token) || !(token_syntax(token)))
+		if (!check_syntax_subshell(token) || !token_syntax(token))
 			return (NULL);
 	}
 	if (!syntax_at_end(token))
-		return (NULL);
+		return (free_exit_token(&token, lex));
 	return (token);
 }
