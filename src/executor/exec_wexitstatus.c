@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:38 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/09 16:40:25 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/09 16:53:45 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,9 @@ int	get_exitcode(void)
 static int	get_wexistatus(int status)
 {
 	if (WIFEXITED(status))
-	{
 		status = WEXITSTATUS(status);
-		update_exitcode(status);
-	}
 	else if (WIFSIGNALED(status))
-	{
 		status = WTERMSIG(status) + 128;
-		update_exitcode(status);
-	}
 	else
 		return (get_exitcode());
 	return (status);
@@ -50,8 +44,6 @@ int	wait_token(t_token *token)
 			waitpid(((t_cmd *)token->data)->pid, &status, 0);
 			((t_cmd *)token->data)->status = get_wexistatus(status);
 		}
-		else if (!((t_cmd *)token->data)->pid)
-			update_exitcode(((t_cmd *)token->data)->status);
 		return (((t_cmd *)token->data)->status);
 	}
 	else if (token->type == token_subshell)
@@ -85,5 +77,6 @@ int	wait_all_tokens(t_token *tokens)
 			status = wait_token(tokens);
 		tokens = tokens->next;
 	}
+	update_exitcode(status);
 	return (status);
 }
