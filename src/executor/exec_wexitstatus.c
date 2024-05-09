@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:38 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/09 16:32:55 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/09 16:40:25 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@ int	get_exitcode(void)
 
 static int	get_wexistatus(int status)
 {
-	t_var	*exit;
-
-	exit = get_var("?");
 	if (WIFEXITED(status))
 	{
 		status = WEXITSTATUS(status);
