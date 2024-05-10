@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:24:00 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/09 13:40:29 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:24:48 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ static int	fn(t_cd *cd)
 		return (1);
 	}
 	new_oldpwd = ft_strdup(cd->oldpwd);
-	if (!new_oldpwd)
-		crash_exit();
 	update_var(new_var("OLDPWD", new_oldpwd, true, false));
 	update_var(new_var("PWD", new_pwd, true, false));
 	gfree(cd);
@@ -71,8 +69,6 @@ static t_cd	*init_cd(int argc, char **argv)
 	t_cd	*cd;
 
 	cd = galloc(sizeof(t_cd));
-	if (!cd)
-		crash_exit();
 	cd->argc = argc;
 	cd->argv = argv;
 	getcwd(cd->oldpwd, PATH_MAX);

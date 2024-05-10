@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:04 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:25:05 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:27:17 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,9 @@ static int	shlvl_parse(char *shlvl)
 	if (shlvl_int > 999)
 	{
 		errmsg = ft_itoa(shlvl_int);
-		if (!errmsg)
-			crash_exit();
 		tmp = errmsg;
 		errmsg = ft_arrjoin((char *[]){"shell level (", errmsg,
 				") too high, resetting to 1", 0});
-		if (!errmsg)
-			crash_exit();
 		gfree(tmp);
 		error_msg((char *[]){APP_NAME, "warning", 0}, errmsg);
 		gfree(errmsg);
@@ -62,8 +58,6 @@ static char	*parse_var(char *var_name)
 	}
 	else
 		output = ft_strdup(getenv(var_name));
-	if (!output)
-		crash_exit();
 	return (output);
 }
 
@@ -73,8 +67,6 @@ static void	add_default_vars(void)
 
 	update_exitcode(0);
 	value = ft_itoa(1);
-	if (!value)
-		crash_exit();
 	if (!get_var("SHLVL"))
 		add_var(new_var("SHLVL", value, true, false));
 	if (!get_var("PWD"))
@@ -84,13 +76,9 @@ static void	add_default_vars(void)
 	if (!get_var("SHELL"))
 		add_var(new_var("SHELL", parse_var("SHELL"), false, false));
 	value = ft_strdup(APP_NAME);
-	if (!value)
-		crash_exit();
 	if (!get_var("_"))
 		add_var(new_var("_", value, true, false));
 	value = ft_strdup(DEFAULT_PATH);
-	if (!value)
-		crash_exit();
 	if (!get_var("PATH"))
 		add_var(new_var("PATH", value, false, false));
 }
@@ -102,11 +90,7 @@ t_var	*new_env_var(char *env)
 	char	*value;
 
 	name = ft_substr(env, 0, ft_strchr(env, '=') - env);
-	if (!name)
-		crash_exit();
 	value = parse_var(name);
-	if (!value)
-		crash_exit();
 	var = new_var(name, value, true, false);
 	return (var);
 }

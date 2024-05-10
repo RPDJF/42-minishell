@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:08 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:26:09 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:30:20 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ static char	*get_history_filename(void)
 		filename = ft_arrjoin((char *[]){home, "/", MINISHELL_HISTORY, 0});
 	else
 		filename = ft_strjoin(home, MINISHELL_HISTORY);
-	if (!filename)
-		crash_exit();
 	gfree(home);
 	return (filename);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:28:12 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 20:37:04 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:24:28 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ t_minishell	*init_minishell(int argc, char **argv, char **envp)
 	else if (!argc || !argv)
 		return (0);
 	minishell = ft_calloc(1, sizeof(t_minishell));
-	if (!minishell)
-		crash_exit();
 	minishell->argc = argc;
 	minishell->argv = argv;
 	minishell->old_envp = envp;

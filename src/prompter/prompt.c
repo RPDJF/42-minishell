@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:18 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 20:32:54 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:30:08 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,7 @@ static char	*parse_prompt(char *prompt)
 	{
 		tmp = prompt;
 		tmp2 = ft_strjoin("└─"C_CYAN"[", home->value);
-		if (!tmp2)
-			crash_exit();
 		prompt = ft_strreplace_first(prompt, tmp2, "└─"C_CYAN"[~");
-		if (!prompt)
-			crash_exit();
 		gfree(tmp2);
 		gfree(tmp);
 	}
@@ -47,11 +43,7 @@ static char	*get_prompt(void)
 		user = get_var_value("USER");
 	output = ft_arrjoin((char *[]){get_userinfo(), "└─", C_CYAN, "[", cwd, "]",
 			C_RESET, " [", get_var("?")->value, "]-", ENDLINE, 0});
-	if (!output)
-		crash_exit();
 	output = parse_prompt(output);
-	if (!output)
-		crash_exit();
 	return (output);
 }
 

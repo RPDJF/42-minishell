@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:41 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/09 17:26:29 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:28:21 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static t_executor	*init_executor(t_token *tokens)
 	t_executor	*executor;
 
 	executor = galloc(sizeof(t_executor));
-	if (!executor)
-		crash_exit();
 	executor->og_fd_in = dup(STDIN_FILENO);
 	if (executor->og_fd_in < 0)
 		crash_exit();

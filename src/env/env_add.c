@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_add.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:24:49 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:24:50 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:25:30 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ t_var	*new_var(char *name, char *value, bool is_env, bool is_name_alloc)
 	t_var	*var;
 
 	var = galloc(sizeof(t_var));
-	if (!var)
-		crash_exit();
 	if (!is_name_alloc)
 		var->name = ft_strdup(name);
 	else
