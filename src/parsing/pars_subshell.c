@@ -6,7 +6,7 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:40 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 16:26:41 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/10 17:40:42 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	tk_subshell(t_token *subshl, t_pars *pars)
 	t_token	*neww;
 
 	subshl->data = ft_calloc(1, sizeof(t_subshell));
+	if (!subshl->data)
+		crash_exit();
 	subshl->type = token_subshell;
 	pars->tmp1 = pars->tmp1->next;
 	while (pars->tmp1)
@@ -71,6 +73,8 @@ void	*tk_type(t_token *token)
 			"syntax error near unexpected token ", "Variable initialization");
 		gfree(tmp);
 	}
+	if (!str)
+		crash_exit();
 	exit_tk((char *[]){APP_NAME, 0, 0}, str, 2);
 	gfree(str);
 	return (NULL);

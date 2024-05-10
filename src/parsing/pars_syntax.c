@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:42 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 18:48:14 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/10 17:43:56 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,20 @@ int	syntax_redirection(t_word *cmd, bool print)
 	tmp2 = NULL;
 	if (!cmd->is_quoted && !cmd->next)
 	{
-		if (!tk_delem_syntax(cmd, 1))
+		if (!tk_delem_syntax(cmd, 1) || (tw_is_delem(cmd) > 0 && !print))
 			return (0);
-		if (tw_is_delem(cmd) > 0)
+		if (tw_is_delem(cmd) > 0 && print)
 		{
-			if (print)
-			{
-				tmp1 = ft_strjoin("syntax error near unexpected token `", \
-					cmd->str);
-				tmp2 = ft_strjoin(tmp1, "'");
-				gfree(tmp1);
-				exit_tk((char *[]){APP_NAME, 0}, tmp2, 2);
-				gfree(tmp2);
-			}
+			tmp1 = ft_strjoin("syntax error near unexpected token `", \
+				cmd->str);
+			if (!tmp1)
+				crash_exit();
+			tmp2 = ft_strjoin(tmp1, "'");
+			if (!tmp2)
+				crash_exit();
+			gfree(tmp1);
+			exit_tk((char *[]){APP_NAME, 0}, tmp2, 2);
+			gfree(tmp2);
 			return (0);
 		}
 	}
