@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 13:19:26 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 01:52:27 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:58:16 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@
 # include <signal.h>
 # include <dirent.h>
 # include <sys/types.h>
+
+//	betetrft settings
+# ifndef GARBAGE_COLLECTOR
+#  define GARBAGE_COLLECTOR 1
+# endif
 
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
@@ -62,11 +67,6 @@ void		*galloc(size_t size);
 //	cleargarbage: Frees all memory allocated in the garbage collector and clears
 //	the collector itself.
 void		cleargarbage(void);
-
-//		GARBAGE UTILS
-
-//	lastgarbage: Gets a pointer to the last garbage from a garbage collector.
-t_garbcol	*lastgarbage(t_garbcol *garb);
 
 //		REVISITED LIBFT
 

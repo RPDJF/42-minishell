@@ -74,6 +74,9 @@ ifdef READLINE
 endif
 
 BETTERFT_PATH = libs/betterft/
+# possible builds: secure, unsecure, all (unsecure), betterft.a (unsecure)
+# secure build exits when malloc fails
+BETTERFT_BUILD = secure
 BETTERFT_LIB = $(BETTERFT_PATH:%=%betterft.a)
 
 CFLAGS += $(BETTERFT_LIB)
@@ -148,7 +151,7 @@ all: $(NAME)
 bonus: $(NAME_BONUS)
 
 debug: fclean $(CFILES)
-	@$(MAKE) $(BETTERFT_LIB) --no-print-directory
+	@$(MAKE) -C $(BETTERFT_PATH) $(BETTERFT_BUILD) --no-print-directory
 	@echo "$$APP_HEADER"
 	@if [ `uname` = "Darwin" ]; then \
 		echo "\033[0;33mYou may need to install an readline library from brew"; \
@@ -228,7 +231,7 @@ $(NAME_BONUS): $(CFILES) $(BETTERFT_LIB)
 
 $(BETTERFT_LIB): $(BETTERFT_PATH)Makefile
 	@echo "$$LIB_HEADER"
-	@make -C $(BETTERFT_PATH) all --no-print-directory
+	@$(MAKE) -C $(BETTERFT_PATH) $(BETTERFT_BUILD) --no-print-directory
 
 header:
 	@echo "$$HEADER"
