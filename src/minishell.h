@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:28:16 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/10 20:09:50 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 21:10:59 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "utils/exit_handler.h"
 
 # define APP_NAME "minishell"
-# define VERSION "0.1"
+# define VERSION "1.0"
 
 // Lexer struct
 typedef struct s_word
