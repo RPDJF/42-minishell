@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binary_finder.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:45 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:26:45 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:54:26 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*build_path(char **path, char *binary, int i)
 {
 	char	*output;
 
-	if (strrchr(path[i], '/') && !*(strrchr(path[i], '/') + 1))
+	if (ft_strrchr(path[i], '/') && !*(ft_strrchr(path[i], '/') + 1))
 		output = ft_strjoin(path[i], binary);
 	else
 		output = ft_arrjoin((char *[]){path[i], "/", binary, 0});

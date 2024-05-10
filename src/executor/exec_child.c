@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:15 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 19:41:16 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 18:54:48 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static pid_t	cmd_child(t_context *context, t_cmd *cmd)
 		argv = parse_words_arr(cmd->argv);
 		path = argv[0];
 		path = find_binary(path);
-		if (!strchr(path, '/'))
+		if (!ft_strchr(path, '/'))
 			error_cmd(path, false);
 		rl_clear_history();
 		while (context)
