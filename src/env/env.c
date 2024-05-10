@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:04 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/10 19:27:17 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 21:50:07 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,11 @@ static char	*parse_var(char *var_name)
 			output = ft_itoa(shlvl_parse(getenv("SHLVL")));
 	}
 	else if (!ft_strcmp(var_name, "PWD"))
+	{
 		output = addgarbage(getcwd(0, 0));
+		if (!output)
+			crash_exit();
+	}
 	else if (!ft_strcmp(var_name, "SHELL"))
 	{
 		if (!getenv("SHELL"))
