@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_subshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:28 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:25:30 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 20:10:56 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ pid_t	init_subshell(t_token *tokens)
 		close(tokens->context->fd_in);
 	if (tokens->context->fd_out != STDOUT_FILENO)
 		close(tokens->context->fd_out);
+	subshell->started = true;
 	return (subshell->pid);
 }

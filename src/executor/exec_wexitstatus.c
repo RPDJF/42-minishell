@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_wexitstatus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:38 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/09 16:53:45 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 20:11:32 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	wait_token(t_token *token)
 {
 	int	status;
 
+	status = 0;
 	if (token->type == token_cmd)
 	{
 		if (((t_cmd *)token->data)->pid && !((t_cmd *)token->data)->status)
@@ -53,7 +54,6 @@ int	wait_token(t_token *token)
 		{
 			waitpid(((t_subshell *)token->data)->pid, &status, 0);
 			((t_subshell *)token->data)->status = get_wexistatus(status);
-			return (((t_subshell *)token->data)->status);
 		}
 		return (((t_subshell *)token->data)->status);
 	}
@@ -74,7 +74,13 @@ int	wait_all_tokens(t_token *tokens)
 	{
 		if (tokens->type == token_cmd || tokens->type == token_subshell
 			|| tokens->type == token_var)
+		{
+			if ((tokens->type == token_cmd && !((t_cmd *)tokens->data)->started)
+				|| (tokens->type == token_subshell
+					&& !((t_subshell *)tokens->data)->started))
+				break ;
 			status = wait_token(tokens);
+		}
 		tokens = tokens->next;
 	}
 	update_exitcode(status);

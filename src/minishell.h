@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:28:16 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 19:36:32 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 20:09:50 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_cmd
 	t_word	**argv;
 	int		argc;
 	int		status;
+	bool	started;
 	pid_t	pid;
 }				t_cmd;
 
@@ -92,6 +93,7 @@ typedef struct s_subshell
 {
 	t_token	*token;
 	int		status;
+	bool	started;
 	pid_t	pid;
 }				t_subshell;
 
