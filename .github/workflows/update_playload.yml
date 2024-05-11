@@ -10,7 +10,7 @@ jobs:
       - name: Push to repo
         uses: peter-evans/repository-dispatch@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
           repository: ${{ matrix.repo }}
           event-type: update
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "module": "cursus/minishell", "branch": "master"}'
