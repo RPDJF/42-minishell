@@ -1,3 +1,5 @@
+![](https://raw.githubusercontent.com/RPDJF/42-Repos/main/cursus/minishell_score.png)
+![](https://github.com/ayogun/42-project-badges/blob/main/badges/minishellm.png?raw=true)
 
 ![](https://img.shields.io/github/languages/code-size/rpdjf/42-minishell?color=5BCFFF)
 
