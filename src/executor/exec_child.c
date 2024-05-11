@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:15 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/10 18:54:48 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 20:10:07 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ static pid_t	cmd_child(t_context *context, t_cmd *cmd)
 			secure_exit(1);
 		close_all_fd(context);
 		argv = parse_words_arr(cmd->argv);
-		path = argv[0];
-		path = find_binary(path);
+		path = find_binary(argv[0]);
 		if (!ft_strchr(path, '/'))
 			error_cmd(path, false);
 		rl_clear_history();
@@ -38,6 +37,7 @@ static pid_t	cmd_child(t_context *context, t_cmd *cmd)
 		execve(path, argv, get_minishell()->envp());
 		error_cmd(path, false);
 	}
+	cmd->started = true;
 	return (cmd->pid);
 }
 
@@ -70,8 +70,6 @@ static pid_t	builtin_child(t_context *context, t_cmd *builtin)
 			if (fd_status)
 				secure_exit(1);
 			builtin->status = start_builtin(context, builtin);
-			close(STDIN_FILENO);
-			close(STDOUT_FILENO);
 			secure_exit(builtin->status);
 		}
 	}
@@ -81,6 +79,7 @@ static pid_t	builtin_child(t_context *context, t_cmd *builtin)
 		builtin->status = 1;
 	dup2(*context->og_fd_in, STDIN_FILENO);
 	dup2(*context->og_fd_out, STDOUT_FILENO);
+	builtin->started = true;
 	return (builtin->pid);
 }
 

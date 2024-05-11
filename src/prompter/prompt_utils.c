@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:15 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:26:15 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:30:14 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ char	*get_userinfo(void)
 			userinfo = ft_arrjoin((char *[]){"\n┌─", C_MAGENTA, "[",
 					APP_NAME, "-", VERSION, "]", C_RESET, " [SHLVL ",
 					get_var("SHLVL")->value, "]\n", 0});
-		if (!userinfo)
-			crash_exit();
 	}
 	return (userinfo);
 }

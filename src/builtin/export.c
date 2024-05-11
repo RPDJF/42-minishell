@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:24:28 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:24:29 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:25:25 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ char	*var_name(char *str)
 		name = ft_strdup(str);
 	else
 		name = ft_substr(str, 0, name - str);
-	if (!name)
-		crash_exit();
 	return (name);
 }
 
@@ -49,11 +47,7 @@ static char	*var_value(char *str)
 	if (!value)
 		value = 0;
 	else
-	{
 		value = ft_strdup(value + 1);
-		if (!value)
-			crash_exit();
-	}
 	return (value);
 }
 
@@ -66,8 +60,6 @@ static int	fn(char *str)
 	if (!name || !is_valid_name(name))
 	{
 		str = ft_arrjoin((char *[]){"'", str, "'", 0});
-		if (!str)
-			crash_exit();
 		error_msg((char *[]){APP_NAME, "export", str, 0}, NOT_VALID_IDENTIFIER);
 		if (name)
 			gfree(name);

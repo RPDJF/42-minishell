@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:45 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/10 18:54:26 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:29:52 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static char	**get_patharr(void)
 
 	str_path = get_var_value("PATH");
 	path = ft_split(str_path, ':');
-	if (!path)
-		crash_exit();
 	gfree(str_path);
 	return (path);
 }
@@ -33,8 +31,6 @@ char	*build_path(char **path, char *binary, int i)
 		output = ft_strjoin(path[i], binary);
 	else
 		output = ft_arrjoin((char *[]){path[i], "/", binary, 0});
-	if (!output)
-		crash_exit();
 	return (output);
 }
 
@@ -58,8 +54,6 @@ static char	*get_fulpath(char *binary)
 	}
 	ft_free_tab(path);
 	binary = ft_strdup(binary);
-	if (!binary)
-		crash_exit();
 	return (binary);
 }
 

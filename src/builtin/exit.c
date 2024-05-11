@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:24:23 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:24:24 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:25:08 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	exit_ms(int argc, char **argv)
 	{
 		exitcode = ft_atoi(argv[1]);
 		cmp = ft_itoa(exitcode);
-		if (!cmp)
-			crash_exit();
 		if (argv[1][0] == '+')
 			argv[1]++;
 		if (!ft_strcmp(argv[1], cmp))

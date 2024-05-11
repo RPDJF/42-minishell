@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   context.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:10 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:25:11 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:27:22 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ static t_context	*new_context(t_executor *executor)
 	t_context	*context;
 
 	context = ft_calloc(1, sizeof(t_context));
-	if (!context)
-		crash_exit();
 	context->has_pipe = &executor->has_pipe;
 	context->og_fd_in = &executor->og_fd_in;
 	context->og_fd_out = &executor->og_fd_out;

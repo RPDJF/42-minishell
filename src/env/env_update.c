@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_update.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:02 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:25:02 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:25:51 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	update_exitcode(int exitcode)
 	char	*tmp;
 
 	tmp = ft_itoa(exitcode);
-	if (!tmp)
-		crash_exit();
 	update_var(new_var("?", tmp, false, false));
 }
 

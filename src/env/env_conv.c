@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_conv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:24:52 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:24:52 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:25:43 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,12 @@ char	**var_to_tab(void)
 		{
 			tab = ft_reallocf(tab, i * sizeof(char *),
 					(i + 1) * sizeof(char *));
-			if (!tab)
-				crash_exit();
 			tab[i] = ft_arrjoin((char *[]){var->name, "=", var->value, 0});
 			i++;
 		}
 		var = var->next;
 	}
 	tab = ft_reallocf(tab, i * sizeof(char *), (i + 1) * sizeof(char *));
-	if (!tab)
-		crash_exit();
 	tab[i] = 0;
 	return (tab);
 }
@@ -52,8 +48,6 @@ static t_var	**var_to_vartab(void)
 	while (++size, var)
 		var = var->next;
 	vars = galloc((size + 1) * sizeof(t_var *));
-	if (!vars)
-		crash_exit();
 	var = get_minishell()->mini_envp;
 	size = -1;
 	while (++size, var)

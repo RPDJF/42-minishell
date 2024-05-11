@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:25:07 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:25:07 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 21:08:48 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,13 @@
 # include "../minishell.h"
 
 //	Macros
-# define DEFAULT_PATH "/usr/local/bin:/usr/local/sbin:\
+# ifdef __APPLE__
+#  define DEFAULT_PATH "/usr/local/bin:/usr/local/sbin:\
 /usr/bin:/usr/sbin:/bin:/sbin:."
+# else
+#  define DEFAULT_PATH "/usr/local/sbin:/usr/local/bin:\
+/usr/sbin:/usr/bin:/sbin:/bin"
+# endif
 
 //	new_var: create a new variable
 //	return: t_var pointer to the new variable

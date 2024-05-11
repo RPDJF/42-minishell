@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_get.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:24:57 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:25:00 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:25:47 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ char	*get_var_value(char *name)
 		value = ft_strdup((char *)var->value);
 	else
 		value = ft_strdup("");
-	if (!value)
-		crash_exit();
 	return (value);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:24:12 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:24:13 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:24:55 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static t_echo	*init_echo(int argc, char **argv)
 	t_echo	*echo;
 
 	echo = galloc(sizeof(t_echo));
-	if (!echo)
-		crash_exit();
 	echo->has_newline = true;
 	echo->argc = argc;
 	echo->argv = argv;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rude-jes <rude-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:02 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/08 16:26:03 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/10 19:30:45 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,8 @@ static char	*expand_var(char *str, char *cursor)
 
 	len = varlen(cursor);
 	var = ft_substr(str, cursor - str, len);
-	if (!var)
-		crash_exit();
 	value = get_var_value(var + 1);
-	if (!value)
-		crash_exit();
 	output = ft_strreplace_first(str, var, value);
-	if (!output)
-		crash_exit();
 	gfree(var);
 	return (output);
 }
@@ -82,8 +76,6 @@ static char	*prompt_here_doc(char *delimiter)
 		msg = ft_arrjoin((char *[])
 			{"here-document delimited by end-of-file (wanted `",
 				delimiter, "')", 0});
-		if (!msg)
-			crash_exit();
 		error_msg((char *[]){APP_NAME, "warning", 0}, msg);
 		gfree(msg);
 		return (0);
