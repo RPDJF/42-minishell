@@ -6,7 +6,7 @@
 /*   By: ilyanar <ilyanar@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:27:04 by ilyanar           #+#    #+#             */
-/*   Updated: 2024/05/08 19:21:21 by ilyanar          ###   ########.fr       */
+/*   Updated: 2024/05/12 17:12:56 by ilyanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,16 @@
 
 void	free_tword(t_word *cmd)
 {
-	t_word	*tmp1;
-	t_word	*tmp2;
+	t_word	*tmp;
 
-	tmp1 = cmd;
-	while (tmp1)
+	tmp = NULL;
+	while (cmd)
 	{
-		if (tmp1->str)
-			gfree(tmp1->str);
-		tmp2 = tmp1;
-		tmp1 = tmp1->next;
-		gfree(tmp2);
+		if (cmd->str)
+			gfree(cmd->str);
+		tmp = cmd;
+		cmd = cmd->next;
+		gfree(tmp);
 	}
 }
 
