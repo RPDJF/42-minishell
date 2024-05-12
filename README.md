@@ -26,7 +26,7 @@ git clone https://github.com/RPDJF/42-minishell.git
 
 Just a few magic spells to summon your Minishell masterpiece:
 
-- `make`: For a regular enchantment. Compile that code, and you're ready for the grand shell performance! This build isn't ready for use yet, please try SHITTY_TOKENIZER one.
+- `make`: For a regular enchantment. Compile that code, and you're ready for the grand shell performance!
 - `make bonus`: Feeling adventurous? Add the bonus ingredients for an extra shell crescendo.
 - `make clean`: Clear away the traces of your enchantment. A tidy workspace is a powerful workspace.
 - `make fclean`: Need a clean slate? This erases all enchantments, leaving nothing behind.
