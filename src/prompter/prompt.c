@@ -6,7 +6,7 @@
 /*   By: rude-jes <rude-jes@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:26:18 by rude-jes          #+#    #+#             */
-/*   Updated: 2024/05/10 19:30:08 by rude-jes         ###   ########.fr       */
+/*   Updated: 2024/05/25 00:41:18 by rude-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ static char	*script_prompt(void)
 
 bool	is_valid_input(char *input)
 {
+	char	*head;
+
+	head = input;
 	if (!*input)
 	{
 		gfree(input);
@@ -77,7 +80,7 @@ bool	is_valid_input(char *input)
 			return (true);
 		input++;
 	}
-	gfree(input);
+	gfree(head);
 	return (false);
 }
 
